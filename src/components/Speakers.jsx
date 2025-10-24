@@ -1,54 +1,55 @@
 export const Speakers = () => {
-  const speakers = [
+    const speakers = [
     {
-      name: "Hironori Washizaki",
-      location: "Tokyo, Japan",
-      image: "/speaker-img.png",
+        name: "Dummy Name 1",
+        location: "Tokyo, Japan",
+        image: "https://placehold.co/600x400",
     },
     {
-      name: "Prof Mariafanna Milanova",
-      location: "Arkansas, USA",
-      image: "/speaker-img.png",
+        name: "Dummy Name 2",
+        location: "Arkansas, USA",
+        image: "https://placehold.co/600x400",
     },
     {
-      name: "Dr Atif Siddiqui",
-      location: "United Kingdom",
-      image: "/speaker-img.png",
+        name: "Dummy Name 3",
+        location: "United Kingdom",
+        image: "https://placehold.co/600x400",
     },
     {
-      name: "Dr Kashif Nisar",
-      location: "Sydney, Australia",
-      image: "/speaker-img.png",
+        name: "Dummy Name 4",
+        location: "Sydney, Australia",
+        image: "https://placehold.co/600x400",
     },
     {
-      name: "Prof Dr Enrique Nava",
-      location: "Malaga, Spain",
-      image: "/speaker-img.png",
+        name: "Dummy Name 5",
+        location: "Malaga, Spain",
+        image: "https://placehold.co/600x400",
     },
     {
-      name: "Dr Bhagwan Das",
-      location: "Melbourne, Australia",
-      image: "/speaker-img.png",
+        name: "Dummy Name 6",
+        location: "Melbourne, Australia",
+        image: "https://placehold.co/600x400",
     },
-  ];
+    ];
 
-  const invitedSpeakers = [
-        {
-            name: "Hironori Washizaki",
-            location: "Tokyo, Japan",
-            image: "/speaker-img.png",
-        },
-        {
-            name: "Prof Mariafanna Milanova",
-            location: "Arkansas, USA",
-            image: "/speaker-img.png",
-        },
-        {
-            name: "Dr Atif Siddiqui",
-            location: "United Kingdom",
-            image: "/speaker-img.png",
-        }
-    ]
+    const invitedSpeakers = [
+    {
+        name: "Dummy Name 1",
+        location: "Tokyo, Japan",
+        image: "https://placehold.co/600x400",
+    },
+    {
+        name: "Dummy Name 2",
+        location: "Arkansas, USA",
+        image: "https://placehold.co/600x400",
+    },
+    {
+        name: "Dummy Name 3",
+        location: "United Kingdom",
+        image: "https://placehold.co/600x400",
+    },
+    ];
+
   return (
     <section className="py-16 px-6 md:px-16 bg-gray-50 font-poppins">
       <div className="max-w-7xl mx-auto text-center">
@@ -125,7 +126,7 @@ export const Speakers = () => {
           ))}
         </div>
 
-        <div>
+        <div className="flex justify-center items-center">
             <img src="./sample-img.png"></img>
         </div>
 

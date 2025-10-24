@@ -23,8 +23,7 @@ export const Header = () => {
         <h3 className="text-lg md:text-2xl font-semibold">
           Venue:{" "}
           <span className="font-bold">
-            ICCBS Auditorium, University Of Karachi, Auditorium DHA Suffa
-            University
+            Sir Syed University of Engineering and Technology, Karachi
           </span>
         </h3>
       </div>
