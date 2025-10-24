@@ -7,12 +7,12 @@ export const About = () => {
     >
       <div className="max-w-5xl mx-auto text-center">
         {/* Heading */}
-        <h2 className="text-3xl md:text-4xl font-extrabold text-dark-grey mb-8">
+        <h2 className="text-2xl mb-4 md:text-3xl font-extrabold tracking-wide uppercase text-[#111111] font-sans">
           About Us
         </h2>
 
         {/* Content */}
-        <div className="text-justify leading-relaxed text-[15px] md:text-[16px] space-y-4">
+        <div className="text-justify mb-4 leading-relaxed text-[15px] md:text-[16px] space-y-4">
           <p>
             The University of Karachi holds a unique position in the country’s
             educational system. As a respected research and teaching institution,
@@ -58,6 +58,34 @@ export const About = () => {
             continuous assessments, tests, seminars, and field projects, while
             keeping close links with professional organizations to enhance both
             academic and professional excellence.
+          </p>
+        </div>
+
+        <h2 className="text-2xl mb-4 md:text-3xl font-extrabold tracking-wide uppercase text-[#111111] font-sans">
+        Conference Aims and Objectives
+        </h2>
+
+
+        {/* Content */}
+        <div className="text-justify leading-relaxed text-[15px] md:text-[16px] space-y-4">
+          <p>
+            The International Research Conference is a federated organization 
+            dedicated to bringing together a significant number of diverse 
+            scholarly events for presentation within the conference program. 
+            Events will run over a span of time during the conference depending 
+            on the number and length of the presentations.
+          </p>
+
+          <p>
+            The ICISCT 2025 event aims to bring together leading academic 
+            scientists, researchers and research scholars to exchange and 
+            share their experiences and research results on all aspects of
+            INFORMATION SCIENCE and COMMUNICATION TECHNOLOGY. It also 
+            provides a premier interdisciplinary platform for researchers, 
+            practitioners and educators to present and discuss the most recent 
+            innovations, trends, and concerns as well as practical challenges 
+            encountered and solutions adopted in the fields of INFORMATION SCIENCE 
+            and COMMUNICATION TECHNOLOGY.
           </p>
         </div>
       </div>
