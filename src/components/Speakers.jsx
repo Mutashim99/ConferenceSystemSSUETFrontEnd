@@ -54,7 +54,7 @@ export const Speakers = () => {
     <section className="py-16 px-6 md:px-16 bg-gray-50 font-poppins">
       <div className="max-w-7xl mx-auto text-center">
         {/* Heading */}
-        <h2 className="text-2xl md:text-3xl font-extrabold tracking-wide uppercase text-[#111111] font-sans mb-12">
+        <h2 id="keynote" className="text-2xl md:text-3xl font-extrabold tracking-wide uppercase text-[#111111] font-sans mb-12">
           Keynote Speakers
         </h2>
 
@@ -90,7 +90,7 @@ export const Speakers = () => {
           ))}
         </div>
 
-        <h2 className="text-2xl md:text-3xl font-extrabold tracking-wide uppercase text-[#111111] font-sans mb-12">
+        <h2 id="invited" className="text-2xl md:text-3xl font-extrabold tracking-wide uppercase text-[#111111] font-sans mb-12">
           Invited Speakers
         </h2>
 

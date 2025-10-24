@@ -10,28 +10,35 @@ export const Navbar = () => {
   };
 
   const navItems = [
-    { label: "HOME" },
-    { label: "ABOUT" },
+    { label: "HOME", href: "#" },
+    { label: "ABOUT", href: "#about" },
     {
       label: "SPEAKERS",
       hasDropdown: true,
-      items: ["Keynote Speakers", "Invited Speakers"],
+      items: [
+        { name: "Keynote Speakers", href: "#keynote" },
+        { name: "Invited Speakers", href: "#invited" },
+      ],
     },
-    { label: "CALL FOR PAPERS" },
-    { label: "REGISTRATION" },
-    { label: "COMMITTEE" },
+    { label: "CALL FOR PAPERS", href: "#papers" },
+    { label: "REGISTRATION", href: "#registration" },
+    { label: "COMMITTEE", href: "#committee" },
     {
       label: "ARCHIVES",
       hasDropdown: true,
-      items: ["ICISCT 2023", "ICISCT 2022", "ICISCT 2021"],
+      items: [
+        { name: "ICISCT 2023", href: "#archive2023" },
+        { name: "ICISCT 2022", href: "#archive2022" },
+        { name: "ICISCT 2021", href: "#archive2021" },
+      ],
     },
-    { label: "SCHEDULE" },
-    { label: "CONTACT" },
+    { label: "SCHEDULE", href: "#schedule" },
+    { label: "CONTACT", href: "#contact" },
   ];
 
   return (
     <nav className="bg-[#521028] text-white w-full sticky top-0 z-50 shadow-md">
-      <div className="max-w-7xl h-30 mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+      <div className="max-w-7xl h-20 mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center space-x-2 shrink-0">
           <img
@@ -40,39 +47,43 @@ export const Navbar = () => {
             className="h-12 w-auto object-contain"
             draggable="false"
           />
-
-          {/* <span className="text-4xl font-bold tracking-wider text-white">
-            ICISCT
-          </span> */}
         </div>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-6 items-center">
-          {navItems.map((item) => (
-            <div key={item.label} className="relative group">
-              <button
-                onClick={() => item.hasDropdown && toggleDropdown(item.label)}
-                className="flex items-center space-x-1 text-sm font-semibold hover:text-gray-300 transition-colors"
-              >
-                <span>{item.label}</span>
-                {item.hasDropdown && <ChevronDown size={14} />}
-              </button>
+          {navItems.map((item) =>
+            item.hasDropdown ? (
+              <div key={item.label} className="relative group">
+                <button
+                  onClick={() => toggleDropdown(item.label)}
+                  className="flex items-center space-x-1 text-sm font-semibold hover:text-gray-300 transition-colors"
+                >
+                  <span>{item.label}</span>
+                  <ChevronDown size={14} />
+                </button>
 
-              {item.hasDropdown && (
-                <div className="absolute left-0 top-6 hidden group-hover:block bg-white text-black rounded-md shadow-md w-44 py-2">
-                  {item.items?.map((sub) => (
+                <div className="absolute left-0 top-6 hidden group-hover:block bg-white text-black rounded-md shadow-md w-48 py-2">
+                  {item.items.map((sub) => (
                     <a
-                      key={sub}
-                      href="#"
+                      key={sub.name}
+                      href={sub.href}
                       className="block px-4 py-2 hover:bg-gray-100 text-sm"
                     >
-                      {sub}
+                      {sub.name}
                     </a>
                   ))}
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            ) : (
+              <a
+                key={item.label}
+                href={item.href}
+                className="text-sm font-semibold hover:text-gray-300 transition-colors"
+              >
+                {item.label}
+              </a>
+            )
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -86,31 +97,43 @@ export const Navbar = () => {
       {/* Mobile Dropdown Menu */}
       {isOpen && (
         <div className="md:hidden bg-[#4a0b25] border-t border-gray-700">
-          {navItems.map((item) => (
-            <div key={item.label} className="border-b border-gray-700">
-              <button
-                onClick={() => item.hasDropdown && toggleDropdown(item.label)}
-                className="flex justify-between w-full px-4 py-3 text-left text-sm font-semibold"
-              >
-                <span>{item.label}</span>
-                {item.hasDropdown && <ChevronDown size={16} />}
-              </button>
+          {navItems.map((item) =>
+            item.hasDropdown ? (
+              <div key={item.label} className="border-b border-gray-700">
+                <button
+                  onClick={() => toggleDropdown(item.label)}
+                  className="flex justify-between w-full px-4 py-3 text-left text-sm font-semibold"
+                >
+                  <span>{item.label}</span>
+                  <ChevronDown size={16} />
+                </button>
 
-              {item.hasDropdown && openDropdown === item.label && (
-                <div className="bg-[#5d0e30]">
-                  {item.items?.map((sub) => (
-                    <a
-                      key={sub}
-                      href="#"
-                      className="block px-8 py-2 text-sm text-gray-200 hover:bg-[#6f123b]"
-                    >
-                      {sub}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+                {openDropdown === item.label && (
+                  <div className="bg-[#5d0e30]">
+                    {item.items.map((sub) => (
+                      <a
+                        key={sub.name}
+                        href={sub.href}
+                        className="block px-8 py-2 text-sm text-gray-200 hover:bg-[#6f123b]"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {sub.name}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <a
+                key={item.label}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className="block px-4 py-3 border-b border-gray-700 text-sm font-semibold"
+              >
+                {item.label}
+              </a>
+            )
+          )}
         </div>
       )}
     </nav>
