@@ -10,30 +10,18 @@ export const Navbar = () => {
   };
 
   const navItems = [
-    { label: "HOME", href: "#" },
-    { label: "ABOUT", href: "#about" },
-    {
-      label: "SPEAKERS",
-      hasDropdown: true,
-      items: [
-        { name: "Keynote Speakers", href: "#keynote" },
-        { name: "Invited Speakers", href: "#invited" },
-      ],
-    },
-    { label: "CALL FOR PAPERS", href: "#papers" },
-    { label: "REGISTRATION", href: "#registration" },
-    { label: "COMMITTEE", href: "#committee" },
-    {
-      label: "ARCHIVES",
-      hasDropdown: true,
-      items: [
-        { name: "ICISCT 2023", href: "#archive2023" },
-        { name: "ICISCT 2022", href: "#archive2022" },
-        { name: "ICISCT 2021", href: "#archive2021" },
-      ],
-    },
-    { label: "SCHEDULE", href: "#schedule" },
-    { label: "CONTACT", href: "#contact" },
+    // {
+    //   label: "SPEAKERS",
+    //   hasDropdown: true,
+    //   items: [
+    //     { name: "Keynote Speakers", href: "#keynote" },
+    //     { name: "Invited Speakers", href: "#invited" },
+    //   ],
+    // },
+
+    { label: "SUBMIT A PAPER", href: "#" },
+    { label: "LOGIN", href: "/login" },
+    { label: "REGISTER", href: "/register" },
   ];
 
   return (
