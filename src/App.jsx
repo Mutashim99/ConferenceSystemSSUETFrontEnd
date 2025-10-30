@@ -14,6 +14,8 @@ import AdminSubmittedPapers from "./pages/admin/AdminSubmittedPapers";
 import RegisterReviewer from "./pages/admin/RegisterReviewer";
 import AssignReviewer from "./pages/admin/AssignReviewer";
 import { Home } from "./pages/Home";
+import ReviewerSubmittedPapers from "./pages/reviewer/ReviewerSubmittedPapers";
+import ReviewerLayout from "./components/ReviewerLayout";
 
 function App() {
   return (
@@ -49,6 +51,19 @@ function App() {
         <Route
           path="/admin/dashboard"
           element={<Navigate to="/admin/dashboard/papers" />}
+        />
+
+        {/* ===================== REVIEWER ROUTES ===================== */}
+        <Route
+          path="/reviewer/*"
+          element={
+            <ReviewerLayout>
+              <Routes>
+                <Route path="papers" element={<ReviewerSubmittedPapers />} />
+                {/* Add more reviewer routes here */}
+              </Routes>
+            </ReviewerLayout>
+          }
         />
 
         {/* Home fallback */}
