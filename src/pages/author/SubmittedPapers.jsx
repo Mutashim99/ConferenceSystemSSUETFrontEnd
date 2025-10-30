@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/DashboardLayout";
 
 const dummyPapers = [
@@ -17,6 +18,8 @@ const dummyPapers = [
 ];
 
 const SubmittedPapers = () => {
+  const navigate = useNavigate();
+
   return (
     <DashboardLayout>
       <h1 className="text-2xl font-bold text-[#521028] mb-6">
@@ -35,7 +38,11 @@ const SubmittedPapers = () => {
           </thead>
           <tbody>
             {dummyPapers.map((paper) => (
-              <tr key={paper.id} className="border-b hover:bg-gray-100">
+              <tr
+                key={paper.id}
+                className="border-b hover:bg-gray-100 cursor-pointer"
+                onClick={() => navigate(`/author/dashboard/papers/${paper.id}`)}
+              >
                 <td className="p-3">{paper.id}</td>
                 <td className="p-3 font-medium">{paper.title}</td>
                 <td className="p-3">{paper.status}</td>
