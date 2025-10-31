@@ -19,7 +19,7 @@ import ReviewerLayout from "./components/ReviewerLayout";
 import useAuthStore from "./store/authStore";
 import { useEffect } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import ReviewerPaperDetails from "./pages/reviewer/ReviewerPaperDetails";
 function App() {
   // Get the fetchUser action from the store.
   const fetchUser = useAuthStore((s) => s.fetchUser);
@@ -103,19 +103,25 @@ function App() {
 
           {/* REVIEWER DASHBOARD (Protected) */}
           <Route
-            path="/reviewer/*"
+            path="/reviewer/dashboard/*"
             element={
               <ProtectedRoute allowedRoles={["REVIEWER"]}>
                 <ReviewerLayout>
                   <Routes>
-                    <Route path="papers" element={<ReviewerSubmittedPapers />} />
+                    <Route
+                      path="papers"
+                      element={<ReviewerSubmittedPapers />}
+                    />
+                    <Route
+                      path="papers/:id"
+                      element={<ReviewerPaperDetails />}
+                    />
                     <Route path="/" element={<Navigate to="papers" />} />
                   </Routes>
                 </ReviewerLayout>
               </ProtectedRoute>
             }
           />
-
           {/* Fallback for any other route */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

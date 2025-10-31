@@ -198,7 +198,8 @@ const PaperDetails = () => {
       setUploadSuccess(null);
       
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("paper", file);
+      console.log(formData);
       
       try {
         await api.post(`/author/papers/${id}/resubmit`, formData);

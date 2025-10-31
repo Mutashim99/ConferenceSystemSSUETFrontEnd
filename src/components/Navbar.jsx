@@ -26,7 +26,7 @@ const Navbar = () => {
         break;
       case "REVIEWER":
         // Links to the main page within the reviewer's layout
-        dashboardPath = "/reviewer/papers"; 
+        dashboardPath = "/reviewer/dashboard/papers"; 
         break;
       default:
         dashboardPath = "/"; // Fallback to home

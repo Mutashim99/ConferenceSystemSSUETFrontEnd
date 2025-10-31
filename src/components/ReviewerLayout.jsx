@@ -14,14 +14,14 @@ const ReviewerLayout = ({ children }) => {
 
         <nav className="flex-1 p-4 space-y-2">
           <Link
-            to="/reviewer/papers"
+            to="/reviewer/dashboard/papers"
             className={`block px-3 py-2 rounded-md font-medium ${
               location.pathname.includes("/reviewer/papers")
                 ? "bg-white text-[#521028]"
                 : "hover:bg-[#6b1b3a]"
             }`}
           >
-            Submitted Papers
+            Assigned Papers
           </Link>
         </nav>
       </aside>
