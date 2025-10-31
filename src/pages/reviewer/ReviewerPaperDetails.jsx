@@ -75,6 +75,7 @@ const ReviewerPaperDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuthStore();
+  console.log(user);
 
   const [paper, setPaper] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -106,20 +107,31 @@ const ReviewerPaperDetails = () => {
       const res = await api.get(`/reviewer/papers/${id}`);
       setPaper(res.data);
 
+      // --- START: UPDATED LOGIC ---
+      // Find this user's review in the reviews array
+      const myReview = res.data.reviews.find(
+        (review) => review.reviewerId === user?.id
+      );
+
       // Check if this reviewer has already submitted a review
-      if (res.data.myReview) {
+      if (myReview) {
         setReviewForm({
-          comments: res.data.myReview.comments,
+          comments: myReview.comments,
           // CHANGE: Ensure rating is max 5
-          rating: Math.max(1, Math.min(5, res.data.myReview.rating)),
-          recommendation: res.data.myReview.recommendation,
+          rating: Math.max(1, Math.min(5, myReview.rating)),
+          recommendation: myReview.recommendation,
         });
         setIsReviewSubmitted(true);
       } else {
-        // CHANGE: Set default rating to 3
-        setReviewForm((prev) => ({ ...prev, rating: 3 }));
+        // No review found for this user, set defaults
+        setReviewForm({
+          comments: "",
+          rating: 3,
+          recommendation: "MINOR_REVISION",
+        });
         setIsReviewSubmitted(false);
       }
+      // --- END: UPDATED LOGIC ---
     } catch (err) {
       console.error("Error fetching paper details:", err);
       setError(
@@ -129,19 +141,19 @@ const ReviewerPaperDetails = () => {
     } finally {
       setLoading(false);
     }
-  }, [id, paper]); // Add paper dependency
+  }, [id, user?.id]); // UPDATED Dependencies
 
   useEffect(() => {
     fetchPaperDetails();
-  }, [id]); // Only fetch on ID change
+  }, [fetchPaperDetails]); // UPDATED Dependency
 
-  // Poll for chat updates
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchPaperDetails();
-    }, 15000); // Refetch every 15 seconds
-    return () => clearInterval(interval);
-  }, [fetchPaperDetails]);
+//   // Poll for chat updates
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       fetchPaperDetails();
+//     }, 15000); // Refetch every 15 seconds
+//     return () => clearInterval(interval);
+//   }, [fetchPaperDetails]);
 
   // Scroll to bottom of chat
   useEffect(() => {
@@ -228,11 +240,9 @@ const ReviewerPaperDetails = () => {
 
   if (loading) {
     return (
-
       <div className="flex justify-center items-center h-64">
         <Loader2 className="h-12 w-12 text-[#521028] animate-spin" />
       </div>
-
     );
   }
 
@@ -411,7 +421,7 @@ const ReviewerPaperDetails = () => {
                 rows="8"
                 value={reviewForm.comments}
                 onChange={handleReviewFormChange}
-                className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#5BETLA-G2] focus:outline-none"
                 placeholder="Provide constructive feedback for the author..."
                 required
               />
