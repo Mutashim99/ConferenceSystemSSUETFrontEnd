@@ -354,7 +354,7 @@ const PaperDetails = () => {
                     </p>
                     <div className="flex flex-wrap gap-4 mt-3 text-sm">
                       <p className="text-gray-600">
-                        <strong>Rating:</strong> {review.rating} / 10
+                        <strong>Rating:</strong> {review.rating} / 5
                       </p>
                       <p className="text-gray-600">
                         <strong>Recommendation:</strong>

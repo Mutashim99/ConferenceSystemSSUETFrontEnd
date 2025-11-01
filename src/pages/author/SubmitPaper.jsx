@@ -1,18 +1,12 @@
-import { useState,useRef } from "react";
+import { useState, useRef } from "react";
 import DashboardLayout from "../../components/DashboardLayout";
-import {
-  X,
-  Plus,
-  Trash2,
-  UploadCloud,
-  FileText,
-} from "lucide-react";
+import { X, Plus, Trash2, UploadCloud, FileText } from "lucide-react";
 import api from "../../api/axios";
 
 const SubmitPaper = () => {
   const [title, setTitle] = useState("");
   const [abstract, setAbstract] = useState("");
-  const [keywords, setKeywords] =useState("");
+  const [keywords, setKeywords] = useState("");
   const [file, setFile] = useState(null);
   // Start with 3 co-author inputs as requested
   const [coAuthors, setCoAuthors] = useState([
@@ -20,7 +14,7 @@ const SubmitPaper = () => {
     { name: "" },
     { name: "" },
   ]);
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -119,6 +113,13 @@ const SubmitPaper = () => {
       setError("Please fill in all required fields and upload a PDF file.");
       return;
     }
+    // --- File size check (20MB max) ---
+    const MAX_SIZE_MB = 20;
+    const fileSizeMB = file.size / (1024 * 1024);
+    if (fileSizeMB > MAX_SIZE_MB) {
+      setError(`File too large! Maximum allowed size is ${MAX_SIZE_MB} MB.`);
+      return;
+    }
 
     setLoading(true);
 
@@ -133,22 +134,24 @@ const SubmitPaper = () => {
     // Filter out empty co-author names, format as [{"name": "..."}],
     // and stringify the array as required by your API.
     const validCoAuthors = coAuthors
-      .map(a => a.name.trim())      // Get names and trim whitespace
-      .filter(name => name !== "")  // Filter out empty strings
-      .map(name => ({ name }));    // Format into objects
-      
+      .map((a) => a.name.trim()) // Get names and trim whitespace
+      .filter((name) => name !== "") // Filter out empty strings
+      .map((name) => ({ name })); // Format into objects
+
     formData.append("coAuthors", JSON.stringify(validCoAuthors));
 
     try {
       // Make the API call
-      await api.post("/author/papers/submit", formData, {
+      const res = await api.post("/author/papers/submit", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
+      console.log(res);
       setSuccess("Paper submitted successfully!");
       resetForm();
     } catch (err) {
+      console.log(err);
       setError(err.response?.data?.message || "Paper submission failed.");
     } finally {
       setLoading(false);
@@ -160,7 +163,7 @@ const SubmitPaper = () => {
       <h1 className="text-2xl font-bold text-[#521028] mb-6">
         Submit Your Paper
       </h1>
-      
+
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-lg rounded-lg p-6 sm:p-8 space-y-6 max-w-3xl mx-auto"
@@ -211,7 +214,7 @@ const SubmitPaper = () => {
             placeholder="e.g., AI, ML, Data Science"
             required
           />
-           <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 mt-1">
             Comma-separated keywords.
           </p>
         </div>
@@ -257,14 +260,14 @@ const SubmitPaper = () => {
           <label className="block text-sm font-semibold text-gray-700">
             Upload PDF
           </label>
-          { !file ? (
+          {!file ? (
             <div
               onDrop={handleDrop}
               onDragOver={handleDragOver}
               onDragEnter={handleDragEnter}
               onDragLeave={handleDragLeave}
               className={`mt-1 flex justify-center w-full px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md cursor-pointer
-                ${isDragging ? 'border-[#521028] bg-gray-50' : ''}`}
+                ${isDragging ? "border-[#521028] bg-gray-50" : ""}`}
               onClick={() => fileInputRef.current?.click()}
             >
               <div className="space-y-1 text-center">
@@ -292,7 +295,7 @@ const SubmitPaper = () => {
             <div className="mt-2 flex items-center justify-between p-3 bg-gray-100 border border-gray-300 rounded-md">
               <div className="flex items-center space-x-2">
                 <FileText className="h-5 w-5 text-[#521028]" />
-                <span className="text-sm font-medium text-gray-800">
+                <span className="text-sm font-medium text-gray-800 truncate max-w-[150px] sm:max-w-[200px] md:max-w-[300px]">
                   {file.name}
                 </span>
               </div>
@@ -308,8 +311,16 @@ const SubmitPaper = () => {
         </div>
 
         {/* Notifications */}
-        {error && <p className="text-red-600 text-sm text-center font-medium">{error}</p>}
-        {success && <p className="text-green-600 text-sm text-center font-medium">{success}</p>}
+        {error && (
+          <p className="text-red-600 text-sm text-center font-medium">
+            {error}
+          </p>
+        )}
+        {success && (
+          <p className="text-green-600 text-sm text-center font-medium">
+            {success}
+          </p>
+        )}
 
         {/* Submit Button */}
         <button
@@ -318,12 +329,28 @@ const SubmitPaper = () => {
           className="w-full flex justify-center py-3 mt-4 bg-[#521028] text-white font-semibold rounded-md hover:bg-[#6b1b3a] transition-colors disabled:opacity-70"
         >
           {loading ? (
-            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <svg
+              className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
             </svg>
           ) : (
-            'Submit Paper'
+            "Submit Paper"
           )}
         </button>
       </form>
