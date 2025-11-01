@@ -1,5 +1,4 @@
 import AdminLayout from "../../components/AdminLayout";
-
 import React, {
   useState,
   useEffect,
@@ -8,8 +7,6 @@ import React, {
   createContext,
   useContext,
 } from "react";
-
-
 import {
   Menu,
   X,
@@ -36,8 +33,9 @@ import {
   Download,
   List,
 } from "lucide-react";
-import api from "../../api/axios"
+import api from "../../api/axios";
 
+// --- Helper Functions (No Changes) ---
 
 const formatDate = (dateString) => {
   if (!dateString) return "N/A";
@@ -50,11 +48,6 @@ const formatDate = (dateString) => {
   });
 };
 
-/**
- * Gets Tailwind classes for a paper status.
- * @param {string} status
- * @returns {string} Tailwind classes
- */
 const getStatusClass = (status) => {
   switch (status) {
     case "ACCEPTED":
@@ -76,10 +69,6 @@ const getStatusClass = (status) => {
   }
 };
 
-/**
- * A reusable status badge.
- * @param {{status: string, className?: string}} props
- */
 const StatusBadge = ({ status, className = "" }) => (
   <span
     className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${getStatusClass(
@@ -90,14 +79,10 @@ const StatusBadge = ({ status, className = "" }) => (
   </span>
 );
 
-/**
- * A reusable modal component context for opening/closing.
- */
-const ModalContext = createContext(null); // Default to null
+const ModalContext = createContext(null);
 
 const ModalProvider = ({ children }) => {
   const [modalContent, setModalContent] = useState(null);
-
   const openModal = (content) => setModalContent(() => content);
   const closeModal = () => setModalContent(null);
 
@@ -121,40 +106,23 @@ const ModalProvider = ({ children }) => {
   );
 };
 
-// REMOVED the useModal hook. We will call useContext directly.
-
-
 // --- Main Component ---
-// Renamed to "Internal" - this is the component logic
 const AdminSubmittedPapersInternal = () => {
   // --- State ---
-  const [papers, setPapers] = useState([]); // List of all papers
-  const [selectedPaper, setSelectedPaper] = useState(null); // The paper being viewed
-  const [reviewers, setReviewers] = useState([]); // List of all available reviewers
-  const [selectedReviewerIds, setSelectedReviewerIds] = useState([]); // Reviewers to assign
-
-  // Loading States
-  const [listLoading, setListLoading] = useState(true); // Main list loading
-  const [detailLoading, setDetailLoading] = useState(false); // Detail view loading
-  const [viewingPaperId, setViewingPaperId] = useState(null); // Which paper is being loaded
-  const [actionLoading, setActionLoading] = useState(null); // For specific buttons (approve, assign, etc.)
-
-  // Errors
+  const [papers, setPapers] = useState([]);
+  const [selectedPaper, setSelectedPaper] = useState(null);
+  const [reviewers, setReviewers] = useState([]);
+  const [selectedReviewerIds, setSelectedReviewerIds] = useState([]);
+  const [listLoading, setListLoading] = useState(true);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [viewingPaperId, setViewingPaperId] = useState(null);
+  const [actionLoading, setActionLoading] = useState(null);
   const [error, setError] = useState(null);
-
-  // Modal
-  // Call useContext directly inside the component
   const modalContext = useContext(ModalContext);
-  
-  // State for the "Final Status" dropdown
   const [newFinalStatus, setNewFinalStatus] = useState("");
-
-  // Final decision statuses
   const finalStatuses = ["ACCEPTED", "REJECTED", "REVISION_REQUIRED"];
 
-  // --- API Functions ---
-
-  // Fetch all papers
+  // --- API Functions (No Changes) ---
   const fetchPapers = useCallback(async () => {
     setListLoading(true);
     setError(null);
@@ -169,34 +137,26 @@ const AdminSubmittedPapersInternal = () => {
     } finally {
       setListLoading(false);
     }
-  }, []); // Empty dependency array makes this function stable
+  }, []);
 
-  // Initial fetch and re-fetch on filter change
   useEffect(() => {
-    // This effect now directly depends on filterStatus
-    // and calls the stable fetchPapers function
     if (!selectedPaper) {
       fetchPapers();
     }
-  }, [fetchPapers, selectedPaper]); // Add selectedPaper to prevent refetch when viewing details
+  }, [fetchPapers, selectedPaper]);
 
-  // Fetch single paper + all reviewers
   const fetchPaperDetails = useCallback(async (paperId) => {
     setDetailLoading(true);
     setError(null);
     setSelectedReviewerIds([]);
     try {
-      // Fetch paper details and reviewers in parallel
       const [paperRes, reviewersRes] = await Promise.all([
         api.get(`/admin/papers/${paperId}`),
         api.get("/admin/reviewers"),
       ]);
-
       const paperData = paperRes.data;
       setSelectedPaper(paperData);
       setReviewers(reviewersRes.data || []);
-
-      // Pre-fill the "Final Status" dropdown if a final status is already set
       if (finalStatuses.includes(paperData.status)) {
         setNewFinalStatus(paperData.status);
       } else {
@@ -212,10 +172,9 @@ const AdminSubmittedPapersInternal = () => {
       setDetailLoading(false);
       setViewingPaperId(null);
     }
-  }, []); // Removed finalStatuses from dependencies, it's a constant
+  }, []); // Removed finalStatuses, it's a constant
 
-  // --- Action Handlers ---
-
+  // --- Action Handlers (No Changes) ---
   const handleViewPaper = (id) => {
     setViewingPaperId(id);
     fetchPaperDetails(id);
@@ -224,10 +183,9 @@ const AdminSubmittedPapersInternal = () => {
   const handleBackToList = () => {
     setSelectedPaper(null);
     setError(null);
-    fetchPapers(); // Refetch list
+    fetchPapers();
   };
-  
-  // This component must have the modal context to function
+
   if (!modalContext) {
     console.error("AdminSubmittedPapersInternal must be wrapped in ModalProvider.");
     return (
@@ -239,10 +197,9 @@ const AdminSubmittedPapersInternal = () => {
       </AdminLayout>
     );
   }
-  
+
   const { openModal, closeModal } = modalContext;
 
-  // Generic action handler to wrap API calls with loading and error handling
   const handleAdminAction = async (
     actionName,
     apiCall,
@@ -252,8 +209,6 @@ const AdminSubmittedPapersInternal = () => {
     setError(null);
     try {
       await apiCall();
-
-      // Show success modal
       openModal(
         <div className="text-center">
           <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
@@ -267,24 +222,20 @@ const AdminSubmittedPapersInternal = () => {
           </button>
         </div>
       );
-
-      // Refresh data
       if (selectedPaper) {
-        fetchPaperDetails(selectedPaper.id); // Refresh detail view
+        fetchPaperDetails(selectedPaper.id);
       } else {
-        fetchPapers(); // Refresh list view
+        fetchPapers();
       }
     } catch (err) {
       console.error(`Error during ${actionName}:`, err);
       const message =
         err.response?.data?.message || `Failed to ${actionName}. Please try again.`;
-      setError(message); // Show error in the UI
+      setError(message);
     } finally {
       setActionLoading(null);
     }
   };
-
-  // --- Specific Actions ---
 
   const onApprovePaper = (paperId) => {
     openModal(
@@ -332,7 +283,7 @@ const AdminSubmittedPapersInternal = () => {
       "assign",
       () =>
         api.post(`/admin/papers/${selectedPaper.id}/assign`, {
-          reviewerIds: selectedReviewerIds.map(Number), // Ensure IDs are numbers
+          reviewerIds: selectedReviewerIds.map(Number),
         }),
       "Reviewer(s) assigned successfully."
     );
@@ -424,9 +375,7 @@ const AdminSubmittedPapersInternal = () => {
     );
   };
 
-  // --- Memoized Components ---
-
-  // Filter out reviewers who are already assigned to this paper
+  // --- Memoized Components (No Changes) ---
   const availableReviewers = React.useMemo(() => {
     if (!selectedPaper || !reviewers.length) return [];
     const assignedIds = new Set(
@@ -438,7 +387,7 @@ const AdminSubmittedPapersInternal = () => {
   // --- Render ---
 
   if (selectedPaper) {
-    // --- Detail View ---
+    // --- Detail View (This was already responsive, no changes needed) ---
     return (
       <AdminLayout>
         {detailLoading ? (
@@ -821,7 +770,7 @@ const AdminSubmittedPapersInternal = () => {
     );
   }
 
-  // --- Main List View ---
+  // --- Main List View (THIS IS THE UPDATED PART) ---
   return (
     <AdminLayout>
       <div className="flex justify-between items-center mb-6">
@@ -844,64 +793,119 @@ const AdminSubmittedPapersInternal = () => {
           <p>No papers found.</p>
         </div>
       ) : (
-        <div className="bg-white shadow-md rounded-lg overflow-x-auto">
-          <table className="w-full text-sm text-left border-collapse">
-            <thead className="bg-[#521028] text-white">
-              <tr>
-                <th className="p-3">Title</th>
-                <th className="p-3">Author</th>
-                <th className="p-3">Status</th>
-                <th className="p-3">Reviews</th>
-                <th className="p-3">Submitted On</th>
-                <th className="p-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {papers.map((paper) => (
-                <tr
-                  key={paper.id}
-                  className="border-b hover:bg-gray-50 transition"
-                >
-                  <td className="p-3 font-medium text-gray-900">
+        <>
+          {/* --- Mobile Card View (Visible < lg) --- */}
+          <div className="lg:hidden space-y-4">
+            {papers.map((paper) => (
+              <div
+                key={paper.id}
+                className="bg-white shadow-md rounded-lg p-4"
+              >
+                {/* Top: Title and Status */}
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg font-bold text-[#521028] pr-2">
                     {paper.title}
-                  </td>
-                  <td className="p-3 text-gray-700">
+                  </h3>
+                  <StatusBadge status={paper.status} />
+                </div>
+
+                {/* Author Info */}
+                <div className="text-sm text-gray-700 mb-3">
+                  <p>
                     {paper.author.firstName} {paper.author.lastName}
-                    <br />
-                    <span className="text-xs text-gray-500">
-                      {paper.author.email}
-                    </span>
-                  </td>
-                  <td className="p-3">
-                    <StatusBadge status={paper.status} />
-                  </td>
-                  <td className="p-3 text-center text-gray-700">
-                    {paper._count.reviews || 0}
-                  </td>
-                  <td className="p-3 text-gray-700">
-                    {formatDate(paper.submittedAt)}
-                  </td>
-                  <td className="p-3">
-                    <button
-                      onClick={() => handleViewPaper(paper.id)}
-                      className="text-[#521028] font-semibold hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-50"
-                      disabled={detailLoading}
-                    >
-                      {detailLoading && viewingPaperId === paper.id ? (
-                        <Loader2 size={16} className="animate-spin" />
-                      ) : (
-                        <Eye size={16} />
-                      )}
-                      {detailLoading && viewingPaperId === paper.id
-                        ? "Loading..."
-                        : "View"}
-                    </button>
-                  </td>
+                  </p>
+                  <p className="text-xs text-gray-500">{paper.author.email}</p>
+                </div>
+
+                {/* Details Grid */}
+                <div className="border-t pt-3 grid grid-cols-2 gap-2 text-sm">
+                  <p>
+                    <strong>Reviews:</strong> {paper._count.reviews || 0}
+                  </p>
+                  <p className="truncate">
+                    <strong>Submitted:</strong> {formatDate(paper.submittedAt)}
+                  </p>
+                </div>
+
+                {/* Action Button */}
+                <button
+                  onClick={() => handleViewPaper(paper.id)}
+                  className="w-full mt-4 bg-[#521028] text-white font-semibold py-2 rounded-md hover:bg-[#6b1b3a] flex items-center justify-center gap-2 disabled:opacity-50"
+                  disabled={detailLoading}
+                >
+                  {detailLoading && viewingPaperId === paper.id ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <Eye size={16} />
+                  )}
+                  {detailLoading && viewingPaperId === paper.id
+                    ? "Loading..."
+                    : "View Details"}
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* --- Desktop Table View (Hidden < lg) --- */}
+          <div className="hidden lg:block bg-white shadow-md rounded-lg overflow-x-auto">
+            <table className="w-full text-sm text-left border-collapse">
+              <thead className="bg-[#521028] text-white">
+                <tr>
+                  <th className="p-3">Title</th>
+                  <th className="p-3">Author</th>
+                  <th className="p-3">Status</th>
+                  <th className="p-3">Reviews</th>
+                  <th className="p-3">Submitted On</th>
+                  <th className="p-3">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {papers.map((paper) => (
+                  <tr
+                    key={paper.id}
+                    className="border-b hover:bg-gray-50 transition"
+                  >
+                    <td className="p-3 font-medium text-gray-900">
+                      {paper.title}
+                    </td>
+                    <td className="p-3 text-gray-700">
+                      {paper.author.firstName} {paper.author.lastName}
+                      <br />
+                      <span className="text-xs text-gray-500">
+                        {paper.author.email}
+                      </span>
+                    </td>
+                    <td className="p-3">
+                      <StatusBadge status={paper.status} />
+                    </td>
+                    <td className="p-3 text-center text-gray-700">
+                      {paper._count.reviews || 0}
+                    </td>
+                    <td className="p-3 text-gray-700">
+                      {formatDate(paper.submittedAt)}
+                    </td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => handleViewPaper(paper.id)}
+                        className="text-[#521028] font-semibold hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                        disabled={detailLoading}
+                      >
+                        {detailLoading && viewingPaperId === paper.id ? (
+                          <Loader2 size={16} className="animate-spin" />
+                        ) : (
+                          <Eye size={16} />
+                        )}
+                        {detailLoading && viewingPaperId === paper.id
+                          ? "Loading..."
+                          : "View"}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </AdminLayout>
   );
@@ -909,11 +913,10 @@ const AdminSubmittedPapersInternal = () => {
 
 // This is the component that will be exported.
 // It wraps the internal component with the ModalProvider.
-const AdminSubmittedPapers = () =>(
+const AdminSubmittedPapers = () => (
   <ModalProvider>
     <AdminSubmittedPapersInternal />
   </ModalProvider>
 );
-
 
 export default AdminSubmittedPapers;

@@ -1,8 +1,7 @@
-
-import DashboardLayout from "../../components/DashboardLayout";
+import DashboardLayout from "../../components/DashboardLayout"; // FIX: Using DashboardLayout
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
-import useAuthStore from "../../store/authStore"
+import useAuthStore from "../../store/authStore";
 import {
   Loader2,
   AlertTriangle,
@@ -17,22 +16,13 @@ import {
 } from "lucide-react";
 import api from "../../api/axios";
 
-const formatDate = (dateString, options = {}) => {
-  const {
-    year = "numeric",
-    month = "long",
-    day = "numeric",
-  } = options;
+// Using the correct, single formatDate function from the reviewer's page
+const formatDate = (dateString) => {
+  if (!dateString) return "N/A";
   return new Date(dateString).toLocaleDateString("en-US", {
-    year,
-    month,
-    day,
-    ...options,
-  });
-};
-
-const formatTime = (dateString) => {
-  return new Date(dateString).toLocaleTimeString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -66,23 +56,19 @@ const PaperDetails = () => {
   const [newMessage, setNewMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [showResubmit, setShowResubmit] = useState(false);
-  
+
   const chatEndRef = useRef(null);
-  
-  // FIX 1: Get user from the store hook, not getState on create
-  // This assumes the user is fetched and available in the store
-  const { user } = useAuthStore(); 
+  const { user } = useAuthStore();
   const currentUserId = user?.id;
 
   // --- Data Fetching ---
   const fetchPaper = useCallback(async () => {
     try {
-      // Ensure loading is true when fetching
-      if (!loading) setLoading(true); // Only set loading if not already loading
+      if (!paperData) setLoading(true);
+
       const res = await api.get(`/author/papers/${id}`);
       setPaperData(res.data);
 
-      // Check if paper status requires revision
       const revisionStatuses = [
         "REVISION_REQUIRED",
         "MINOR_REVISION",
@@ -93,32 +79,19 @@ const PaperDetails = () => {
       } else {
         setShowResubmit(false);
       }
-      
     } catch (err) {
       console.error("Error fetching paper:", err);
       setError(err.response?.data?.message || "Failed to load paper details.");
     } finally {
-      setLoading(false);
+      if (loading) setLoading(false);
     }
-  }, [id, loading]); // Added loading dependency
+  }, [id, paperData, loading]);
 
   // Initial load
   useEffect(() => {
     fetchPaper();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]); // Only run on ID change
-
-  // Auto-refresh chat messages every 15 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!loading) { // Only refetch if not already loading
-        fetchPaper();
-      }
-    }, 15000); // 15 seconds
-    
-    return () => clearInterval(interval);
-  }, [fetchPaper, loading]);
-
+  }, [id]);
 
   // Scroll to bottom of chat
   useEffect(() => {
@@ -128,47 +101,30 @@ const PaperDetails = () => {
   // --- Handlers ---
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    // Add check for user object
     if (!newMessage.trim() || isSending || !user) {
-      if (!user) console.error("Cannot send message: User not loaded.");
       return;
     }
 
     setIsSending(true);
     try {
-      // Send the new message
-      const res = await api.post(`/author/papers/${id}/feedback`, {
+      // 1. Send the new message
+      await api.post(`/author/papers/${id}/feedback`, {
         message: newMessage,
       });
 
-      // FIX 2: Manually construct the sender object for optimistic update
-      // The POST response (res.data) likely doesn't include the nested `sender` object.
-      const newFeedbackMessage = {
-        ...res.data, // This is the new feedback { id, message, senderId, etc. }
-        sender: {   // We add the sender object ourselves
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          role: user.role,
-        }
-      };
-
-      // Optimistically update the UI with the *complete* object
-      setPaperData(prevData => ({
-        ...prevData,
-        feedbacks: [...prevData.feedbacks, newFeedbackMessage]
-      }));
+      // 2. Clear the input
       setNewMessage("");
 
+      // 3. Re-fetch all paper data (which includes the new message)
+      fetchPaper();
     } catch (err) {
       console.error("Error sending message:", err);
-      // You could set a specific chat error here
     } finally {
       setIsSending(false);
     }
   };
-  
-  // --- Resubmission Component ---
+
+  // --- Resubmission Component (No Changes) ---
   const ResubmissionSection = () => {
     const [file, setFile] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
@@ -186,28 +142,25 @@ const PaperDetails = () => {
         setUploadError("Please select a PDF file.");
       }
     };
-    
+
     const handleResubmit = async () => {
       if (!file) {
         setUploadError("Please select a file to resubmit.");
         return;
       }
-      
       setIsUploading(true);
       setUploadError(null);
       setUploadSuccess(null);
-      
       const formData = new FormData();
       formData.append("paper", file);
-      console.log(formData);
-      
       try {
         await api.post(`/author/papers/${id}/resubmit`, formData);
-        setUploadSuccess("Revision submitted successfully! Status will update shortly.");
+        setUploadSuccess(
+          "Revision submitted successfully! Status will update shortly."
+        );
         setFile(null);
-        if(fileInputRef.current) fileInputRef.current.value = null;
-        // Re-fetch paper to update status and file URL
-        setTimeout(fetchPaper, 1000); // Give server a second, then refetch
+        if (fileInputRef.current) fileInputRef.current.value = null;
+        setTimeout(fetchPaper, 1000);
       } catch (err) {
         setUploadError(err.response?.data?.message || "Resubmission failed.");
       } finally {
@@ -217,12 +170,14 @@ const PaperDetails = () => {
 
     return (
       <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md space-y-3">
-        <h3 className="text-lg font-semibold text-yellow-800">Action Required: Submit Revision</h3>
+        <h3 className="text-lg font-semibold text-yellow-800">
+          Action Required: Submit Revision
+        </h3>
         <p className="text-sm text-yellow-700">
           Your paper requires revision. Please upload the updated PDF file below.
         </p>
-        
-        { !file ? (
+
+        {!file ? (
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
@@ -252,7 +207,7 @@ const PaperDetails = () => {
               type="button"
               onClick={() => {
                 setFile(null);
-                if(fileInputRef.current) fileInputRef.current.value = null;
+                if (fileInputRef.current) fileInputRef.current.value = null;
               }}
               className="p-1 text-red-600 rounded-full hover:bg-red-100 flex-shrink-0"
             >
@@ -260,24 +215,29 @@ const PaperDetails = () => {
             </button>
           </div>
         )}
-        
+
         <button
           type="button"
           onClick={handleResubmit}
           disabled={!file || isUploading}
           className="w-full bg-[#521028] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#6b1b3a] disabled:opacity-50 flex justify-center items-center"
         >
-          {isUploading ? <Loader2 className="animate-spin h-5 w-5" /> : "Upload Revision"}
+          {isUploading ? (
+            <Loader2 className="animate-spin h-5 w-5" />
+          ) : (
+            "Upload Revision"
+          )}
         </button>
         {uploadError && <p className="text-sm text-red-600">{uploadError}</p>}
-        {uploadSuccess && <p className="text-sm text-green-600">{uploadSuccess}</p>}
+        {uploadSuccess && (
+          <p className="text-sm text-green-600">{uploadSuccess}</p>
+        )}
       </div>
     );
   };
-  
 
   // --- Render Logic ---
-  if (loading && !paperData) { // Only show full loading on first load
+  if (loading && !paperData) {
     return (
       <DashboardLayout>
         <div className="flex justify-center items-center h-64">
@@ -294,7 +254,10 @@ const PaperDetails = () => {
         <div className="flex flex-col justify-center items-center h-64 text-red-600">
           <AlertTriangle className="h-16 w-16 mb-4" />
           <p className="text-2xl font-semibold">{error || "No paper found."}</p>
-          <Link to="/author/dashboard/papers" className="mt-4 text-lg text-blue-600 hover:underline">
+          <Link
+            to="/author/dashboard/papers"
+            className="mt-4 text-lg text-blue-600 hover:underline"
+          >
             &larr; Back to my papers
           </Link>
         </div>
@@ -302,22 +265,31 @@ const PaperDetails = () => {
     );
   }
 
-  const { title, abstract, fileUrl, keywords, status, submittedAt, coAuthors, reviews, feedbacks } = paperData;
+  const {
+    title,
+    abstract,
+    fileUrl,
+    keywords,
+    status,
+    submittedAt,
+    coAuthors,
+    reviews,
+    feedbacks,
+  } = paperData;
 
   return (
     <DashboardLayout>
       <div className="flex flex-col lg:flex-row gap-6">
-        
-        {/* LEFT: Paper Details */}
+        {/* LEFT: Paper Details (No Changes) */}
         <div className="flex-1 space-y-6">
-          
-          {/* Header */}
           <div className="bg-white shadow-lg rounded-lg p-6">
-            <h1 className="text-3xl font-bold text-[#521028] mb-4">
-              {title}
-            </h1>
+            <h1 className="text-3xl font-bold text-[#521028] mb-4">{title}</h1>
             <div className="flex flex-wrap gap-4 items-center">
-              <span className={`px-3 py-1 rounded-full text-sm font-bold ${getStatusClass(status)}`}>
+              <span
+                className={`px-3 py-1 rounded-full text-sm font-bold ${getStatusClass(
+                  status
+                )}`}
+              >
                 {status.replace(/_/g, " ")}
               </span>
               <span className="text-sm text-gray-600">
@@ -335,22 +307,21 @@ const PaperDetails = () => {
               )}
             </div>
           </div>
-          
-          {/* Resubmission Section (Conditional) */}
+
           {showResubmit && <ResubmissionSection />}
-          
-          {/* Abstract */}
+
           <div className="bg-white shadow-lg rounded-lg p-6">
             <h2 className="text-xl font-semibold text-[#521028] mb-3 flex items-center gap-2">
               <BookOpen size={20} /> Abstract
             </h2>
-            <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{abstract}</p>
+            <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+              {abstract}
+            </p>
             <p className="text-sm text-gray-600 mt-4">
               <strong>Keywords:</strong> {keywords}
             </p>
           </div>
 
-          {/* Co-Authors */}
           {coAuthors?.length > 0 && (
             <div className="bg-white shadow-lg rounded-lg p-6">
               <h2 className="text-xl font-semibold text-[#521028] mb-3 flex items-center gap-2">
@@ -358,15 +329,12 @@ const PaperDetails = () => {
               </h2>
               <ul className="list-disc ml-5 text-gray-700 space-y-1">
                 {coAuthors.map((co, index) => (
-                  <li key={co.id || index}>
-                    {co.name}
-                  </li>
+                  <li key={co.id || index}>{co.name}</li>
                 ))}
               </ul>
             </div>
           )}
 
-          {/* Reviews */}
           <div className="bg-white shadow-lg rounded-lg p-6">
             <h2 className="text-xl font-semibold text-[#521028] mb-3 flex items-center gap-2">
               <MessageSquare size={20} /> Reviews
@@ -378,15 +346,23 @@ const PaperDetails = () => {
                     key={review.id || index}
                     className="p-4 border border-gray-200 rounded-md"
                   >
-                    <h3 className="font-semibold text-gray-800">Review {index + 1}</h3>
-                    <p className="text-gray-700 mt-2 whitespace-pre-wrap">{review.comments}</p>
+                    <h3 className="font-semibold text-gray-800">
+                      Review {index + 1}
+                    </h3>
+                    <p className="text-gray-700 mt-2 whitespace-pre-wrap">
+                      {review.comments}
+                    </p>
                     <div className="flex flex-wrap gap-4 mt-3 text-sm">
                       <p className="text-gray-600">
                         <strong>Rating:</strong> {review.rating} / 10
                       </p>
                       <p className="text-gray-600">
                         <strong>Recommendation:</strong>
-                        <span className={`ml-1 px-2 py-0.5 rounded-full text-xs font-medium ${getStatusClass(review.recommendation)}`}>
+                        <span
+                          className={`ml-1 px-2 py-0.5 rounded-full text-xs font-medium ${getStatusClass(
+                            review.recommendation
+                          )}`}
+                        >
                           {review.recommendation.replace(/_/g, " ")}
                         </span>
                       </p>
@@ -395,16 +371,22 @@ const PaperDetails = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500">No reviews have been submitted yet.</p>
+              <p className="text-gray-500">
+                No reviews have been submitted yet.
+              </p>
             )}
           </div>
         </div>
 
-        {/* RIGHT: Chat Sidebar */}
+        {/* ---
+         RIGHT: Chat Sidebar (STYLES COPIED FROM REVIEWER)
+        --- */}
         <div className="w-full lg:w-[35%] lg:max-w-md">
-          <div className="bg-white shadow-lg rounded-lg flex flex-col h-[80vh] sticky top-24">
-            <div className="border-b p-4 bg-gray-50 rounded-t-lg">
-              <h2 className="font-semibold text-lg text-[#521028]">
+          <div className="bg-white shadow-lg rounded-lg flex flex-col h-96 lg:h-[80vh] lg:sticky lg:top-24">
+            {/* Header - Copied from Reviewer */}
+            <div className="border-b p-4 bg-[#521028] text-white rounded-t-lg">
+              <h2 className="font-semibold text-lg flex items-center gap-2">
+                <MessageSquare size={20} />
                 Feedback & Chat
               </h2>
             </div>
@@ -417,8 +399,10 @@ const PaperDetails = () => {
                   No feedback messages yet.
                 </div>
               )}
+
+              {/* BUBBLE LOGIC - Copied from Reviewer */}
               {feedbacks.map((msg, index) => {
-                const isAuthor = msg.senderId === currentUserId;
+                const isAuthor = msg.senderId === currentUserId; // isAuthor is the current user
                 return (
                   <div
                     key={msg.id || index}
@@ -426,20 +410,24 @@ const PaperDetails = () => {
                       isAuthor ? "items-end" : "items-start"
                     }`}
                   >
-                    {/* FIX 3: Optional chaining to prevent crash if sender is missing */ }
-                    <span className="text-xs font-medium text-gray-500 px-1">
-                      {msg.sender?.firstName} {msg.sender?.lastName}
-                    </span>
                     <div
-                      className={`max-w-[85%] p-3 rounded-lg text-sm ${
+                      className={`max-w-[85%] w-fit p-3 rounded-lg text-sm ${
                         isAuthor
-                          ? "bg-[#521028] text-white rounded-br-none"
-                          : "bg-gray-200 text-gray-800 rounded-bl-none"
+                          ? "bg-[#521028] text-white rounded-br-none" // Author (current user) is PURPLE
+                          : "bg-gray-100 text-gray-800 rounded-bl-none" // Other is GRAY
                       }`}
                     >
+                      <p className="font-semibold text-xs mb-1">
+                        {msg.sender?.firstName} {msg.sender?.lastName} (
+                        {msg.sender?.role})
+                      </p>
                       <p className="whitespace-pre-wrap">{msg.message}</p>
-                      <p className="text-[10px] mt-1 text-right opacity-70">
-                        {formatTime(msg.sentAt)}
+                      <p
+                        className={`text-[10px] mt-1 text-right ${
+                          isAuthor ? "text-gray-300" : "text-gray-500"
+                        }`}
+                      >
+                        {formatDate(msg.sentAt)}
                       </p>
                     </div>
                   </div>
@@ -448,10 +436,10 @@ const PaperDetails = () => {
               <div ref={chatEndRef} />
             </div>
 
-            {/* Message Input */}
+            {/* Message Input - Copied from Reviewer */}
             <form
               onSubmit={handleSendMessage}
-              className="border-t p-3 flex items-center gap-2 bg-gray-50 rounded-b-lg"
+              className="border-t p-3 flex items-center gap-2"
             >
               <input
                 type="text"
@@ -465,7 +453,11 @@ const PaperDetails = () => {
                 disabled={isSending || !newMessage.trim()}
                 className="bg-[#521028] text-white p-2.5 rounded-md hover:bg-[#6b1b3a] disabled:opacity-50"
               >
-                {isSending ? <Loader2 className="animate-spin h-5 w-5" /> : <Send size={20} />}
+                {isSending ? (
+                  <Loader2 className="animate-spin h-5 w-5" />
+                ) : (
+                  <Send size={20} />
+                )}
               </button>
             </form>
           </div>
@@ -474,6 +466,5 @@ const PaperDetails = () => {
     </DashboardLayout>
   );
 };
-
 
 export default PaperDetails;
