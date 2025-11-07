@@ -32,38 +32,37 @@ function App() {
 
   return (
     <Router>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="bg-gray-50 min-h-[calc(100vh-80px)]">
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
           {/* AUTHOR DASHBOARD (Protected) */}
           <Route
             path="/author/dashboard/submit"
             element={
               // **FIX:** Re-enabled the ProtectedRoute.
-              <ProtectedRoute allowedRoles={["AUTHOR"]}>
-                <SubmitPaper />
-              </ProtectedRoute>
+              // <ProtectedRoute allowedRoles={["AUTHOR"]}>
+              <SubmitPaper />
+              // </ProtectedRoute>
             }
           />
           <Route
             path="/author/dashboard/papers"
             element={
-              <ProtectedRoute allowedRoles={["AUTHOR"]}>
-                <SubmittedPapers />
-              </ProtectedRoute>
+              // <ProtectedRoute allowedRoles={["AUTHOR"]}>
+              <SubmittedPapers />
+              // </ProtectedRoute>
             }
           />
           <Route
             path="/author/dashboard/papers/:id"
             element={
-              <ProtectedRoute allowedRoles={["AUTHOR"]}>
-                <PaperDetails />
-              </ProtectedRoute>
+              // <ProtectedRoute allowedRoles={["AUTHOR"]}>
+              <PaperDetails />
+              // </ProtectedRoute>
             }
           />
           <Route
@@ -75,25 +74,25 @@ function App() {
           <Route
             path="/admin/dashboard/papers"
             element={
-              <ProtectedRoute allowedRoles={["ADMIN"]}>
-                <AdminSubmittedPapers />
-              </ProtectedRoute>
+              // <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <AdminSubmittedPapers />
+              // </ProtectedRoute>
             }
           />
           <Route
             path="/admin/dashboard/register-reviewer"
             element={
-              <ProtectedRoute allowedRoles={["ADMIN"]}>
-                <RegisterReviewer />
-              </ProtectedRoute>
+              // <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <RegisterReviewer />
+              // </ProtectedRoute>
             }
           />
           <Route
             path="/admin/dashboard/assign-reviewer"
             element={
-              <ProtectedRoute allowedRoles={["ADMIN"]}>
-                <AssignReviewer />
-              </ProtectedRoute>
+              // <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <AssignReviewer />
+              // </ProtectedRoute>
             }
           />
           <Route
@@ -105,21 +104,13 @@ function App() {
           <Route
             path="/reviewer/dashboard/*"
             element={
-              <ProtectedRoute allowedRoles={["REVIEWER"]}>
-                <ReviewerLayout>
-                  <Routes>
-                    <Route
-                      path="papers"
-                      element={<ReviewerSubmittedPapers />}
-                    />
-                    <Route
-                      path="papers/:id"
-                      element={<ReviewerPaperDetails />}
-                    />
-                    <Route path="/" element={<Navigate to="papers" />} />
-                  </Routes>
-                </ReviewerLayout>
-              </ProtectedRoute>
+              // <ProtectedRoute allowedRoles={["REVIEWER"]}>
+              <Routes>
+                <Route path="papers" element={<ReviewerSubmittedPapers />} />
+                <Route path="papers/:id" element={<ReviewerPaperDetails />} />
+                <Route path="/" element={<Navigate to="papers" />} />
+              </Routes>
+              // {/* </ProtectedRoute> */}
             }
           />
           {/* Fallback for any other route */}

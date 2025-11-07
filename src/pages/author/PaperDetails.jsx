@@ -15,6 +15,7 @@ import {
   X,
 } from "lucide-react";
 import api from "../../api/axios";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 // Using the correct, single formatDate function from the reviewer's page
 const formatDate = (dateString) => {
@@ -124,6 +125,15 @@ const PaperDetails = () => {
     }
   };
 
+  const breadcrumbActions = (
+    <Link
+      to="/author/dashboard/papers"
+      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+    >
+      <FileText className="w-4 h-4 me-1.5" />
+      Submitted Papers
+    </Link>
+  );
   // --- Resubmission Component (No Changes) ---
   const ResubmissionSection = () => {
     const [file, setFile] = useState(null);
@@ -174,7 +184,8 @@ const PaperDetails = () => {
           Action Required: Submit Revision
         </h3>
         <p className="text-sm text-yellow-700">
-          Your paper requires revision. Please upload the updated PDF file below.
+          Your paper requires revision. Please upload the updated PDF file
+          below.
         </p>
 
         {!file ? (
@@ -198,7 +209,7 @@ const PaperDetails = () => {
         ) : (
           <div className="flex items-center justify-between p-3 bg-gray-100 border border-gray-300 rounded-md">
             <div className="flex items-center space-x-2 overflow-hidden">
-              <FileText className="h-5 w-5 text-[#521028] flex-shrink-0" />
+              <FileText className="h-5 w-5 text-[#521028] shrink-0" />
               <span className="text-sm font-medium text-gray-800 truncate">
                 {file.name}
               </span>
@@ -209,7 +220,7 @@ const PaperDetails = () => {
                 setFile(null);
                 if (fileInputRef.current) fileInputRef.current.value = null;
               }}
-              className="p-1 text-red-600 rounded-full hover:bg-red-100 flex-shrink-0"
+              className="p-1 text-red-600 rounded-full hover:bg-red-100 shrink-0"
             >
               <X size={20} />
             </button>
@@ -239,18 +250,18 @@ const PaperDetails = () => {
   // --- Render Logic ---
   if (loading && !paperData) {
     return (
-      <DashboardLayout>
+      <Breadcrumbs actions={breadcrumbActions}>
         <div className="flex justify-center items-center h-64">
           <Loader2 className="h-16 w-16 text-[#521028] animate-spin" />
           <p className="ml-4 text-xl text-gray-600">Loading paper details...</p>
         </div>
-      </DashboardLayout>
+      </Breadcrumbs>
     );
   }
 
   if (error || !paperData) {
     return (
-      <DashboardLayout>
+      <Breadcrumbs actions={breadcrumbActions}>
         <div className="flex flex-col justify-center items-center h-64 text-red-600">
           <AlertTriangle className="h-16 w-16 mb-4" />
           <p className="text-2xl font-semibold">{error || "No paper found."}</p>
@@ -261,7 +272,7 @@ const PaperDetails = () => {
             &larr; Back to my papers
           </Link>
         </div>
-      </DashboardLayout>
+      </Breadcrumbs>
     );
   }
 
@@ -278,7 +289,7 @@ const PaperDetails = () => {
   } = paperData;
 
   return (
-    <DashboardLayout>
+    <Breadcrumbs actions={breadcrumbActions}>
       <div className="flex flex-col lg:flex-row gap-6">
         {/* LEFT: Paper Details (No Changes) */}
         <div className="flex-1 space-y-6">
@@ -463,7 +474,7 @@ const PaperDetails = () => {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </Breadcrumbs>
   );
 };
 

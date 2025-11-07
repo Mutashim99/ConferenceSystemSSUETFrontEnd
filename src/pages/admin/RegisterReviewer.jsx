@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import AdminLayout from "../../components/AdminLayout";
 import { Loader2, CheckCircle, AlertTriangle, User, Mail } from "lucide-react";
-import api from "../../api/axios"
-
+import api from "../../api/axios";
+import { Link } from "react-router-dom";
+import { FileText } from "lucide-react";
+import Breadcrumbs from "../../components/Breadcrumbs";
 // --- Main Component ---
 
 const RegisterReviewer = () => {
@@ -20,6 +22,25 @@ const RegisterReviewer = () => {
     setForm({ ...form, [name]: value });
   };
 
+  const breadcrumbActions = (
+    <>
+      <Link
+        to="/admin/dashboard/assign-reviewer"
+        className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+      >
+        <FileText className="w-4 h-4 me-1.5" />
+        Assign reviewer
+      </Link>
+
+      <Link
+        to="/admin/dashboard/papers"
+        className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+      >
+        <FileText className="w-4 h-4 me-1.5" />
+        Submitted Papers
+      </Link>
+    </>
+  );
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -47,7 +68,10 @@ const RegisterReviewer = () => {
   };
 
   return (
-    <AdminLayout>
+    <>
+      <Breadcrumbs actions={breadcrumbActions} />
+
+      {/* <div className="flex flex-col justify-center items-center"> */}
       <h1 className="text-3xl font-bold text-[#521028] mb-6">
         Register New Reviewer
       </h1>
@@ -164,7 +188,8 @@ const RegisterReviewer = () => {
           )}
         </button>
       </form>
-    </AdminLayout>
+      {/* </div> */}
+    </>
   );
 };
 

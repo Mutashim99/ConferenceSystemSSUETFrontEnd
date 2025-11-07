@@ -34,6 +34,8 @@ import {
   List,
 } from "lucide-react";
 import api from "../../api/axios";
+import { Link } from "react-router-dom";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 // --- Helper Functions (No Changes) ---
 
@@ -91,7 +93,7 @@ const ModalProvider = ({ children }) => {
       {children}
       {modalContent && (
         <div
-          className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4 animate-fadeIn"
+          className="fixed inset-0 bg-black/50 z-100 flex items-center justify-center p-4 animate-fadeIn"
           onClick={closeModal}
         >
           <div
@@ -132,7 +134,8 @@ const AdminSubmittedPapersInternal = () => {
     } catch (err) {
       console.error("Error fetching papers:", err);
       setError(
-        err.response?.data?.message || "Failed to fetch papers. Please try again."
+        err.response?.data?.message ||
+          "Failed to fetch papers. Please try again."
       );
     } finally {
       setListLoading(false);
@@ -187,24 +190,23 @@ const AdminSubmittedPapersInternal = () => {
   };
 
   if (!modalContext) {
-    console.error("AdminSubmittedPapersInternal must be wrapped in ModalProvider.");
+    console.error(
+      "AdminSubmittedPapersInternal must be wrapped in ModalProvider."
+    );
     return (
-      <AdminLayout>
+      <>
+        <Breadcrumbs actions={breadcrumbActions} />
         <div className="text-center text-red-600 mt-10">
           <AlertTriangle size={40} className="mx-auto mb-2" />
           <p>Critical Error: ModalContext is missing.</p>
         </div>
-      </AdminLayout>
+      </>
     );
   }
 
   const { openModal, closeModal } = modalContext;
 
-  const handleAdminAction = async (
-    actionName,
-    apiCall,
-    successMessage
-  ) => {
+  const handleAdminAction = async (actionName, apiCall, successMessage) => {
     setActionLoading(actionName);
     setError(null);
     try {
@@ -230,7 +232,8 @@ const AdminSubmittedPapersInternal = () => {
     } catch (err) {
       console.error(`Error during ${actionName}:`, err);
       const message =
-        err.response?.data?.message || `Failed to ${actionName}. Please try again.`;
+        err.response?.data?.message ||
+        `Failed to ${actionName}. Please try again.`;
       setError(message);
     } finally {
       setActionLoading(null);
@@ -242,8 +245,8 @@ const AdminSubmittedPapersInternal = () => {
       <div>
         <h3 className="text-lg font-medium">Confirm Approval</h3>
         <p className="text-sm text-gray-600 my-4">
-          Are you sure you want to approve this paper for review? This will change
-          its status to "PENDING_REVIEW".
+          Are you sure you want to approve this paper for review? This will
+          change its status to "PENDING_REVIEW".
         </p>
         <div className="flex justify-end gap-3">
           <button
@@ -288,6 +291,26 @@ const AdminSubmittedPapersInternal = () => {
       "Reviewer(s) assigned successfully."
     );
   };
+
+  const breadcrumbActions = (
+    <>
+      <Link
+        to="/admin/dashboard/register-reviewer"
+        className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+      >
+        <FileText className="w-4 h-4 me-1.5" />
+        Register Reviewer
+      </Link>
+
+      <Link
+        to="/admin/dashboard/assign-reviewer"
+        className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+      >
+        <FileText className="w-4 h-4 me-1.5" />
+        Assign Reviewer
+      </Link>
+    </>
+  );
 
   const onSetFinalStatus = () => {
     if (!newFinalStatus) {
@@ -343,8 +366,8 @@ const AdminSubmittedPapersInternal = () => {
           <strong className="block mt-2">"{paperTitle}"</strong>?
           <br />
           <br />
-          This will delete the paper, its file, all reviews, and all assignments.
-          This action cannot be undone.
+          This will delete the paper, its file, all reviews, and all
+          assignments. This action cannot be undone.
         </p>
         <div className="flex justify-end gap-3">
           <button
@@ -389,7 +412,8 @@ const AdminSubmittedPapersInternal = () => {
   if (selectedPaper) {
     // --- Detail View (This was already responsive, no changes needed) ---
     return (
-      <AdminLayout>
+      <>
+        <Breadcrumbs actions={breadcrumbActions} />
         {detailLoading ? (
           <div className="flex justify-center items-center h-64">
             <Loader2 className="h-12 w-12 text-[#521028] animate-spin" />
@@ -500,8 +524,7 @@ const AdminSubmittedPapersInternal = () => {
                 <h3 className="text-xl font-semibold text-[#521028] mb-4">
                   Reviews
                 </h3>
-                {selectedPaper.reviews &&
-                selectedPaper.reviews.length > 0 ? (
+                {selectedPaper.reviews && selectedPaper.reviews.length > 0 ? (
                   <div className="space-y-4">
                     {selectedPaper.reviews.map((review) => (
                       <div
@@ -566,8 +589,8 @@ const AdminSubmittedPapersInternal = () => {
                         }`}
                       >
                         <p className="font-semibold">
-                          {feedback.sender.firstName}{" "}
-                          {feedback.sender.lastName} ({feedback.sender.role})
+                          {feedback.sender.firstName} {feedback.sender.lastName}{" "}
+                          ({feedback.sender.role})
                         </p>
                         <p className="mt-1">{feedback.message}</p>
                         <p className="text-xs text-gray-500 text-right mt-1">
@@ -601,7 +624,8 @@ const AdminSubmittedPapersInternal = () => {
                 {selectedPaper.status === "PENDING_APPROVAL" && (
                   <div>
                     <p className="text-sm text-gray-700 mb-3">
-                      This paper is awaiting your approval to be sent for review.
+                      This paper is awaiting your approval to be sent for
+                      review.
                     </p>
                     <button
                       onClick={() => onApprovePaper(selectedPaper.id)}
@@ -766,13 +790,14 @@ const AdminSubmittedPapersInternal = () => {
             </div>
           </div>
         )}
-      </AdminLayout>
+      </>
     );
   }
 
   // --- Main List View (THIS IS THE UPDATED PART) ---
   return (
-    <AdminLayout>
+    <>
+      <Breadcrumbs actions={breadcrumbActions} />
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-[#521028]">Submitted Papers</h1>
       </div>
@@ -797,10 +822,7 @@ const AdminSubmittedPapersInternal = () => {
           {/* --- Mobile Card View (Visible < lg) --- */}
           <div className="lg:hidden space-y-4">
             {papers.map((paper) => (
-              <div
-                key={paper.id}
-                className="bg-white shadow-md rounded-lg p-4"
-              >
+              <div key={paper.id} className="bg-white shadow-md rounded-lg p-4">
                 {/* Top: Title and Status */}
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-lg font-bold text-[#521028] pr-2">
@@ -907,7 +929,7 @@ const AdminSubmittedPapersInternal = () => {
           </div>
         </>
       )}
-    </AdminLayout>
+    </>
   );
 };
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Loader2, FileText, Eye } from "lucide-react";
-import api from "../../api/axios"
-
+import api from "../../api/axios";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 // --- Main Component ---
 const ReviewerSubmittedPapers = () => {
@@ -93,19 +93,27 @@ const ReviewerSubmittedPapers = () => {
     // This navigate call matches the route in App.jsx
     navigate(`/reviewer/dashboard/papers/${paperId}`);
   };
-  
 
+  const breadcrumbActions = (
+    <Link
+      to="/reviewer/dashboard/papers/:id"
+      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+    >
+      <FileText className="w-4 h-4 me-1.5" />
+      Paper Details
+    </Link>
+  );
 
-  // Removed the <ReviewerLayout> wrapper from here
   return (
     <>
+      <Breadcrumbs actions={breadcrumbActions} />
       <h1 className="text-3xl font-bold text-[#521028] mb-6">
         Assigned Papers for Review
       </h1>
       <p className="text-gray-600 mb-6 max-w-2xl">
         Here is a list of all papers that have been assigned to you for review.
-        Click on a paper to view its details, submit your review, and communicate
-        with the author.
+        Click on a paper to view its details, submit your review, and
+        communicate with the author.
       </p>
 
       {error && (
@@ -170,4 +178,3 @@ const ReviewerSubmittedPapers = () => {
 };
 
 export default ReviewerSubmittedPapers;
-

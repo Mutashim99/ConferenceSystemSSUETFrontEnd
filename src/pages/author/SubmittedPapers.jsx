@@ -8,7 +8,10 @@ import {
   Loader2,
   AlertTriangle,
   Eye, // Added for the view button
+  FileText,
 } from "lucide-react";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import { Link } from "react-router-dom";
 
 const SubmittedPapers = () => {
   const navigate = useNavigate();
@@ -186,14 +189,25 @@ const SubmittedPapers = () => {
     );
   };
 
+  const breadcrumbActions = (
+    <Link
+      to="/author/dashboard/submit"
+      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+    >
+      <FileText className="w-4 h-4 me-1.5" />
+      Submit Paper
+    </Link>
+  );
+
   return (
     // Use the correct layout
-    <DashboardLayout>
+    <>
+      <Breadcrumbs actions={breadcrumbActions} />
       <h1 className="text-3xl font-bold text-[#521028] mb-8">
         Submitted Papers
       </h1>
       {renderContent()}
-    </DashboardLayout>
+    </>
   );
 };
 export default SubmittedPapers;

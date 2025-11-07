@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import AdminLayout from "../../components/AdminLayout";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import { Link } from "react-router-dom";
+import { FileText } from "lucide-react";
 
 const AssignReviewer = () => {
   const [paperId, setPaperId] = useState("");
@@ -17,6 +20,25 @@ const AssignReviewer = () => {
     );
   };
 
+  const breadcrumbActions = (
+    <>
+      <Link
+        to="/admin/dashboard/register-reviewer"
+        className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+      >
+        <FileText className="w-4 h-4 me-1.5" />
+        Register Reviewer
+      </Link>
+      <Link
+        to="/admin/dashboard/papers"
+        className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+      >
+        <FileText className="w-4 h-4 me-1.5" />
+        Submitted Papers
+      </Link>
+    </>
+  );
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Assigning reviewers:", {
@@ -29,7 +51,8 @@ const AssignReviewer = () => {
   };
 
   return (
-    <AdminLayout>
+    <>
+      <Breadcrumbs actions={breadcrumbActions} />
       <h1 className="text-2xl font-bold text-[#521028] mb-6">
         Assign Reviewers to Paper
       </h1>
@@ -76,7 +99,7 @@ const AssignReviewer = () => {
           Assign Reviewers
         </button>
       </form>
-    </AdminLayout>
+    </>
   );
 };
 

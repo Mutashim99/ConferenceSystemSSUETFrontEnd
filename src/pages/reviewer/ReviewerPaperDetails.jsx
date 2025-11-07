@@ -17,6 +17,7 @@ import {
 import api from "../../api/axios";
 import ReviewerLayout from "../../components/ReviewerLayout";
 import useAuthStore from "../../store/authStore";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 // --- Helper Functions & Components ---
 
@@ -56,9 +57,7 @@ const StarRating = ({ rating, setRating }) => {
           key={star}
           size={24}
           className={`cursor-pointer ${
-            star <= rating
-              ? "text-yellow-400 fill-yellow-400"
-              : "text-gray-300"
+            star <= rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
           }`}
           onClick={() => setRating(star)}
         />
@@ -147,13 +146,13 @@ const ReviewerPaperDetails = () => {
     fetchPaperDetails();
   }, [fetchPaperDetails]); // UPDATED Dependency
 
-//   // Poll for chat updates
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       fetchPaperDetails();
-//     }, 15000); // Refetch every 15 seconds
-//     return () => clearInterval(interval);
-//   }, [fetchPaperDetails]);
+  //   // Poll for chat updates
+  //   useEffect(() => {
+  //     const interval = setInterval(() => {
+  //       fetchPaperDetails();
+  //     }, 15000); // Refetch every 15 seconds
+  //     return () => clearInterval(interval);
+  //   }, [fetchPaperDetails]);
 
   // Scroll to bottom of chat
   useEffect(() => {
@@ -236,6 +235,15 @@ const ReviewerPaperDetails = () => {
     }
   };
 
+  const breadcrumbActions = (
+    <Link
+      to="/reviewer/dashboard/papers"
+      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+    >
+      <FileText className="w-4 h-4 me-1.5" />
+      Submitted Papers
+    </Link>
+  );
   // --- Render ---
 
   if (loading) {
@@ -248,7 +256,8 @@ const ReviewerPaperDetails = () => {
 
   if (error && !paper) {
     return (
-      <ReviewerLayout>
+      <>
+        <Breadcrumbs actions={breadcrumbActions} />
         <div className="text-center text-red-600 mt-10">
           <AlertTriangle size={40} className="mx-auto mb-2" />
           <h3 className="text-lg font-semibold">Error Loading Paper</h3>
@@ -260,12 +269,12 @@ const ReviewerPaperDetails = () => {
             &larr; Back to all papers
           </Link>
         </div>
-      </ReviewerLayout>
+      </>
     );
   }
 
   if (!paper) {
-    return <ReviewerLayout />; // Should be covered by loading/error
+    return <Breadcrumbs />; // Should be covered by loading/error
   }
 
   return (

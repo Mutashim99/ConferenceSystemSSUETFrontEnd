@@ -1,7 +1,9 @@
 import { useState, useRef } from "react";
-import DashboardLayout from "../../components/DashboardLayout";
+// import DashboardLayout from "../../components/DashboardLayout";
 import { X, Plus, Trash2, UploadCloud, FileText } from "lucide-react";
 import api from "../../api/axios";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import { Link } from "react-router-dom";
 
 const SubmitPaper = () => {
   const [title, setTitle] = useState("");
@@ -158,9 +160,20 @@ const SubmitPaper = () => {
     }
   };
 
+  const breadcrumbActions = (
+    <Link
+      to="/author/dashboard/papers"
+      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+    >
+      <FileText className="w-4 h-4 me-1.5" />
+      Submitted Papers
+    </Link>
+  );
+
   return (
-    <DashboardLayout>
-      <h1 className="text-2xl font-bold text-[#521028] mb-6">
+    <>
+      <Breadcrumbs actions={breadcrumbActions} />
+      <h1 className="text-2xl font-bold text-[#521028] mb-6 flex justify-center">
         Submit Your Paper
       </h1>
 
@@ -354,7 +367,7 @@ const SubmitPaper = () => {
           )}
         </button>
       </form>
-    </DashboardLayout>
+    </>
   );
 };
 
