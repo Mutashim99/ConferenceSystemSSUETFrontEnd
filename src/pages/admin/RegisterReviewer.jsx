@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import AdminLayout from "../../components/AdminLayout";
-import { Loader2, CheckCircle, AlertTriangle, User, Mail } from "lucide-react";
+import {
+  Loader2,
+  CheckCircle,
+  AlertTriangle,
+  User,
+  Mail,
+  BookOpen, // <-- NEW: Added icon
+} from "lucide-react";
 import api from "../../api/axios";
 import { Link } from "react-router-dom";
 import { FileText } from "lucide-react";
@@ -10,7 +17,9 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 const RegisterReviewer = () => {
   const [form, setForm] = useState({
     firstName: "",
+    middleName: "", // <-- NEW
     lastName: "",
+    affiliation: "", // <-- NEW
     email: "",
   });
   const [loading, setLoading] = useState(false);
@@ -24,13 +33,13 @@ const RegisterReviewer = () => {
 
   const breadcrumbActions = (
     <>
-      <Link
+      {/* <Link
         to="/admin/dashboard/assign-reviewer"
         className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
       >
         <FileText className="w-4 h-4 me-1.5" />
         Assign reviewer
-      </Link>
+      </Link> */}
 
       <Link
         to="/admin/dashboard/papers"
@@ -49,13 +58,20 @@ const RegisterReviewer = () => {
 
     try {
       // API Call: POST /api/admin/register-reviewer
+      // The 'form' object now correctly includes all fields
       await api.post("/admin/register-reviewer", form);
 
       setSuccess(
         "Reviewer registered successfully! They will receive an email with their password."
       );
       // Clear the form on success
-      setForm({ firstName: "", lastName: "", email: "" });
+      setForm({
+        firstName: "",
+        middleName: "", // <-- NEW
+        lastName: "",
+        affiliation: "", // <-- NEW
+        email: "",
+      });
     } catch (err) {
       console.error("Error registering reviewer:", err);
       setError(
@@ -109,6 +125,30 @@ const RegisterReviewer = () => {
           </div>
         </div>
 
+        {/* --- NEW: Middle Name (Optional) --- */}
+        <div>
+          <label
+            htmlFor="middleName"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Middle Name <span className="text-gray-400">(Optional)</span>
+          </label>
+          <div className="relative mt-1">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+              <User className="h-5 w-5 text-gray-400" />
+            </span>
+            <input
+              type="text"
+              id="middleName"
+              name="middleName"
+              value={form.middleName}
+              onChange={handleChange}
+              className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
+              placeholder="M."
+            />
+          </div>
+        </div>
+
         {/* Last Name */}
         <div>
           <label
@@ -130,6 +170,31 @@ const RegisterReviewer = () => {
               required
               className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
               placeholder="Doe"
+            />
+          </div>
+        </div>
+
+        {/* --- NEW: Affiliation (Optional) --- */}
+        <div>
+          <label
+            htmlFor="affiliation"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Institute / Affiliation{" "}
+            <span className="text-gray-400">(Optional)</span>
+          </label>
+          <div className="relative mt-1">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+              <BookOpen className="h-5 w-5 text-gray-400" />
+            </span>
+            <input
+              type="text"
+              id="affiliation"
+              name="affiliation"
+              value={form.affiliation}
+              onChange={handleChange}
+              className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
+              placeholder="Example University"
             />
           </div>
         </div>

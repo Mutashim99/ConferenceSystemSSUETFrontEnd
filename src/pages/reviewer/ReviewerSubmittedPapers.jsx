@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Loader2, FileText, Eye } from "lucide-react";
-import api from "../../api/axios";
-import Breadcrumbs from "../../components/Breadcrumbs";
+import {
+  Loader2,
+  FileText,
+  Eye,
+  CheckCircle, // <-- NEW: Added icon
+  Clock, // <-- NEW: Added icon
+} from "lucide-react";
+import api from "../../api/axios"; // <-- Corrected path
+import Breadcrumbs from "../../components/Breadcrumbs"; // <-- Corrected path
 
 // --- Main Component ---
 const ReviewerSubmittedPapers = () => {
   const [papers, setPapers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [viewingPaperId, setViewingPaperId] = useState(null); // <-- NEW
   const navigate = useNavigate();
-
-  // Helper components are expected to be in scope from App.jsx
-  // If StatusBadge or formatDate are not defined, we need to import them
-  // Assuming they are globally available or imported in App.jsx's scope
-  // For safety, let's re-define just the helpers this component needs,
-  // but *not* the layout.
 
   /**
    * Formats a date string.
@@ -66,6 +67,26 @@ const ReviewerSubmittedPapers = () => {
     </span>
   );
 
+  /**
+   * --- NEW: A badge for the reviewer's own status ---
+   */
+  const MyStatusBadge = ({ hasReviewed }) => {
+    if (hasReviewed) {
+      return (
+        <span className="flex items-center text-sm text-green-600 font-medium">
+          <CheckCircle size={16} className="mr-1.5" />
+          Submitted
+        </span>
+      );
+    }
+    return (
+      <span className="flex items-center text-sm text-gray-500 font-medium">
+        <Clock size={16} className="mr-1.5" />
+        Pending
+      </span>
+    );
+  };
+
   useEffect(() => {
     const fetchAssignedPapers = async () => {
       setLoading(true);
@@ -74,7 +95,6 @@ const ReviewerSubmittedPapers = () => {
         // API Call: GET /api/reviewer/papers
         const res = await api.get("/reviewer/papers");
         setPapers(res.data);
-        // This extra brace was causing the error. It has been removed.
       } catch (err) {
         console.error("Error fetching assigned papers:", err);
         setError(
@@ -90,23 +110,14 @@ const ReviewerSubmittedPapers = () => {
   }, []);
 
   const handlePaperClick = (paperId) => {
+    setViewingPaperId(paperId); // <-- NEW: Show loading on button
     // This navigate call matches the route in App.jsx
     navigate(`/reviewer/dashboard/papers/${paperId}`);
   };
 
-  const breadcrumbActions = (
-    <Link
-      to="/reviewer/dashboard/papers/:id"
-      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
-    >
-      <FileText className="w-4 h-4 me-1.5" />
-      Paper Details
-    </Link>
-  );
-
   return (
     <>
-      <Breadcrumbs actions={breadcrumbActions} />
+      <Breadcrumbs /> {/* <-- REMOVED: Unnecessary action prop */}
       <h1 className="text-3xl font-bold text-[#521028] mb-6">
         Assigned Papers for Review
       </h1>
@@ -133,45 +144,107 @@ const ReviewerSubmittedPapers = () => {
           <p>You currently have no papers assigned to you for review.</p>
         </div>
       ) : (
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-          <table className="w-full text-sm text-left border-collapse">
-            <thead className="bg-[#521028] text-white">
-              <tr>
-                <th className="p-3">Title</th>
-                <th className="p-3">Status</th>
-                <th className="p-3">Submitted On</th>
-                <th className="p-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {papers.map((paper) => (
-                <tr
-                  key={paper.id}
-                  className="border-b hover:bg-gray-50 transition"
-                >
-                  <td className="p-3 font-medium text-gray-900">
+        <>
+          {/* --- NEW: Mobile Card View (Visible < lg) --- */}
+          <div className="lg:hidden space-y-4">
+            {papers.map((paper) => (
+              <div key={paper.id} className="bg-white shadow-md rounded-lg p-4">
+                {/* Top: Title and Status */}
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg font-bold text-[#521028] pr-2">
                     {paper.title}
-                  </td>
-                  <td className="p-3">
-                    <StatusBadge status={paper.status} />
-                  </td>
-                  <td className="p-3 text-gray-700">
-                    {formatDate(paper.submittedAt)}
-                  </td>
-                  <td className="p-3">
-                    <button
-                      onClick={() => handlePaperClick(paper.id)}
-                      className="text-[#521028] font-semibold hover:underline flex items-center gap-1 cursor-pointer"
-                    >
-                      <Eye size={16} />
-                      View Details
-                    </button>
-                  </td>
+                  </h3>
+                  <StatusBadge status={paper.status} />
+                </div>
+
+                {/* Details Grid */}
+                <div className="border-t pt-3 grid grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <strong className="block text-xs text-gray-500">
+                      My Status
+                    </strong>
+                    <MyStatusBadge hasReviewed={paper.hasReviewed} />
+                  </div>
+                  <div>
+                    <strong className="block text-xs text-gray-500">
+                      Submitted
+                    </strong>
+                    <p className="font-medium">
+                      {formatDate(paper.submittedAt)}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Action Button */}
+                <button
+                  onClick={() => handlePaperClick(paper.id)}
+                  className="w-full mt-4 bg-[#521028] text-white font-semibold py-2 rounded-md hover:bg-[#6b1b3a] flex items-center justify-center gap-2 disabled:opacity-50"
+                  disabled={viewingPaperId === paper.id}
+                >
+                  {viewingPaperId === paper.id ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <Eye size={16} />
+                  )}
+                  {viewingPaperId === paper.id ? "Loading..." : "View Details"}
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* --- NEW: Desktop Table View (Hidden < lg) --- */}
+          <div className="hidden lg:block bg-white shadow-md rounded-lg overflow-hidden">
+            <table className="w-full text-sm text-left border-collapse">
+              <thead className="bg-[#521028] text-white">
+                <tr>
+                  <th className="p-3">Title</th>
+                  <th className="p-3">Paper Status</th>
+                  <th className="p-3">My Review Status</th>
+                  <th className="p-3">Submitted On</th>
+                  <th className="p-3">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {papers.map((paper) => (
+                  <tr
+                    key={paper.id}
+                    className="border-b hover:bg-gray-50 transition"
+                  >
+                    <td className="p-3 font-medium text-gray-900">
+                      {paper.title}
+                    </td>
+                    <td className="p-3">
+                      <StatusBadge status={paper.status} />
+                    </td>
+                    {/* --- NEW: My Status Column --- */}
+                    <td className="p-3">
+                      <MyStatusBadge hasReviewed={paper.hasReviewed} />
+                    </td>
+                    <td className="p-3 text-gray-700">
+                      {formatDate(paper.submittedAt)}
+                    </td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => handlePaperClick(paper.id)}
+                        className="text-[#521028] font-semibold hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                        disabled={viewingPaperId === paper.id}
+                      >
+                        {viewingPaperId === paper.id ? (
+                          <Loader2 size={16} className="animate-spin" />
+                        ) : (
+                          <Eye size={16} />
+                        )}
+                        {viewingPaperId === paper.id
+                          ? "Loading..."
+                          : "View Details"}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </>
   );

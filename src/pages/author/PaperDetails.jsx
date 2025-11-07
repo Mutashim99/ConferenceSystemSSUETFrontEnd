@@ -1,7 +1,6 @@
-import DashboardLayout from "../../components/DashboardLayout"; // FIX: Using DashboardLayout
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
-import useAuthStore from "../../store/authStore";
+import useAuthStore from "../../store/authStore"; // <-- Corrected path
 import {
   Loader2,
   AlertTriangle,
@@ -13,11 +12,12 @@ import {
   UploadCloud,
   Paperclip,
   X,
+  Download, // <-- NEW: Added Download icon
 } from "lucide-react";
-import api from "../../api/axios";
-import Breadcrumbs from "../../components/Breadcrumbs";
+import api from "../../api/axios"; // <-- Corrected path
+import Breadcrumbs from "../../components/Breadcrumbs"; // <-- Corrected path
 
-// Using the correct, single formatDate function from the reviewer's page
+// Using the correct, single formatDate function
 const formatDate = (dateString) => {
   if (!dateString) return "N/A";
   return new Date(dateString).toLocaleDateString("en-US", {
@@ -40,6 +40,7 @@ const getStatusClass = (status) => {
     case "MINOR_REVISION":
       return "bg-yellow-100 text-yellow-800";
     case "PENDING_APPROVAL":
+      return "bg-cyan-100 text-cyan-800";
     case "PENDING_REVIEW":
     case "UNDER_REVIEW":
     case "RESUBMITTED":
@@ -84,15 +85,16 @@ const PaperDetails = () => {
       console.error("Error fetching paper:", err);
       setError(err.response?.data?.message || "Failed to load paper details.");
     } finally {
+      // Only stop loading if we were in the initial loading state
       if (loading) setLoading(false);
     }
-  }, [id, paperData, loading]);
+  }, [id, paperData, loading]); // Dependencies for useCallback
 
   // Initial load
   useEffect(() => {
     fetchPaper();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id]); // Only run on initial ID change
 
   // Scroll to bottom of chat
   useEffect(() => {
@@ -117,6 +119,8 @@ const PaperDetails = () => {
       setNewMessage("");
 
       // 3. Re-fetch all paper data (which includes the new message)
+      // We call fetchPaper directly, which will get new data
+      // but won't trigger the main loading spinner
       fetchPaper();
     } catch (err) {
       console.error("Error sending message:", err);
@@ -134,6 +138,7 @@ const PaperDetails = () => {
       Submitted Papers
     </Link>
   );
+
   // --- Resubmission Component (No Changes) ---
   const ResubmissionSection = () => {
     const [file, setFile] = useState(null);
@@ -250,18 +255,21 @@ const PaperDetails = () => {
   // --- Render Logic ---
   if (loading && !paperData) {
     return (
-      <Breadcrumbs actions={breadcrumbActions}>
+      <>
+      
+      <Breadcrumbs actions={breadcrumbActions}/>
         <div className="flex justify-center items-center h-64">
           <Loader2 className="h-16 w-16 text-[#521028] animate-spin" />
           <p className="ml-4 text-xl text-gray-600">Loading paper details...</p>
         </div>
-      </Breadcrumbs>
+      </>
     );
   }
 
   if (error || !paperData) {
     return (
-      <Breadcrumbs actions={breadcrumbActions}>
+      <>
+      <Breadcrumbs actions={breadcrumbActions}/>
         <div className="flex flex-col justify-center items-center h-64 text-red-600">
           <AlertTriangle className="h-16 w-16 mb-4" />
           <p className="text-2xl font-semibold">{error || "No paper found."}</p>
@@ -272,7 +280,7 @@ const PaperDetails = () => {
             &larr; Back to my papers
           </Link>
         </div>
-      </Breadcrumbs>
+      </>
     );
   }
 
@@ -283,15 +291,16 @@ const PaperDetails = () => {
     keywords,
     status,
     submittedAt,
-    coAuthors,
+    authors, // <-- CHANGED: from coAuthors
     reviews,
     feedbacks,
   } = paperData;
 
   return (
-    <Breadcrumbs actions={breadcrumbActions}>
+    <>
+    <Breadcrumbs actions={breadcrumbActions} />
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* LEFT: Paper Details (No Changes) */}
+        {/* LEFT: Paper Details */}
         <div className="flex-1 space-y-6">
           <div className="bg-white shadow-lg rounded-lg p-6">
             <h1 className="text-3xl font-bold text-[#521028] mb-4">{title}</h1>
@@ -313,7 +322,8 @@ const PaperDetails = () => {
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 text-[#521028] font-semibold hover:underline"
                 >
-                  <FileText size={18} /> View Paper PDF
+                  {/* --- CHANGED: Used Download icon --- */}
+                  <Download size={18} /> View Paper PDF
                 </a>
               )}
             </div>
@@ -333,19 +343,37 @@ const PaperDetails = () => {
             </p>
           </div>
 
-          {coAuthors?.length > 0 && (
+          {/* --- CHANGED: "Authors" section --- */}
+          {authors?.length > 0 && (
             <div className="bg-white shadow-lg rounded-lg p-6">
               <h2 className="text-xl font-semibold text-[#521028] mb-3 flex items-center gap-2">
                 <Users size={20} /> Authors
               </h2>
-              <ul className="list-disc ml-5 text-gray-700 space-y-1">
-                {coAuthors.map((co, index) => (
-                  <li key={co.id || index}>{co.name}</li>
+              <ul className="list-none pl-0 text-sm text-gray-700 space-y-2">
+                {authors.map((author) => (
+                  <li key={author.id} className="border-t pt-2 first:border-t-0">
+                    <span className="font-semibold">
+                      {author.salutation} {author.name}
+                    </span>
+                    {/* --- NEW: Added corresponding badge --- */}
+                    {author.isCorresponding && (
+                      <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded">
+                        Corresponding
+                      </span>
+                    )}
+                    <br />
+                    <span className="text-xs text-gray-500">{author.email}</span>
+                    <br />
+                    <span className="text-xs text-gray-500">
+                      {author.institute || "No institute"}
+                    </span>
+                  </li>
                 ))}
               </ul>
             </div>
           )}
 
+          {/* --- CHANGED: "Reviews" section --- */}
           <div className="bg-white shadow-lg rounded-lg p-6">
             <h2 className="text-xl font-semibold text-[#521028] mb-3 flex items-center gap-2">
               <MessageSquare size={20} /> Reviews
@@ -364,9 +392,7 @@ const PaperDetails = () => {
                       {review.comments}
                     </p>
                     <div className="flex flex-wrap gap-4 mt-3 text-sm">
-                      <p className="text-gray-600">
-                        <strong>Rating:</strong> {review.rating} / 5
-                      </p>
+                      {/* --- REMOVED: Rating paragraph --- */}
                       <p className="text-gray-600">
                         <strong>Recommendation:</strong>
                         <span
@@ -390,11 +416,11 @@ const PaperDetails = () => {
         </div>
 
         {/* ---
-         RIGHT: Chat Sidebar (STYLES COPIED FROM REVIEWER)
+          RIGHT: Chat Sidebar (No Changes)
         --- */}
         <div className="w-full lg:w-[35%] lg:max-w-md">
           <div className="bg-white shadow-lg rounded-lg flex flex-col h-96 lg:h-[80vh] lg:sticky lg:top-24">
-            {/* Header - Copied from Reviewer */}
+            {/* Header */}
             <div className="border-b p-4 bg-[#521028] text-white rounded-t-lg">
               <h2 className="font-semibold text-lg flex items-center gap-2">
                 <MessageSquare size={20} />
@@ -411,21 +437,23 @@ const PaperDetails = () => {
                 </div>
               )}
 
-              {/* BUBBLE LOGIC - Copied from Reviewer */}
+              {/* Bubble Logic */}
               {feedbacks.map((msg, index) => {
-                const isAuthor = msg.senderId === currentUserId; // isAuthor is the current user
+                // Check if the sender is the *currently logged-in* user.
+                const isMyMessage = msg.sender.id === currentUserId;
+
                 return (
                   <div
                     key={msg.id || index}
                     className={`flex flex-col ${
-                      isAuthor ? "items-end" : "items-start"
+                      isMyMessage ? "items-end" : "items-start"
                     }`}
                   >
                     <div
                       className={`max-w-[85%] w-fit p-3 rounded-lg text-sm ${
-                        isAuthor
-                          ? "bg-[#521028] text-white rounded-br-none" // Author (current user) is PURPLE
-                          : "bg-gray-100 text-gray-800 rounded-bl-none" // Other is GRAY
+                        isMyMessage
+                          ? "bg-[#521028] text-white rounded-br-none" // My message
+                          : "bg-gray-100 text-gray-800 rounded-bl-none" // Their message
                       }`}
                     >
                       <p className="font-semibold text-xs mb-1">
@@ -435,7 +463,7 @@ const PaperDetails = () => {
                       <p className="whitespace-pre-wrap">{msg.message}</p>
                       <p
                         className={`text-[10px] mt-1 text-right ${
-                          isAuthor ? "text-gray-300" : "text-gray-500"
+                          isMyMessage ? "text-gray-300" : "text-gray-500"
                         }`}
                       >
                         {formatDate(msg.sentAt)}
@@ -447,7 +475,7 @@ const PaperDetails = () => {
               <div ref={chatEndRef} />
             </div>
 
-            {/* Message Input - Copied from Reviewer */}
+            {/* Message Input */}
             <form
               onSubmit={handleSendMessage}
               className="border-t p-3 flex items-center gap-2"
@@ -474,7 +502,7 @@ const PaperDetails = () => {
           </div>
         </div>
       </div>
-    </Breadcrumbs>
+      </>
   );
 };
 

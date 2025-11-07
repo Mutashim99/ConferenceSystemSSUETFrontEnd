@@ -93,7 +93,7 @@ const ModalProvider = ({ children }) => {
       {children}
       {modalContent && (
         <div
-          className="fixed inset-0 bg-black/50 z-100 flex items-center justify-center p-4 animate-fadeIn"
+          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 animate-fadeIn"
           onClick={closeModal}
         >
           <div
@@ -302,13 +302,13 @@ const AdminSubmittedPapersInternal = () => {
         Register Reviewer
       </Link>
 
-      <Link
+      {/* <Link
         to="/admin/dashboard/assign-reviewer"
         className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
       >
         <FileText className="w-4 h-4 me-1.5" />
         Assign Reviewer
-      </Link>
+      </Link> */}
     </>
   );
 
@@ -468,8 +468,9 @@ const AdminSubmittedPapersInternal = () => {
 
                 {/* --- Author & Co-Authors --- */}
                 <div className="mt-6 pt-4 border-t">
+                  {/* --- CHANGED: Renamed to Submitter --- */}
                   <h4 className="text-base font-semibold text-gray-800 mb-2">
-                    Corresponding Author
+                    Submitter
                   </h4>
                   <p className="text-sm text-gray-700">
                     {selectedPaper.author.firstName}{" "}
@@ -485,22 +486,33 @@ const AdminSubmittedPapersInternal = () => {
                     </span>
                   </p>
 
-                  {selectedPaper.coAuthors &&
-                    selectedPaper.coAuthors.length > 0 && (
+                  {/* --- CHANGED: Reads from `authors` instead of `coAuthors` --- */}
+                  {selectedPaper.authors &&
+                    selectedPaper.authors.length > 0 && (
                       <>
                         <h4 className="text-base font-semibold text-gray-800 mt-4 mb-2">
-                          Co-Authors
+                          All Authors
                         </h4>
-                        <ul className="list-disc pl-5 text-sm text-gray-700 space-y-1">
-                          {selectedPaper.coAuthors.map((coAuthor) => (
-                            <li key={coAuthor.id}>
-                              {coAuthor.name}
-                              {coAuthor.affiliation && (
-                                <span className="text-xs text-gray-500">
-                                  {" "}
-                                  ({coAuthor.affiliation})
+                        <ul className="list-none pl-0 text-sm text-gray-700 space-y-2">
+                          {selectedPaper.authors.map((author) => (
+                            <li key={author.id} className="border-t pt-2">
+                              <span className="font-semibold">
+                                {author.salutation} {author.name}
+                              </span>
+                              {/* --- NEW: Added corresponding badge --- */}
+                              {author.isCorresponding && (
+                                <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded">
+                                  Corresponding
                                 </span>
                               )}
+                              <br />
+                              <span className="text-xs text-gray-500">
+                                {author.email}
+                              </span>
+                              <br />
+                              <span className="text-xs text-gray-500">
+                                {author.institute || "No institute"}
+                              </span>
                             </li>
                           ))}
                         </ul>
@@ -538,23 +550,9 @@ const AdminSubmittedPapersInternal = () => {
                           </p>
                           <StatusBadge status={review.recommendation} />
                         </div>
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                          <strong>Rating:</strong>
-                          <div className="flex">
-                            {[...Array(5)].map((_, i) => (
-                              <Star
-                                key={i}
-                                size={16}
-                                className={
-                                  i < review.rating
-                                    ? "text-yellow-400 fill-yellow-400"
-                                    : "text-gray-300"
-                                }
-                              />
-                            ))}
-                          </div>
-                          ({review.rating}/5)
-                        </div>
+
+                        {/* --- REMOVED: Rating and Star display removed --- */}
+
                         <p className="text-gray-700 text-sm mt-3 whitespace-pre-wrap">
                           {review.comments}
                         </p>

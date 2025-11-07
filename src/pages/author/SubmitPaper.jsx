@@ -1,20 +1,42 @@
-import { useState, useRef } from "react";
-// import DashboardLayout from "../../components/DashboardLayout";
-import { X, Plus, Trash2, UploadCloud, FileText } from "lucide-react";
-import api from "../../api/axios";
-import Breadcrumbs from "../../components/Breadcrumbs";
+import { useState, useRef, useEffect } from "react";
+import {
+  X,
+  Plus,
+  Trash2,
+  UploadCloud,
+  FileText,
+  User,
+  Mail,
+  BookOpen,
+  AlertTriangle,
+  CheckCircle,
+  Loader2, // <-- Added Loader2 for submit button
+} from "lucide-react";
+import api from "../../api/axios"; // <-- Corrected path
+import Breadcrumbs from "../../components/Breadcrumbs"; // <-- Corrected path
 import { Link } from "react-router-dom";
+import useAuthStore from "../../store/authStore"; // <-- Corrected path
+
+// --- NEW: Salutation Options ---
+const SALUTATION_OPTIONS = ["Mr", "Ms", "Mrs", "Dr", "Prof", "Mx"];
 
 const SubmitPaper = () => {
+
   const [title, setTitle] = useState("");
   const [abstract, setAbstract] = useState("");
   const [keywords, setKeywords] = useState("");
+  const [topicArea, setTopicArea] = useState("");
   const [file, setFile] = useState(null);
-  // Start with 3 co-author inputs as requested
-  const [coAuthors, setCoAuthors] = useState([
-    { name: "" },
-    { name: "" },
-    { name: "" },
+
+  // --- CHANGED: Updated state to start with one blank author ---
+  const [authors, setAuthors] = useState([
+    {
+      salutation: "Mr",
+      name: "",
+      email: "",
+      institute: "",
+      isCorresponding: false, // <-- Default to false
+    },
   ]);
 
   const [loading, setLoading] = useState(false);
@@ -23,26 +45,44 @@ const SubmitPaper = () => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
-  // --- Co-Author Logic ---
-  const handleCoAuthorChange = (index, value) => {
-    const newCoAuthors = [...coAuthors];
-    newCoAuthors[index].name = value;
-    setCoAuthors(newCoAuthors);
+  // --- REMOVED: useEffect for pre-filling author info ---
+
+  // --- Author Logic ---
+  const handleAuthorChange = (index, field, value) => {
+    const newAuthors = [...authors];
+    newAuthors[index][field] = value;
+    setAuthors(newAuthors);
   };
 
-  const addCoAuthor = () => {
-    // Add new co-author input, up to a max of 6
-    if (coAuthors.length < 6) {
-      setCoAuthors([...coAuthors, { name: "" }]);
+  const addAuthor = () => {
+    if (authors.length < 6) {
+      setAuthors([
+        ...authors,
+        // Add a new blank author object
+        {
+          salutation: "Mr",
+          name: "",
+          email: "",
+          institute: "",
+          isCorresponding: false,
+        },
+      ]);
     }
   };
 
-  const removeCoAuthor = (index) => {
-    const newCoAuthors = coAuthors.filter((_, i) => i !== index);
-    setCoAuthors(newCoAuthors);
+  // --- CHANGED: Updated removal logic ---
+  const removeAuthor = (index) => {
+    // Prevent removing the last author
+    if (authors.length <= 1) {
+      setError("You must have at least one author.");
+      setTimeout(() => setError(null), 3000); // Clear error after 3s
+      return;
+    }
+    const newAuthors = authors.filter((_, i) => i !== index);
+    setAuthors(newAuthors);
   };
 
-  // --- File Handling Logic ---
+  // --- File Handling Logic (Unchanged) ---
   const validateFile = (file) => {
     if (file && file.type === "application/pdf") {
       setFile(file);
@@ -94,12 +134,23 @@ const SubmitPaper = () => {
   };
 
   // --- Form Submission Logic ---
+  // --- CHANGED: Updated resetForm logic ---
   const resetForm = () => {
     setTitle("");
     setAbstract("");
     setKeywords("");
+    setTopicArea("");
     setFile(null);
-    setCoAuthors([{ name: "" }, { name: "" }, { name: "" }]);
+    // Reset authors to one blank author
+    setAuthors([
+      {
+        salutation: "Mr",
+        name: "",
+        email: "",
+        institute: "",
+        isCorresponding: false,
+      },
+    ]);
     if (fileInputRef.current) {
       fileInputRef.current.value = null;
     }
@@ -111,10 +162,27 @@ const SubmitPaper = () => {
     setSuccess(null);
 
     // --- Validation ---
-    if (!title || !abstract || !keywords || !file) {
+    if (!title || !abstract || !keywords || !topicArea || !file) {
       setError("Please fill in all required fields and upload a PDF file.");
       return;
     }
+
+    // --- Validate all author fields ---
+    for (const author of authors) {
+      if (!author.name || !author.email || !author.institute) {
+        setError(
+          `Please fill in all fields (Name, Email, Institute) for all authors.`
+        );
+        return;
+      }
+    }
+
+    // --- Check that at least one corresponding author is selected ---
+    if (!authors.some((a) => a.isCorresponding)) {
+      setError("Please select at least one corresponding author.");
+      return;
+    }
+
     // --- File size check (20MB max) ---
     const MAX_SIZE_MB = 20;
     const fileSizeMB = file.size / (1024 * 1024);
@@ -126,21 +194,15 @@ const SubmitPaper = () => {
     setLoading(true);
 
     // --- Create FormData ---
-    // This is required by your API spec
     const formData = new FormData();
     formData.append("title", title);
     formData.append("abstract", abstract);
     formData.append("keywords", keywords);
+    formData.append("topicArea", topicArea);
     formData.append("paper", file);
 
-    // Filter out empty co-author names, format as [{"name": "..."}],
-    // and stringify the array as required by your API.
-    const validCoAuthors = coAuthors
-      .map((a) => a.name.trim()) // Get names and trim whitespace
-      .filter((name) => name !== "") // Filter out empty strings
-      .map((name) => ({ name })); // Format into objects
-
-    formData.append("coAuthors", JSON.stringify(validCoAuthors));
+    const validAuthors = authors.filter((a) => a.name.trim() !== "");
+    formData.append("authors", JSON.stringify(validAuthors));
 
     try {
       // Make the API call
@@ -154,7 +216,10 @@ const SubmitPaper = () => {
       resetForm();
     } catch (err) {
       console.log(err);
-      setError(err.response?.data?.message || "Paper submission failed.");
+      setError(
+        err.response?.data ||
+          "Paper submission failed. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -191,7 +256,7 @@ const SubmitPaper = () => {
             name="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+            className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
             placeholder="Enter paper title"
             required
           />
@@ -206,7 +271,7 @@ const SubmitPaper = () => {
             name="abstract"
             value={abstract}
             onChange={(e) => setAbstract(e.target.value)}
-            className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+            className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
             rows="5"
             placeholder="Write abstract here"
             required
@@ -223,7 +288,7 @@ const SubmitPaper = () => {
             name="keywords"
             value={keywords}
             onChange={(e) => setKeywords(e.target.value)}
-            className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+            className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
             placeholder="e.g., AI, ML, Data Science"
             required
           />
@@ -232,36 +297,169 @@ const SubmitPaper = () => {
           </p>
         </div>
 
-        {/* Co-Authors (Dynamic) */}
+        {/* --- NEW: Topic Area --- */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700">
+            Topic Area
+          </label>
+          <input
+            type="text"
+            name="topicArea"
+            value={topicArea}
+            onChange={(e) => setTopicArea(e.target.value)}
+            className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+            placeholder="e.g., Natural Language Processing"
+            required
+          />
+        </div>
+
+        {/* --- Authors (Dynamic) --- */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Authors Names (up to 6)
+            Authors (up to 6)
           </label>
-          <div className="space-y-2">
-            {coAuthors.map((author, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                <input
-                  type="text"
-                  value={author.name}
-                  onChange={(e) => handleCoAuthorChange(index, e.target.value)}
-                  className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
-                  placeholder={`Author ${index + 1} full name`}
-                />
+          <div className="space-y-4">
+            {authors.map((author, index) => (
+              <div
+                key={index}
+                className="border border-gray-200 rounded-lg p-4 space-y-4 relative"
+              >
+                {/* --- CHANGED: Allow removing first author if not the last one --- */}
                 <button
                   type="button"
-                  onClick={() => removeCoAuthor(index)}
-                  className="p-2 text-red-600 rounded-md hover:bg-red-100"
+                  onClick={() => removeAuthor(index)}
+                  className="absolute top-2 right-2 p-1 text-red-600 rounded-full hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={authors.length <= 1} // Can't remove the last author
                 >
-                  <Trash2 size={20} />
+                  <Trash2 size={18} />
                 </button>
+
+                {/* --- CHANGED: Removed "Primary Author" text --- */}
+                <p className="font-semibold text-gray-800">
+                  Author {index + 1}
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Salutation */}
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Salutation
+                    </label>
+                    <select
+                      value={author.salutation}
+                      onChange={(e) =>
+                        handleAuthorChange(index, "salutation", e.target.value)
+                      }
+                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028] bg-white"
+                    >
+                      {SALUTATION_OPTIONS.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Full Name */}
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Full Name
+                    </label>
+                    <div className="relative">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <User className="h-5 w-5 text-gray-400" />
+                      </span>
+                      <input
+                        type="text"
+                        value={author.name}
+                        onChange={(e) =>
+                          handleAuthorChange(index, "name", e.target.value)
+                        }
+                        className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+                        placeholder="Full name"
+                        required
+                        // --- REMOVED: disabled prop ---
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Email
+                    </label>
+                    <div className="relative">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <Mail className="h-5 w-5 text-gray-400" />
+                      </span>
+                      <input
+                        type="email"
+                        value={author.email}
+                        onChange={(e) =>
+                          handleAuthorChange(index, "email", e.target.value)
+                        }
+                        className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+                        placeholder="author@example.com"
+                        required
+                        // --- REMOVED: disabled prop ---
+                      />
+                    </div>
+                  </div>
+
+                  {/* Institute */}
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                      Institute / Affiliation
+                    </label>
+                    <div className="relative">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <BookOpen className="h-5 w-5 text-gray-400" />
+                      </span>
+                      <input
+                        type="text"
+                        value={author.institute}
+                        onChange={(e) =>
+                          handleAuthorChange(index, "institute", e.target.value)
+                        }
+                        className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+                        placeholder="Example University"
+                        required
+                        // --- REMOVED: disabled prop ---
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Corresponding Author Checkbox */}
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={`corresponding-${index}`}
+                    checked={author.isCorresponding}
+                    onChange={(e) =>
+                      handleAuthorChange(
+                        index,
+                        "isCorresponding",
+                        e.target.checked
+                      )
+                    }
+                    className="h-4 w-4 text-[#521028] border-gray-300 rounded focus:ring-[#521028]"
+                  />
+                  <label
+                    htmlFor={`corresponding-${index}`}
+                    className="ml-2 block text-sm text-gray-900"
+                  >
+                    Corresponding Author
+                  </label>
+                </div>
               </div>
             ))}
           </div>
           <button
             type="button"
-            onClick={addCoAuthor}
-            disabled={coAuthors.length >= 6}
-            className="mt-2 flex items-center space-x-1 text-sm font-semibold text-[#521028] hover:text-[#6b1b3a] disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={addAuthor}
+            disabled={authors.length >= 6}
+            className="mt-3 flex items-center space-x-1 text-sm font-semibold text-[#521028] hover:text-[#6b1b3a] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Plus size={16} />
             <span>Add Another Author</span>
@@ -300,22 +498,22 @@ const SubmitPaper = () => {
                   />
                   <p className="pl-1">or drag and drop</p>
                 </div>
-                <p className="text-xs text-gray-500">PDF only (max 10MB)</p>
+                <p className="text-xs text-gray-500">PDF only (max 20MB)</p>
               </div>
             </div>
           ) : (
             // Show selected file
             <div className="mt-2 flex items-center justify-between p-3 bg-gray-100 border border-gray-300 rounded-md">
-              <div className="flex items-center space-x-2">
-                <FileText className="h-5 w-5 text-[#521028]" />
-                <span className="text-sm font-medium text-gray-800 truncate max-w-[150px] sm:max-w-[200px] md:max-w-[300px]">
+              <div className="flex items-center space-x-2 overflow-hidden">
+                <FileText className="h-5 w-5 text-[#521028] flex-shrink-0" />
+                <span className="text-sm font-medium text-gray-800 truncate">
                   {file.name}
                 </span>
               </div>
               <button
                 type="button"
                 onClick={removeFile}
-                className="p-1 text-red-600 rounded-full hover:bg-red-100"
+                className="p-1 text-red-600 rounded-full hover:bg-red-1Go"
               >
                 <X size={20} />
               </button>
@@ -325,14 +523,16 @@ const SubmitPaper = () => {
 
         {/* Notifications */}
         {error && (
-          <p className="text-red-600 text-sm text-center font-medium">
-            {error}
-          </p>
+          <div className="bg-red-50 border border-red-300 text-red-800 text-sm p-3 rounded-md flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5" />
+            <span>{error}</span>
+          </div>
         )}
         {success && (
-          <p className="text-green-600 text-sm text-center font-medium">
-            {success}
-          </p>
+          <div className="bg-green-50 border border-green-300 text-green-800 text-sm p-3 rounded-md flex items-center gap-2">
+            <CheckCircle className="h-5 w-5" />
+            <span>{success}</span>
+          </div>
         )}
 
         {/* Submit Button */}
@@ -342,26 +542,7 @@ const SubmitPaper = () => {
           className="w-full flex justify-center py-3 mt-4 bg-[#521028] text-white font-semibold rounded-md hover:bg-[#6b1b3a] transition-colors disabled:opacity-70"
         >
           {loading ? (
-            <svg
-              className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
+            <Loader2 className="h-5 w-5 animate-spin" />
           ) : (
             "Submit Paper"
           )}

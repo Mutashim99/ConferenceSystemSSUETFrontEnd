@@ -9,21 +9,17 @@ import {
   BookOpen,
   Send,
   Download,
-  Star,
+  // Star, // <-- REMOVED
   CheckCircle,
   Edit,
   Users,
 } from "lucide-react";
-import api from "../../api/axios";
-import ReviewerLayout from "../../components/ReviewerLayout";
-import useAuthStore from "../../store/authStore";
-import Breadcrumbs from "../../components/Breadcrumbs";
+import api from "../../api/axios"; // <-- Corrected path
+
+import useAuthStore from "../../store/authStore"; // <-- Corrected path
+import Breadcrumbs from "../../components/Breadcrumbs"; // <-- Corrected path
 
 // --- Helper Functions & Components ---
-
-/**
- * Formats a date string.
- */
 
 /**
  * Formats a date string.
@@ -47,26 +43,7 @@ const RECOMMENDATION_OPTIONS = [
   "MAJOR_REVISION",
 ];
 
-// Star rating component
-const StarRating = ({ rating, setRating }) => {
-  return (
-    <div className="flex items-center gap-1">
-      {/* CHANGE: Updated to 5 stars */}
-      {[1, 2, 3, 4, 5].map((star) => (
-        <Star
-          key={star}
-          size={24}
-          className={`cursor-pointer ${
-            star <= rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
-          }`}
-          onClick={() => setRating(star)}
-        />
-      ))}
-      {/* CHANGE: Updated to /5 */}
-      <span className="ml-2 font-bold text-lg text-gray-700">{rating}/5</span>
-    </div>
-  );
-};
+// --- REMOVED: StarRating component is no longer needed ---
 
 // --- Main Component ---
 
@@ -83,13 +60,13 @@ const ReviewerPaperDetails = () => {
   // For the review form
   const [reviewForm, setReviewForm] = useState({
     comments: "",
-    rating: 3, // Default rating
+    // --- REMOVED: rating is no longer part of the review ---
     recommendation: "MINOR_REVISION",
   });
   const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
   const [reviewLoading, setReviewLoading] = useState(false);
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // ADDED
-  const [successMessage, setSuccessMessage] = useState(""); // ADDED
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   // For the chat
   const [newMessage, setNewMessage] = useState("");
@@ -116,8 +93,7 @@ const ReviewerPaperDetails = () => {
       if (myReview) {
         setReviewForm({
           comments: myReview.comments,
-          // CHANGE: Ensure rating is max 5
-          rating: Math.max(1, Math.min(5, myReview.rating)),
+          // --- REMOVED: rating is no longer used ---
           recommendation: myReview.recommendation,
         });
         setIsReviewSubmitted(true);
@@ -125,7 +101,7 @@ const ReviewerPaperDetails = () => {
         // No review found for this user, set defaults
         setReviewForm({
           comments: "",
-          rating: 3,
+          // --- REMOVED: rating is no longer used ---
           recommendation: "MINOR_REVISION",
         });
         setIsReviewSubmitted(false);
@@ -140,19 +116,11 @@ const ReviewerPaperDetails = () => {
     } finally {
       setLoading(false);
     }
-  }, [id, user?.id]); // UPDATED Dependencies
+  }, [id, user?.id, paper]); // UPDATED Dependencies
 
   useEffect(() => {
     fetchPaperDetails();
-  }, [fetchPaperDetails]); // UPDATED Dependency
-
-  //   // Poll for chat updates
-  //   useEffect(() => {
-  //     const interval = setInterval(() => {
-  //       fetchPaperDetails();
-  //     }, 15000); // Refetch every 15 seconds
-  //     return () => clearInterval(interval);
-  //   }, [fetchPaperDetails]);
+  }, [id, user?.id]); // UPDATED Dependency
 
   // Scroll to bottom of chat
   useEffect(() => {
@@ -168,27 +136,25 @@ const ReviewerPaperDetails = () => {
     setReviewForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleRatingChange = (newRating) => {
-    setReviewForm((prev) => ({ ...prev, rating: newRating }));
-  };
+  // --- REMOVED: handleRatingChange is no longer needed ---
 
   /**
    * Submit or Update the review
    */
-  // UPDATED Function
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     setReviewLoading(true);
     setError(null);
-    const wasAlreadySubmitted = isReviewSubmitted; // ADDED: Capture state before submit
+    const wasAlreadySubmitted = isReviewSubmitted;
 
     try {
       // API Call: POST /api/reviewer/papers/:id/review
+      // reviewForm state no longer contains rating, so this is correct.
       await api.post(`/reviewer/papers/${id}/review`, reviewForm);
       // Refresh data to show updated review
       fetchPaperDetails();
 
-      // --- ADDED: Show success popup ---
+      // --- Show success popup ---
       setSuccessMessage(
         wasAlreadySubmitted
           ? "Review updated successfully!"
@@ -196,7 +162,6 @@ const ReviewerPaperDetails = () => {
       );
       setShowSuccessPopup(true);
       setTimeout(() => setShowSuccessPopup(false), 3000); // Hide after 3s
-      // --- END ADDED ---
     } catch (err) {
       console.error("Error submitting review:", err);
       setError(
@@ -278,6 +243,8 @@ const ReviewerPaperDetails = () => {
   }
 
   return (
+    <>
+    <Breadcrumbs actions={breadcrumbActions} />
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Left Column (Paper Info & Review Form) */}
       <div className="lg:col-span-2 space-y-6">
@@ -319,24 +286,20 @@ const ReviewerPaperDetails = () => {
           </p>
         </div>
 
-        {/* ADD: Author Info Card */}
+        {/* --- CHANGED: Author Info Card --- */}
         {paper.author && (
           <div className="bg-white shadow-lg rounded-lg p-6">
             <h3 className="text-xl font-semibold text-[#521028] mb-4">
               <Users size={20} className="inline-block mr-2" />
               Author Information
             </h3>
-            {/* Main Author */}
+            {/* Submitter Info (Kept blind) */}
             <div className="mb-4">
               <h4 className="text-base font-semibold text-gray-800 mb-1">
-                Corresponding Author
+                Submitter
               </h4>
               <p className="text-sm text-gray-700">
                 {paper.author.firstName} {paper.author.lastName}
-                <br />
-                <span className="text-xs text-gray-500">
-                  {paper.author.email}
-                </span>
                 <br />
                 <span className="text-xs text-gray-500">
                   {paper.author.affiliation || "No affiliation listed"}
@@ -344,20 +307,20 @@ const ReviewerPaperDetails = () => {
               </p>
             </div>
 
-            {/* Co-Authors */}
-            {paper.coAuthors && paper.coAuthors.length > 0 && (
+            {/* --- CHANGED: Reads from `paper.authors` --- */}
+            {paper.authors && paper.authors.length > 0 && (
               <div className="border-t pt-4">
                 <h4 className="text-base font-semibold text-gray-800 mb-2">
-                  Co-Authors
+                  All Authors
                 </h4>
                 <ul className="list-disc pl-5 text-sm text-gray-700 space-y-1">
-                  {paper.coAuthors.map((coAuthor) => (
-                    <li key={coAuthor.id}>
-                      {coAuthor.name}
-                      {coAuthor.affiliation && (
+                  {paper.authors.map((author) => (
+                    <li key={author.id}>
+                      {author.salutation} {author.name}
+                      {author.institute && (
                         <span className="text-xs text-gray-500">
                           {" "}
-                          ({coAuthor.affiliation})
+                          ({author.institute})
                         </span>
                       )}
                     </li>
@@ -381,17 +344,7 @@ const ReviewerPaperDetails = () => {
             </div>
           )}
           <form onSubmit={handleReviewSubmit} className="space-y-4">
-            {/* Rating */}
-            <div>
-              {/* CHANGE: Updated label */}
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Overall Rating (1-5)
-              </label>
-              <StarRating
-                rating={reviewForm.rating}
-                setRating={handleRatingChange}
-              />
-            </div>
+            {/* --- REMOVED: Rating section --- */}
 
             {/* Recommendation */}
             <div>
@@ -430,20 +383,19 @@ const ReviewerPaperDetails = () => {
                 rows="8"
                 value={reviewForm.comments}
                 onChange={handleReviewFormChange}
-                className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#5BETLA-G2] focus:outline-none"
+                className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
                 placeholder="Provide constructive feedback for the author..."
                 required
               />
             </div>
 
-            {/* --- ADDED: Success Popup --- */}
+            {/* --- Success Popup --- */}
             {showSuccessPopup && (
               <div className="bg-green-100 border border-green-300 text-green-800 p-3 rounded-md text-sm mb-4 flex items-center gap-2">
                 <CheckCircle size={18} />
                 <span>{successMessage}</span>
               </div>
             )}
-            {/* --- END ADDED --- */}
 
             {/* Error for review form */}
             {error && (
@@ -542,6 +494,7 @@ const ReviewerPaperDetails = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
