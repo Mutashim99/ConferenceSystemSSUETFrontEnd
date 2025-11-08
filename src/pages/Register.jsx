@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthStore from "../store/authStore";
-
+import Navbar from "../components/Navbar";
 // --- 5. Register Component (Fixed) ---
 const Register = () => {
   const [formData, setFormData] = useState({

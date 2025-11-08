@@ -56,6 +56,7 @@ const ReviewerPaperDetails = () => {
   const [paper, setPaper] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   // For the review form
   const [reviewForm, setReviewForm] = useState({
@@ -244,256 +245,274 @@ const ReviewerPaperDetails = () => {
 
   return (
     <>
-    <Breadcrumbs actions={breadcrumbActions} />
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* Left Column (Paper Info & Review Form) */}
-      <div className="lg:col-span-2 space-y-6">
-        {/* --- Paper Details Card --- */}
-        <div className="bg-white shadow-lg rounded-lg p-6">
-          <button
-            onClick={() => navigate("/reviewer/dashboard/papers")}
-            className="text-sm text-[#521028] font-semibold hover:underline mb-3"
-          >
-            &larr; Back to all papers
-          </button>
-          <h1 className="text-2xl font-bold text-[#521028]">{paper.title}</h1>
-          <p className="text-sm text-gray-500 mt-2">
-            <strong>Submitted On:</strong> {formatDate(paper.submittedAt)}
-          </p>
-          <p className="text-sm text-gray-500">
-            <strong>Keywords:</strong> {paper.keywords || "N/A"}
-          </p>
-          {paper.fileUrl && (
-            <a
-              href={paper.fileUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 mt-4 text-[#521028] font-semibold hover:underline"
+      <Breadcrumbs actions={breadcrumbActions} />
+      <div className="grid grid-cols-1 p-3 lg:grid-cols-3 gap-6">
+        {/* Left Column (Paper Info & Review Form) */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* --- Paper Details Card --- */}
+          <div className="bg-white shadow-lg rounded-lg p-6">
+            <button
+              onClick={() => navigate("/reviewer/dashboard/papers")}
+              className="text-sm text-[#521028] font-semibold hover:underline mb-3"
             >
-              <Download size={16} /> View/Download Paper PDF
-            </a>
-          )}
-        </div>
+              &larr; Back to all papers
+            </button>
+            <h1 className="text-2xl font-bold text-[#521028]">{paper.title}</h1>
+            <p className="text-sm text-gray-500 mt-2">
+              <strong>Submitted On:</strong> {formatDate(paper.submittedAt)}
+            </p>
+            <p className="text-sm text-gray-500">
+              <strong>Keywords:</strong> {paper.keywords || "N/A"}
+            </p>
+            {paper.fileUrl && (
+              <a
+                href={paper.fileUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 mt-4 text-[#521028] font-semibold hover:underline"
+              >
+                <Download size={16} /> View/Download Paper PDF
+              </a>
+            )}
+          </div>
 
-        {/* --- Abstract Card --- */}
-        <div className="bg-white shadow-lg rounded-lg p-6">
-          <h3 className="text-xl font-semibold text-[#521028] mb-4">
-            <BookOpen size={20} className="inline-block mr-2" />
-            Abstract
-          </h3>
-          <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">
-            {paper.abstract || "No abstract provided."}
-          </p>
-        </div>
-
-        {/* --- CHANGED: Author Info Card --- */}
-        {paper.author && (
+          {/* --- Abstract Card --- */}
           <div className="bg-white shadow-lg rounded-lg p-6">
             <h3 className="text-xl font-semibold text-[#521028] mb-4">
-              <Users size={20} className="inline-block mr-2" />
-              Author Information
+              <BookOpen size={20} className="inline-block mr-2" />
+              Abstract
             </h3>
-            {/* Submitter Info (Kept blind) */}
-            <div className="mb-4">
-              <h4 className="text-base font-semibold text-gray-800 mb-1">
-                Submitter
-              </h4>
-              <p className="text-sm text-gray-700">
-                {paper.author.firstName} {paper.author.lastName}
-                <br />
-                <span className="text-xs text-gray-500">
-                  {paper.author.affiliation || "No affiliation listed"}
-                </span>
-              </p>
-            </div>
-
-            {/* --- CHANGED: Reads from `paper.authors` --- */}
-            {paper.authors && paper.authors.length > 0 && (
-              <div className="border-t pt-4">
-                <h4 className="text-base font-semibold text-gray-800 mb-2">
-                  All Authors
-                </h4>
-                <ul className="list-disc pl-5 text-sm text-gray-700 space-y-1">
-                  {paper.authors.map((author) => (
-                    <li key={author.id}>
-                      {author.salutation} {author.name}
-                      {author.institute && (
-                        <span className="text-xs text-gray-500">
-                          {" "}
-                          ({author.institute})
-                        </span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">
+              {paper.abstract || "No abstract provided."}
+            </p>
           </div>
-        )}
 
-        {/* --- Review Form Card --- */}
-        <div className="bg-white shadow-lg rounded-lg p-6">
-          <h3 className="text-xl font-semibold text-[#521028] mb-4">
-            <Edit size={20} className="inline-block mr-2" />
-            {isReviewSubmitted ? "Update Your Review" : "Submit Your Review"}
-          </h3>
-          {isReviewSubmitted && (
-            <div className="bg-blue-50 text-blue-800 p-3 rounded-md text-sm mb-4">
-              You have already submitted a review for this paper. You can update
-              and resubmit it below.
+          {/* --- CHANGED: Author Info Card --- */}
+          {paper.author && (
+            <div className="bg-white shadow-lg rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-[#521028] mb-4">
+                <Users size={20} className="inline-block mr-2" />
+                Author Information
+              </h3>
+              {/* Submitter Info (Kept blind) */}
+              <div className="mb-4">
+                <h4 className="text-base font-semibold text-gray-800 mb-1">
+                  Submitter
+                </h4>
+                <p className="text-sm text-gray-700">
+                  {paper.author.firstName} {paper.author.lastName}
+                  <br />
+                  <span className="text-xs text-gray-500">
+                    {paper.author.affiliation || "No affiliation listed"}
+                  </span>
+                </p>
+              </div>
+
+              {/* --- CHANGED: Reads from `paper.authors` --- */}
+              {paper.authors && paper.authors.length > 0 && (
+                <div className="border-t pt-4">
+                  <h4 className="text-base font-semibold text-gray-800 mb-2">
+                    All Authors
+                  </h4>
+                  <ul className="list-disc pl-5 text-sm text-gray-700 space-y-1">
+                    {paper.authors.map((author) => (
+                      <li key={author.id}>
+                        {author.salutation} {author.name}
+                        {author.institute && (
+                          <span className="text-xs text-gray-500">
+                            {" "}
+                            ({author.institute})
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           )}
-          <form onSubmit={handleReviewSubmit} className="space-y-4">
-            {/* --- REMOVED: Rating section --- */}
 
-            {/* Recommendation */}
-            <div>
-              <label
-                htmlFor="recommendation"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Recommendation
-              </label>
-              <select
-                id="recommendation"
-                name="recommendation"
-                value={reviewForm.recommendation}
-                onChange={handleReviewFormChange}
-                className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
-              >
-                {RECOMMENDATION_OPTIONS.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt.replace(/_/g, " ")}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Comments */}
-            <div>
-              <label
-                htmlFor="comments"
-                className="block text-sm font-semibold text-gray-700"
-              >
-                Comments for the Author
-              </label>
-              <textarea
-                id="comments"
-                name="comments"
-                rows="8"
-                value={reviewForm.comments}
-                onChange={handleReviewFormChange}
-                className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
-                placeholder="Provide constructive feedback for the author..."
-                required
-              />
-            </div>
-
-            {/* --- Success Popup --- */}
-            {showSuccessPopup && (
-              <div className="bg-green-100 border border-green-300 text-green-800 p-3 rounded-md text-sm mb-4 flex items-center gap-2">
-                <CheckCircle size={18} />
-                <span>{successMessage}</span>
+          {/* --- Review Form Card --- */}
+          <div className="bg-white shadow-lg rounded-lg p-6">
+            <h3 className="text-xl font-semibold text-[#521028] mb-4">
+              <Edit size={20} className="inline-block mr-2" />
+              {isReviewSubmitted ? "Update Your Review" : "Submit Your Review"}
+            </h3>
+            {isReviewSubmitted && (
+              <div className="bg-blue-50 text-blue-800 p-3 rounded-md text-sm mb-4">
+                You have already submitted a review for this paper. You can
+                update and resubmit it below.
               </div>
             )}
+            <form onSubmit={handleReviewSubmit} className="space-y-4">
+              {/* --- REMOVED: Rating section --- */}
 
-            {/* Error for review form */}
-            {error && (
-              <div className="text-red-600 text-sm text-center">{error}</div>
-            )}
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={reviewLoading}
-              className="w-full bg-[#521028] text-white font-semibold py-2.5 rounded-md hover:bg-[#6b1b3a] transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
-            >
-              {reviewLoading ? (
-                <Loader2 className="h-5 w-5 animate-spin" />
-              ) : (
-                <>
-                  {isReviewSubmitted ? "Update Review" : "Submit Review"}
-                  <CheckCircle size={18} />
-                </>
-              )}
-            </button>
-          </form>
-        </div>
-      </div>
-
-      {/* Right Column (Chat) */}
-      <div className="lg:col-span-1">
-        <div className="bg-white shadow-lg rounded-lg flex flex-col h-[80vh] max-h-[800px]">
-          <div className="border-b p-4 bg-[#521028] text-white rounded-t-lg">
-            <h2 className="font-semibold text-lg flex items-center gap-2">
-              <MessageSquare size={20} />
-              Author Feedback Chat
-            </h2>
-          </div>
-
-          {/* Chat Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
-            {paper.feedbacks && paper.feedbacks.length > 0 ? (
-              paper.feedbacks.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`max-w-[85%] w-fit p-3 rounded-lg text-sm ${
-                    msg.sender.id === user?.id
-                      ? "bg-[#521028] text-white ml-auto" // Reviewer's message
-                      : "bg-gray-100 text-gray-800" // Author's message
-                  }`}
+              {/* Recommendation */}
+              <div>
+                <label
+                  htmlFor="recommendation"
+                  className="block text-sm font-semibold text-gray-700"
                 >
-                  <p className="font-semibold text-xs mb-1">
-                    {msg.sender.firstName} {msg.sender.lastName} (
-                    {msg.sender.role})
-                  </p>
-                  <p>{msg.message}</p>
-                  <p
-                    className={`text-[10px] mt-1 text-right ${
-                      msg.sender.id === user?.id
-                        ? "text-gray-300"
-                        : "text-gray-500"
-                    }`}
-                  >
-                    {formatDate(msg.sentAt)}
-                  </p>
-                </div>
-              ))
-            ) : (
-              <div className="text-center text-gray-500 text-sm p-4">
-                No feedback has been exchanged yet.
+                  Recommendation
+                </label>
+                <select
+                  id="recommendation"
+                  name="recommendation"
+                  value={reviewForm.recommendation}
+                  onChange={handleReviewFormChange}
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                >
+                  {RECOMMENDATION_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt.replace(/_/g, " ")}
+                    </option>
+                  ))}
+                </select>
               </div>
-            )}
-            <div ref={chatBottomRef} />
-          </div>
 
-          {/* Message Input */}
-          <form
-            onSubmit={handleFeedbackSubmit}
-            className="border-t p-3 flex items-center gap-2"
-          >
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type your message..."
-              className="flex-1 p-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#521028]"
-            />
-            <button
-              type="submit"
-              disabled={chatLoading}
-              className="bg-[#521028] text-white p-2 rounded-md hover:bg-[#6b1b3a] disabled:opacity-70"
-            >
-              {chatLoading ? (
-                <Loader2 className="h-5 w-5 animate-spin" />
-              ) : (
-                <Send className="h-5 w-5" />
+              {/* Comments */}
+              <div>
+                <label
+                  htmlFor="comments"
+                  className="block text-sm font-semibold text-gray-700"
+                >
+                  Comments for the Author
+                </label>
+                <textarea
+                  id="comments"
+                  name="comments"
+                  rows="8"
+                  value={reviewForm.comments}
+                  onChange={handleReviewFormChange}
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                  placeholder="Provide constructive feedback for the author..."
+                  required
+                />
+              </div>
+
+              {/* --- Success Popup --- */}
+              {showSuccessPopup && (
+                <div className="bg-green-100 border border-green-300 text-green-800 p-3 rounded-md text-sm mb-4 flex items-center gap-2">
+                  <CheckCircle size={18} />
+                  <span>{successMessage}</span>
+                </div>
               )}
-            </button>
-          </form>
+
+              {/* Error for review form */}
+              {error && (
+                <div className="text-red-600 text-sm text-center">{error}</div>
+              )}
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={reviewLoading}
+                className="w-full bg-[#521028] text-white font-semibold py-2.5 rounded-md hover:bg-[#6b1b3a] transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+              >
+                {reviewLoading ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : (
+                  <>
+                    {isReviewSubmitted ? "Update Review" : "Submit Review"}
+                    <CheckCircle size={18} />
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* Right Column (Chat) */}
+        <div className="lg:col-span-1">
+          <div
+            className={`bg-white shadow-lg rounded-lg flex flex-col transition-all duration-300 overflow-hidden 
+    ${isCollapsed ? "h-14" : "h-[80vh] max-h-[800px]"} `}
+          >
+            {/* Header with collapse toggle */}
+            <div className="border-b p-4 bg-[#521028] text-white rounded-t-lg flex justify-between items-center">
+              <h2 className="font-semibold text-lg flex items-center gap-2">
+                <MessageSquare size={20} />
+                Author Feedback Chat
+              </h2>
+
+              {/* Toggle Button */}
+              <button
+                type="button"
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                className="text-white hover:text-gray-200 transition"
+              >
+                {isCollapsed ? "▲" : "▼"}
+              </button>
+            </div>
+
+            {/* Only show content when not collapsed */}
+            {!isCollapsed && (
+              <>
+                {/* Chat Messages */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                  {paper.feedbacks && paper.feedbacks.length > 0 ? (
+                    paper.feedbacks.map((msg) => (
+                      <div
+                        key={msg.id}
+                        className={`max-w-[85%] w-fit p-3 rounded-lg text-sm ${
+                          msg.sender.id === user?.id
+                            ? "bg-[#521028] text-white ml-auto"
+                            : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
+                        <p className="font-semibold text-xs mb-1">
+                          {msg.sender.firstName} {msg.sender.lastName} (
+                          {msg.sender.role})
+                        </p>
+                        <p>{msg.message}</p>
+                        <p
+                          className={`text-[10px] mt-1 text-right ${
+                            msg.sender.id === user?.id
+                              ? "text-gray-300"
+                              : "text-gray-500"
+                          }`}
+                        >
+                          {formatDate(msg.sentAt)}
+                        </p>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center text-gray-500 text-sm p-4">
+                      No feedback has been exchanged yet.
+                    </div>
+                  )}
+                  <div ref={chatBottomRef} />
+                </div>
+
+                {/* Message Input */}
+                <form
+                  onSubmit={handleFeedbackSubmit}
+                  className="border-t p-3 flex items-center gap-2"
+                >
+                  <input
+                    type="text"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="Type your message..."
+                    className="flex-1 p-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#521028]"
+                  />
+                  <button
+                    type="submit"
+                    disabled={chatLoading}
+                    className="bg-[#521028] text-white p-2 rounded-md hover:bg-[#6b1b3a] disabled:opacity-70"
+                  >
+                    {chatLoading ? (
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                      <Send className="h-5 w-5" />
+                    )}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

@@ -419,7 +419,7 @@ const AdminSubmittedPapersInternal = () => {
             <Loader2 className="h-12 w-12 text-[#521028] animate-spin" />
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-3 sm:p-6">
             {/* Left Column (Paper Info) */}
             <div className="lg:col-span-2 space-y-6">
               {/* --- Header Card --- */}
@@ -796,137 +796,147 @@ const AdminSubmittedPapersInternal = () => {
   return (
     <>
       <Breadcrumbs actions={breadcrumbActions} />
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-[#521028]">Submitted Papers</h1>
-      </div>
-
-      {error && (
-        <div className="bg-red-100 border border-red-300 text-red-800 text-sm p-3 rounded-md mb-4">
-          {error}
+      <div className="p-3 sm:p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-[#521028]">
+            Submitted Papers
+          </h1>
         </div>
-      )}
 
-      {listLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <Loader2 className="h-12 w-12 text-[#521028] animate-spin" />
-        </div>
-      ) : papers.length === 0 ? (
-        <div className="text-center text-gray-500 mt-10">
-          <FileText size={40} className="mx-auto mb-2" />
-          <p>No papers found.</p>
-        </div>
-      ) : (
-        <>
-          {/* --- Mobile Card View (Visible < lg) --- */}
-          <div className="lg:hidden space-y-4">
-            {papers.map((paper) => (
-              <div key={paper.id} className="bg-white shadow-md rounded-lg p-4">
-                {/* Top: Title and Status */}
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-bold text-[#521028] pr-2">
-                    {paper.title}
-                  </h3>
-                  <StatusBadge status={paper.status} />
-                </div>
+        {error && (
+          <div className="bg-red-100 border border-red-300 text-red-800 text-sm p-3 rounded-md mb-4">
+            {error}
+          </div>
+        )}
 
-                {/* Author Info */}
-                <div className="text-sm text-gray-700 mb-3">
-                  <p>
-                    {paper.author.firstName} {paper.author.lastName}
-                  </p>
-                  <p className="text-xs text-gray-500">{paper.author.email}</p>
-                </div>
-
-                {/* Details Grid */}
-                <div className="border-t pt-3 grid grid-cols-2 gap-2 text-sm">
-                  <p>
-                    <strong>Reviews:</strong> {paper._count.reviews || 0}
-                  </p>
-                  <p className="truncate">
-                    <strong>Submitted:</strong> {formatDate(paper.submittedAt)}
-                  </p>
-                </div>
-
-                {/* Action Button */}
-                <button
-                  onClick={() => handleViewPaper(paper.id)}
-                  className="w-full mt-4 bg-[#521028] text-white font-semibold py-2 rounded-md hover:bg-[#6b1b3a] flex items-center justify-center gap-2 disabled:opacity-50"
-                  disabled={detailLoading}
+        {listLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <Loader2 className="h-12 w-12 text-[#521028] animate-spin" />
+          </div>
+        ) : papers.length === 0 ? (
+          <div className="text-center text-gray-500 mt-10">
+            <FileText size={40} className="mx-auto mb-2" />
+            <p>No papers found.</p>
+          </div>
+        ) : (
+          <>
+            {/* --- Mobile Card View (Visible < lg) --- */}
+            <div className="lg:hidden space-y-4">
+              {papers.map((paper) => (
+                <div
+                  key={paper.id}
+                  className="bg-white shadow-md rounded-lg p-4"
                 >
-                  {detailLoading && viewingPaperId === paper.id ? (
-                    <Loader2 size={16} className="animate-spin" />
-                  ) : (
-                    <Eye size={16} />
-                  )}
-                  {detailLoading && viewingPaperId === paper.id
-                    ? "Loading..."
-                    : "View Details"}
-                </button>
-              </div>
-            ))}
-          </div>
-
-          {/* --- Desktop Table View (Hidden < lg) --- */}
-          <div className="hidden lg:block bg-white shadow-md rounded-lg overflow-x-auto">
-            <table className="w-full text-sm text-left border-collapse">
-              <thead className="bg-[#521028] text-white">
-                <tr>
-                  <th className="p-3">Title</th>
-                  <th className="p-3">Author</th>
-                  <th className="p-3">Status</th>
-                  <th className="p-3">Reviews</th>
-                  <th className="p-3">Submitted On</th>
-                  <th className="p-3">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {papers.map((paper) => (
-                  <tr
-                    key={paper.id}
-                    className="border-b hover:bg-gray-50 transition"
-                  >
-                    <td className="p-3 font-medium text-gray-900">
+                  {/* Top: Title and Status */}
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-lg font-bold text-[#521028] pr-2">
                       {paper.title}
-                    </td>
-                    <td className="p-3 text-gray-700">
+                    </h3>
+                    <StatusBadge status={paper.status} />
+                  </div>
+
+                  {/* Author Info */}
+                  <div className="text-sm text-gray-700 mb-3">
+                    <p>
                       {paper.author.firstName} {paper.author.lastName}
-                      <br />
-                      <span className="text-xs text-gray-500">
-                        {paper.author.email}
-                      </span>
-                    </td>
-                    <td className="p-3">
-                      <StatusBadge status={paper.status} />
-                    </td>
-                    <td className="p-3 text-center text-gray-700">
-                      {paper._count.reviews || 0}
-                    </td>
-                    <td className="p-3 text-gray-700">
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {paper.author.email}
+                    </p>
+                  </div>
+
+                  {/* Details Grid */}
+                  <div className="border-t pt-3 grid grid-cols-2 gap-2 text-sm">
+                    <p>
+                      <strong>Reviews:</strong> {paper._count.reviews || 0}
+                    </p>
+                    <p className="truncate">
+                      <strong>Submitted:</strong>{" "}
                       {formatDate(paper.submittedAt)}
-                    </td>
-                    <td className="p-3">
-                      <button
-                        onClick={() => handleViewPaper(paper.id)}
-                        className="text-[#521028] font-semibold hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-50"
-                        disabled={detailLoading}
-                      >
-                        {detailLoading && viewingPaperId === paper.id ? (
-                          <Loader2 size={16} className="animate-spin" />
-                        ) : (
-                          <Eye size={16} />
-                        )}
-                        {detailLoading && viewingPaperId === paper.id
-                          ? "Loading..."
-                          : "View"}
-                      </button>
-                    </td>
+                    </p>
+                  </div>
+
+                  {/* Action Button */}
+                  <button
+                    onClick={() => handleViewPaper(paper.id)}
+                    className="w-full mt-4 bg-[#521028] text-white font-semibold py-2 rounded-md hover:bg-[#6b1b3a] flex items-center justify-center gap-2 disabled:opacity-50"
+                    disabled={detailLoading}
+                  >
+                    {detailLoading && viewingPaperId === paper.id ? (
+                      <Loader2 size={16} className="animate-spin" />
+                    ) : (
+                      <Eye size={16} />
+                    )}
+                    {detailLoading && viewingPaperId === paper.id
+                      ? "Loading..."
+                      : "View Details"}
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {/* --- Desktop Table View (Hidden < lg) --- */}
+            <div className="hidden lg:block bg-white shadow-md rounded-lg overflow-x-auto">
+              <table className="w-full text-sm text-left border-collapse">
+                <thead className="bg-[#521028] text-white">
+                  <tr>
+                    <th className="p-3">Title</th>
+                    <th className="p-3">Author</th>
+                    <th className="p-3">Status</th>
+                    <th className="p-3">Reviews</th>
+                    <th className="p-3">Submitted On</th>
+                    <th className="p-3">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      )}
+                </thead>
+                <tbody>
+                  {papers.map((paper) => (
+                    <tr
+                      key={paper.id}
+                      className="border-b hover:bg-gray-50 transition"
+                    >
+                      <td className="p-3 font-medium text-gray-900">
+                        {paper.title}
+                      </td>
+                      <td className="p-3 text-gray-700">
+                        {paper.author.firstName} {paper.author.lastName}
+                        <br />
+                        <span className="text-xs text-gray-500">
+                          {paper.author.email}
+                        </span>
+                      </td>
+                      <td className="p-3">
+                        <StatusBadge status={paper.status} />
+                      </td>
+                      <td className="p-3 text-center text-gray-700">
+                        {paper._count.reviews || 0}
+                      </td>
+                      <td className="p-3 text-gray-700">
+                        {formatDate(paper.submittedAt)}
+                      </td>
+                      <td className="p-3">
+                        <button
+                          onClick={() => handleViewPaper(paper.id)}
+                          className="text-[#521028] font-semibold hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                          disabled={detailLoading}
+                        >
+                          {detailLoading && viewingPaperId === paper.id ? (
+                            <Loader2 size={16} className="animate-spin" />
+                          ) : (
+                            <Eye size={16} />
+                          )}
+                          {detailLoading && viewingPaperId === paper.id
+                            ? "Loading..."
+                            : "View"}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+      </div>
     </>
   );
 };

@@ -95,7 +95,7 @@ const Breadcrumbs = ({ actions }) => {
         {actions}
         <button
           onClick={handleLogout}
-          className="flex items-center text-sm font-semibold text-white bg-[#521028] hover:bg-[#6b1b3a] px-3 py-2 rounded-md transition-colors whitespace-nowrap"
+          className="flex items-center cursor-pointer text-sm font-semibold text-white bg-[#521028] hover:bg-[#6b1b3a] px-3 py-2 rounded-md transition-colors whitespace-nowrap"
         >
           <LogOut className="w-4 h-4 me-1.5" />
           Logout

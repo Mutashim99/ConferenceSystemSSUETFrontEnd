@@ -58,6 +58,7 @@ const PaperDetails = () => {
   const [newMessage, setNewMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [showResubmit, setShowResubmit] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const chatEndRef = useRef(null);
   const { user } = useAuthStore();
@@ -256,8 +257,7 @@ const PaperDetails = () => {
   if (loading && !paperData) {
     return (
       <>
-      
-      <Breadcrumbs actions={breadcrumbActions}/>
+        <Breadcrumbs actions={breadcrumbActions} />
         <div className="flex justify-center items-center h-64">
           <Loader2 className="h-16 w-16 text-[#521028] animate-spin" />
           <p className="ml-4 text-xl text-gray-600">Loading paper details...</p>
@@ -269,7 +269,7 @@ const PaperDetails = () => {
   if (error || !paperData) {
     return (
       <>
-      <Breadcrumbs actions={breadcrumbActions}/>
+        <Breadcrumbs actions={breadcrumbActions} />
         <div className="flex flex-col justify-center items-center h-64 text-red-600">
           <AlertTriangle className="h-16 w-16 mb-4" />
           <p className="text-2xl font-semibold">{error || "No paper found."}</p>
@@ -298,8 +298,8 @@ const PaperDetails = () => {
 
   return (
     <>
-    <Breadcrumbs actions={breadcrumbActions} />
-      <div className="flex flex-col lg:flex-row gap-6">
+      <Breadcrumbs actions={breadcrumbActions} />
+      <div className="flex flex-col p-3.5 lg:flex-row gap-6">
         {/* LEFT: Paper Details */}
         <div className="flex-1 space-y-6">
           <div className="bg-white shadow-lg rounded-lg p-6">
@@ -351,7 +351,10 @@ const PaperDetails = () => {
               </h2>
               <ul className="list-none pl-0 text-sm text-gray-700 space-y-2">
                 {authors.map((author) => (
-                  <li key={author.id} className="border-t pt-2 first:border-t-0">
+                  <li
+                    key={author.id}
+                    className="border-t pt-2 first:border-t-0"
+                  >
                     <span className="font-semibold">
                       {author.salutation} {author.name}
                     </span>
@@ -362,7 +365,9 @@ const PaperDetails = () => {
                       </span>
                     )}
                     <br />
-                    <span className="text-xs text-gray-500">{author.email}</span>
+                    <span className="text-xs text-gray-500">
+                      {author.email}
+                    </span>
                     <br />
                     <span className="text-xs text-gray-500">
                       {author.institute || "No institute"}
@@ -418,91 +423,108 @@ const PaperDetails = () => {
         {/* ---
           RIGHT: Chat Sidebar (No Changes)
         --- */}
+        {/* --- RIGHT: Chat Sidebar (Collapsible) --- */}
         <div className="w-full lg:w-[35%] lg:max-w-md">
-          <div className="bg-white shadow-lg rounded-lg flex flex-col h-96 lg:h-[80vh] lg:sticky lg:top-24">
-            {/* Header */}
-            <div className="border-b p-4 bg-[#521028] text-white rounded-t-lg">
+          <div
+            className={`bg-white shadow-lg rounded-lg flex flex-col transition-all duration-300 overflow-hidden 
+      ${isCollapsed ? "h-14" : "h-96 lg:h-[80vh]"} 
+      lg:sticky lg:top-24`}
+          >
+            {/* Header with collapse toggle */}
+            <div className="border-b p-4 bg-[#521028] text-white rounded-t-lg flex justify-between items-center">
               <h2 className="font-semibold text-lg flex items-center gap-2">
                 <MessageSquare size={20} />
                 Feedback & Chat
               </h2>
+
+              {/* Toggle Button */}
+              <button
+                type="button"
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                className="text-white hover:text-gray-200 transition"
+              >
+                {isCollapsed ? "▲" : "▼"}
+              </button>
             </div>
 
-            {/* Chat Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {feedbacks?.length === 0 && (
-                <div className="text-center text-gray-500 pt-10">
-                  <MessageSquare size={40} className="mx-auto mb-2" />
-                  No feedback messages yet.
-                </div>
-              )}
+            {/* Content area (only show when not collapsed) */}
+            {!isCollapsed && (
+              <>
+                {/* Chat Messages */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                  {feedbacks?.length === 0 && (
+                    <div className="text-center text-gray-500 pt-10">
+                      <MessageSquare size={40} className="mx-auto mb-2" />
+                      No feedback messages yet.
+                    </div>
+                  )}
 
-              {/* Bubble Logic */}
-              {feedbacks.map((msg, index) => {
-                // Check if the sender is the *currently logged-in* user.
-                const isMyMessage = msg.sender.id === currentUserId;
+                  {feedbacks.map((msg, index) => {
+                    const isMyMessage = msg.sender.id === currentUserId;
 
-                return (
-                  <div
-                    key={msg.id || index}
-                    className={`flex flex-col ${
-                      isMyMessage ? "items-end" : "items-start"
-                    }`}
-                  >
-                    <div
-                      className={`max-w-[85%] w-fit p-3 rounded-lg text-sm ${
-                        isMyMessage
-                          ? "bg-[#521028] text-white rounded-br-none" // My message
-                          : "bg-gray-100 text-gray-800 rounded-bl-none" // Their message
-                      }`}
-                    >
-                      <p className="font-semibold text-xs mb-1">
-                        {msg.sender?.firstName} {msg.sender?.lastName} (
-                        {msg.sender?.role})
-                      </p>
-                      <p className="whitespace-pre-wrap">{msg.message}</p>
-                      <p
-                        className={`text-[10px] mt-1 text-right ${
-                          isMyMessage ? "text-gray-300" : "text-gray-500"
+                    return (
+                      <div
+                        key={msg.id || index}
+                        className={`flex flex-col ${
+                          isMyMessage ? "items-end" : "items-start"
                         }`}
                       >
-                        {formatDate(msg.sentAt)}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-              <div ref={chatEndRef} />
-            </div>
+                        <div
+                          className={`max-w-[85%] w-fit p-3 rounded-lg text-sm ${
+                            isMyMessage
+                              ? "bg-[#521028] text-white rounded-br-none"
+                              : "bg-gray-100 text-gray-800 rounded-bl-none"
+                          }`}
+                        >
+                          <p className="font-semibold text-xs mb-1">
+                            {msg.sender?.firstName} {msg.sender?.lastName} (
+                            {msg.sender?.role})
+                          </p>
+                          <p className="whitespace-pre-wrap">{msg.message}</p>
+                          <p
+                            className={`text-[10px] mt-1 text-right ${
+                              isMyMessage ? "text-gray-300" : "text-gray-500"
+                            }`}
+                          >
+                            {formatDate(msg.sentAt)}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <div ref={chatEndRef} />
+                </div>
 
-            {/* Message Input */}
-            <form
-              onSubmit={handleSendMessage}
-              className="border-t p-3 flex items-center gap-2"
-            >
-              <input
-                type="text"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                placeholder="Type your message..."
-                className="flex-1 p-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#521028]"
-              />
-              <button
-                type="submit"
-                disabled={isSending || !newMessage.trim()}
-                className="bg-[#521028] text-white p-2.5 rounded-md hover:bg-[#6b1b3a] disabled:opacity-50"
-              >
-                {isSending ? (
-                  <Loader2 className="animate-spin h-5 w-5" />
-                ) : (
-                  <Send size={20} />
-                )}
-              </button>
-            </form>
+                {/* Message Input */}
+                <form
+                  onSubmit={handleSendMessage}
+                  className="border-t p-3 flex items-center gap-2"
+                >
+                  <input
+                    type="text"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="Type your message..."
+                    className="flex-1 p-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#521028]"
+                  />
+                  <button
+                    type="submit"
+                    disabled={isSending || !newMessage.trim()}
+                    className="bg-[#521028] text-white p-2.5 rounded-md hover:bg-[#6b1b3a] disabled:opacity-50"
+                  >
+                    {isSending ? (
+                      <Loader2 className="animate-spin h-5 w-5" />
+                    ) : (
+                      <Send size={20} />
+                    )}
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       </div>
-      </>
+    </>
   );
 };
 

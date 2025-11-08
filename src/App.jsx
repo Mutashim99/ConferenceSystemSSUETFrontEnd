@@ -87,14 +87,14 @@ function App() {
               // </ProtectedRoute>
             }
           />
-          <Route
+          {/* <Route
             path="/admin/dashboard/assign-reviewer"
             element={
               // <ProtectedRoute allowedRoles={["ADMIN"]}>
               <AssignReviewer />
               // </ProtectedRoute>
             }
-          />
+          /> */}
           <Route
             path="/admin/dashboard"
             element={<Navigate to="/admin/dashboard/papers" />}
