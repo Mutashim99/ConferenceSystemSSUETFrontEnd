@@ -287,48 +287,43 @@ const ReviewerPaperDetails = () => {
             </p>
           </div>
 
-          {/* --- CHANGED: Author Info Card --- */}
-          {paper.author && (
+          {/* --- REPLACED: Author Info Card (to match PaperDetails layout) --- */}
+          {paper.authors && paper.authors.length > 0 && (
             <div className="bg-white shadow-lg rounded-lg p-6">
-              <h3 className="text-xl font-semibold text-[#521028] mb-4">
-                <Users size={20} className="inline-block mr-2" />
-                Author Information
-              </h3>
-              {/* Submitter Info (Kept blind) */}
-              <div className="mb-4">
-                <h4 className="text-base font-semibold text-gray-800 mb-1">
-                  Submitter
-                </h4>
-                <p className="text-sm text-gray-700">
-                  {paper.author.firstName} {paper.author.lastName}
-                  <br />
-                  <span className="text-xs text-gray-500">
-                    {paper.author.affiliation || "No affiliation listed"}
-                  </span>
-                </p>
-              </div>
-
-              {/* --- CHANGED: Reads from `paper.authors` --- */}
-              {paper.authors && paper.authors.length > 0 && (
-                <div className="border-t pt-4">
-                  <h4 className="text-base font-semibold text-gray-800 mb-2">
-                    All Authors
-                  </h4>
-                  <ul className="list-disc pl-5 text-sm text-gray-700 space-y-1">
-                    {paper.authors.map((author) => (
-                      <li key={author.id}>
-                        {author.salutation} {author.name}
-                        {author.institute && (
-                          <span className="text-xs text-gray-500">
-                            {" "}
-                            ({author.institute})
-                          </span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              <h2 className="text-xl font-semibold text-[#521028] mb-3 flex items-center gap-2">
+                <Users size={20} /> Authors
+              </h2>
+              <ul className="list-none pl-0 text-sm text-gray-700 space-y-2">
+                {paper.authors.map((author) => (
+                  <li
+                    key={author.id}
+                    className="border-t pt-2 first:border-t-0"
+                  >
+                    <span className="font-semibold">
+                      {author.salutation} {author.name}
+                    </span>
+                    {/* Assumes 'isCorresponding' is available in the API response for reviewers */}
+                    {author.isCorresponding && (
+                      <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded">
+                        Corresponding
+                      </span>
+                    )}
+                    <br />
+                    {/* Assumes 'email' is available in the API response for reviewers */}
+                    {/* {author.email && (
+                      <>
+                        <span className="text-xs text-gray-500">
+                          {author.email}
+                        </span>
+                        <br />
+                      </>
+                    )} */}
+                    <span className="text-xs text-gray-500">
+                      {author.institute || "No institute"}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
 
@@ -426,7 +421,7 @@ const ReviewerPaperDetails = () => {
         <div className="lg:col-span-1">
           <div
             className={`bg-white shadow-lg rounded-lg flex flex-col transition-all duration-300 overflow-hidden 
-    ${isCollapsed ? "h-14" : "h-[80vh] max-h-[800px]"} `}
+  ${isCollapsed ? "h-14" : "h-[80vh] max-h-[800px]"} `}
           >
             {/* Header with collapse toggle */}
             <div className="border-b p-4 bg-[#521028] text-white rounded-t-lg flex justify-between items-center">
