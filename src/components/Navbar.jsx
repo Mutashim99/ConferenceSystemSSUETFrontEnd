@@ -128,7 +128,7 @@ const Navbar = () => {
       <div className="max-w-7xl h-20 mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
         {/* Logo - changed to Link to home */}
         <Link to="/" className="flex items-center space-x-2 shrink-0">
-          {/* <img
+          <img
             src="https://icisct.com/wp-content/uploads/2024/11/logo.png"
             alt="ICISCT Logo"
             className="h-12 w-auto object-contain"
@@ -136,8 +136,8 @@ const Navbar = () => {
             onError={(e) => {
               e.target.style.display = 'none'; // Hide broken image
             }}
-          /> */}
-          <h1 className="font-bold">DEMO APP</h1>
+          />
+          {/* <h1 className="font-bold">DEMO APP</h1> */}
           
         </Link>
 

@@ -881,7 +881,7 @@ const AdminSubmittedPapersInternal = () => {
                 <thead className="bg-[#521028] text-white">
                   <tr>
                     <th className="p-3">Title</th>
-                    <th className="p-3">Author</th>
+                    <th className="p-3">Submitted By</th>
                     <th className="p-3">Status</th>
                     <th className="p-3">Reviews</th>
                     <th className="p-3">Submitted On</th>
