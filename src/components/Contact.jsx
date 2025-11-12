@@ -16,25 +16,26 @@ export const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form Submitted:", formData);
-    // You can later integrate backend or email API here
     alert("Message submitted successfully!");
+    setFormData({ name: "", email: "", subject: "", message: "" }); // Clear form
   };
 
   return (
     <section
       id="contact"
-      className="py-16 px-6 md:px-16 bg-gray-50 text-gray-800 font-poppins"
+      // Changed to white bg for an alternating-section feel
+      className="py-20 md:py-24 px-6 md:px-16 bg-white text-gray-800 font-poppins"
     >
       <div className="max-w-3xl mx-auto text-center">
-        {/* Heading */}
-        <h2 className="text-2xl md:text-3xl font-extrabold tracking-wide uppercase text-[#111111] font-sans mb-10">
+        {/* Heading (Updated to primary purple) */}
+        <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#662D91] font-sans mb-12">
           Contact Us
         </h2>
 
         {/* Form */}
         <form
           onSubmit={handleSubmit}
-          className="bg-white shadow-md rounded-lg p-8 space-y-6 text-left"
+          className="bg-gray-50 shadow-xl rounded-lg p-8 space-y-6 text-left border border-gray-100"
         >
           {/* Name */}
           <div>
@@ -51,7 +52,8 @@ export const Contact = () => {
               required
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#521028] focus:outline-none"
+              // Updated focus ring to accent green
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#34B04A] focus:outline-none transition-all"
               placeholder="Enter your name"
             />
           </div>
@@ -71,7 +73,8 @@ export const Contact = () => {
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#521028] focus:outline-none"
+              // Updated focus ring to accent green
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#34B04A] focus:outline-none transition-all"
               placeholder="Enter your email"
             />
           </div>
@@ -91,7 +94,8 @@ export const Contact = () => {
               required
               value={formData.subject}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#521028] focus:outline-none"
+              // Updated focus ring to accent green
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#34B04A] focus:outline-none transition-all"
               placeholder="Enter subject"
             />
           </div>
@@ -107,19 +111,20 @@ export const Contact = () => {
             <textarea
               id="message"
               name="message"
-              rows="4"
+              rows="5"
               value={formData.message}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-[#521028] focus:outline-none resize-none"
+              // Updated focus ring to accent green
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#34B04A] focus:outline-none resize-none transition-all"
               placeholder="Type your message here..."
             ></textarea>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit Button (Updated to accent green) */}
           <div className="text-center">
             <button
               type="submit"
-              className="bg-[#521028] hover:bg-[#6e1836] text-white font-semibold px-8 py-2 rounded-md transition-all duration-200"
+              className="bg-[#34B04A] hover:bg-opacity-90 text-white font-semibold px-10 py-3 rounded-lg transition-all duration-200 shadow-md"
             >
               Send Message
             </button>

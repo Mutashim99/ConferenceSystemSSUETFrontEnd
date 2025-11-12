@@ -1,72 +1,46 @@
-export const Speakers = () => {
-    const speakers = [
-    {
-        name: "Dummy Name 1",
-        location: "Tokyo, Japan",
-        image: "https://placehold.co/600x400",
-    },
-    {
-        name: "Dummy Name 2",
-        location: "Arkansas, USA",
-        image: "https://placehold.co/600x400",
-    },
-    {
-        name: "Dummy Name 3",
-        location: "United Kingdom",
-        image: "https://placehold.co/600x400",
-    },
-    {
-        name: "Dummy Name 4",
-        location: "Sydney, Australia",
-        image: "https://placehold.co/600x400",
-    },
-    {
-        name: "Dummy Name 5",
-        location: "Malaga, Spain",
-        image: "https://placehold.co/600x400",
-    },
-    {
-        name: "Dummy Name 6",
-        location: "Melbourne, Australia",
-        image: "https://placehold.co/600x400",
-    },
-    ];
+import { motion } from "framer-motion"; // Import motion
 
-    const invitedSpeakers = [
-    {
-        name: "Dummy Name 1",
-        location: "Tokyo, Japan",
-        image: "https://placehold.co/600x400",
-    },
-    {
-        name: "Dummy Name 2",
-        location: "Arkansas, USA",
-        image: "https://placehold.co/600x400",
-    },
-    {
-        name: "Dummy Name 3",
-        location: "United Kingdom",
-        image: "https://placehold.co/600x400",
-    },
-    ];
+export const Speakers = () => {
+  const speakers = [
+    { name: "Dummy Name 1", location: "Tokyo, Japan", image: "https://placehold.co/600x400" },
+    { name: "Dummy Name 1", location: "Tokyo, Japan", image: "https://placehold.co/600x400" },
+    { name: "Dummy Name 1", location: "Tokyo, Japan", image: "https://placehold.co/600x400" },
+    { name: "Dummy Name 1", location: "Tokyo, Japan", image: "https://placehold.co/600x400" },
+    { name: "Dummy Name 1", location: "Tokyo, Japan", image: "https://placehold.co/600x400" },
+    { name: "Dummy Name 1", location: "Tokyo, Japan", image: "https://placehold.co/600x400" },
+    // ... other speakers
+  ];
+  const invitedSpeakers = [
+    { name: "Dummy Name 1", location: "Tokyo, Japan", image: "https://placehold.co/600x400" },
+    { name: "Dummy Name 1", location: "Tokyo, Japan", image: "https://placehold.co/600x400" },
+    { name: "Dummy Name 1", location: "Tokyo, Japan", image: "https://placehold.co/600x400" },
+    { name: "Dummy Name 1", location: "Tokyo, Japan", image: "https://placehold.co/600x400" },
+    { name: "Dummy Name 1", location: "Tokyo, Japan", image: "https://placehold.co/600x400" },
+    { name: "Dummy Name 1", location: "Tokyo, Japan", image: "https://placehold.co/600x400" },
+    
+    // ... other invited speakers
+  ];
 
   return (
-    <section className="py-16 px-6 md:px-16 bg-gray-50 font-poppins">
+    <section className="py-20 md:py-24 px-6 md:px-16 bg-gray-50 font-poppins">
       <div className="max-w-7xl mx-auto text-center">
         {/* Heading */}
-        <h2 id="keynote" className="text-2xl md:text-3xl font-extrabold tracking-wide uppercase text-[#111111] font-sans mb-12">
+        <h2 id="keynote" className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#662D91] font-sans mb-16">
           Keynote Speakers
         </h2>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 mb-10 sm:grid-cols-2 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 mb-16 sm:grid-cols-2 md:grid-cols-3 gap-10">
           {speakers.map((speaker, index) => (
-            <div
+            // Added motion.div and hover effect
+            <motion.div
               key={index}
-              className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200 p-6 flex flex-col items-center"
+              className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 p-6 flex flex-col items-center"
+              whileHover={{ scale: 1.03, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
             >
               {/* Image */}
-              <div className="w-40 h-40 rounded-full border-[3px] border-red-500 overflow-hidden mb-4">
+              <div className="w-40 h-40 rounded-full border-4 border-[#34B04A] overflow-hidden mb-4 shadow-inner">
                 <img
                   src={speaker.image}
                   alt={speaker.name}
@@ -75,62 +49,56 @@ export const Speakers = () => {
               </div>
 
               {/* Name */}
-              <h3 className="text-lg font-semibold text-gray-800 mb-1">
+              <h3 className="text-xl font-semibold text-gray-900 mb-1">
                 {speaker.name}
               </h3>
 
               {/* Location */}
-              <p className="text-sm text-gray-600 mb-4">({speaker.location})</p>
+              <p className="text-sm text-gray-600 mb-5">({speaker.location})</p>
 
               {/* Button */}
-              <button className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-sm font-medium border border-gray-300 rounded shadow-sm">
+              <motion.button 
+                className="px-6 py-2 bg-[#34B04A] text-white text-sm font-medium rounded-md"
+                whileHover={{ scale: 1.1, backgroundColor: "#2d9a40" }}
+              >
                 Read More
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           ))}
         </div>
 
-        <h2 id="invited" className="text-2xl md:text-3xl font-extrabold tracking-wide uppercase text-[#111111] font-sans mb-12">
+        {/* ... (Same logic for Invited Speakers grid) ... */}
+        
+        <h2 id="invited" className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#662D91] font-sans mb-16">
           Invited Speakers
         </h2>
-
-        {/* Grid */}
-        <div className="grid grid-cols-1 mb-10 sm:grid-cols-2 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 mb-16 sm:grid-cols-2 md:grid-cols-3 gap-10">
           {invitedSpeakers.map((speaker, index) => (
-            <div
+            // Added motion.div and hover effect
+            <motion.div
               key={index}
-              className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200 p-6 flex flex-col items-center"
+              className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 p-6 flex flex-col items-center"
+              whileHover={{ scale: 1.03, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
             >
-              {/* Image */}
-              <div className="w-40 h-40 rounded-full border-[3px] border-red-500 overflow-hidden mb-4">
-                <img
-                  src={speaker.image}
-                  alt={speaker.name}
-                  className="w-full h-full object-cover"
-                />
+              <div className="w-40 h-40 rounded-full border-4 border-[#34B04A] overflow-hidden mb-4 shadow-inner">
+                <img src={speaker.image} alt={speaker.name} className="w-full h-full object-cover" />
               </div>
-
-              {/* Name */}
-              <h3 className="text-lg font-semibold text-gray-800 mb-1">
-                {speaker.name}
-              </h3>
-
-              {/* Location */}
-              <p className="text-sm text-gray-600 mb-4">({speaker.location})</p>
-
-              {/* Button */}
-              <button className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-sm font-medium border border-gray-300 rounded shadow-sm">
+              <h3 className="text-xl font-semibold text-gray-900 mb-1">{speaker.name}</h3>
+              <p className="text-sm text-gray-600 mb-5">({speaker.location})</p>
+              <motion.button 
+                className="px-6 py-2 bg-[#34B04A] text-white text-sm font-medium rounded-md"
+                whileHover={{ scale: 1.1, backgroundColor: "#2d9a40" }}
+              >
                 Read More
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           ))}
         </div>
 
         <div className="flex justify-center items-center">
-            <img src="./sample-img.png"></img>
+          <img src="./sample-img.png" alt="Sample" />
         </div>
-
-
       </div>
     </section>
   );

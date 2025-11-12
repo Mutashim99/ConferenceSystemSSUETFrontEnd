@@ -1,90 +1,68 @@
-
 export const About = () => {
   return (
     <section
       id="about"
-      className="py-16 px-6 md:px-16 bg-white text-gray-800 font-poppins"
+      // Increased padding for more white space
+      className="py-20 md:py-24 px-6 md:px-16 bg-white text-gray-800 font-poppins"
     >
-      <div className="max-w-5xl mx-auto text-center">
-        {/* Heading */}
-        <h2 className="text-2xl mb-4 md:text-3xl font-extrabold tracking-wide uppercase text-[#111111] font-sans">
+      <div className="max-w-4xl mx-auto text-center">
+        {/* Heading (Updated to primary purple) */}
+        <h2 className="text-3xl mb-6 md:text-4xl font-extrabold tracking-wide uppercase text-[#662D91] font-sans">
           About Us
         </h2>
 
-        {/* Content */}
-        <div className="text-justify mb-4 leading-relaxed text-[15px] md:text-[16px] space-y-4">
+        {/* Content (Updated text size and line height for elegance) */}
+        <div className="text-justify mb-12 text-base md:text-lg text-gray-700 leading-relaxed space-y-5">
           <p>
-            The University of Karachi holds a unique position in the country’s
+            Sir Syed University of Engineering and Technology holds a unique position in the country’s
             educational system. As a respected research and teaching institution,
             it is committed to intellectual leadership, and to excellence in both
             developing knowledge and conveying that knowledge to its students.
-            The University of Karachi meets the commitments to preserve knowledge
+            Sir Syed University of Engineering and TechnologySir Syed University of Engineering and Technology meets the commitments to preserve knowledge
             through its instructional and research programs for higher level
             education.
           </p>
-
           <p>
             The Department of Computer Science, University of Karachi, was
             established by a resolution of Academic Council in its meeting held
             on November 27, 1984, and it began functioning in the academic year
             1985-86 by offering a Degree Program in Master of Computer Science
             (MCS) — becoming one of the first institutions in Karachi imparting
-            education in Computer Science and Technology. The Department also
-            offers an evening program leading to a Post Graduate Diploma (PGD) in
-            Computer & Information Sciences. In 1995, the Department started the
-            MCS evening program on a self-finance basis to cater to the growing
-            demand for professionally skilled manpower in Computer Science.
+            education in Computer Science and Technology.
           </p>
-
           <p>
             To further strengthen the discipline of Computer Science by producing
             high-quality professionals with sound fundamental knowledge, the
             Department launched the BS (Computer Science) program in 1996 and
             2001 — a four-year degree leading to the MS (Computer Science), a
             two-year program after completing the BS. The MS program leads to the
-            PhD (Computer Science) program. The University of Karachi has
-            excellent supporting faculty in Mathematics, Statistics, Physics, and
-            other allied subjects for teaching BS (Computer Science) courses. The
-            first batch of the BS morning program graduated in 1999.
-          </p>
-
-          <p>
-            The Department of Computer Science offers a wide range of courses at
-            various levels. The purpose of these courses is to provide
-            opportunities for advanced studies and research in Computer Science,
-            Information Technology, and related fields — producing highly skilled
-            computer professionals to meet the national and international demand.
-            The Department maintains a high standard of education through
-            continuous assessments, tests, seminars, and field projects, while
-            keeping close links with professional organizations to enhance both
-            academic and professional excellence.
+            PhD (Computer Science) program.
           </p>
         </div>
 
-        <h2 className="text-2xl mb-4 md:text-3xl font-extrabold tracking-wide uppercase text-[#111111] font-sans">
-        Conference Aims and Objectives
+        {/* Heading (Updated to primary purple) */}
+        <h2 className="text-3xl mb-6 md:text-4xl font-extrabold tracking-wide uppercase text-[#662D91] font-sans">
+          Conference Aims and Objectives
         </h2>
 
-
-        {/* Content */}
-        <div className="text-justify leading-relaxed text-[15px] md:text-[16px] space-y-4">
+        {/* Content (Updated text size and line height) */}
+        <div className="text-justify text-base md:text-lg text-gray-700 leading-relaxed space-y-5">
           <p>
-            The International Research Conference is a federated organization 
-            dedicated to bringing together a significant number of diverse 
-            scholarly events for presentation within the conference program. 
-            Events will run over a span of time during the conference depending 
+            The International Research Conference is a federated organization
+            dedicated to bringing together a significant number of diverse
+            scholarly events for presentation within the conference program.
+            Events will run over a span of time during the conference depending
             on the number and length of the presentations.
           </p>
-
           <p>
-            The ICISCT 2025 event aims to bring together leading academic 
-            scientists, researchers and research scholars to exchange and 
+            The ICISCT 2025 event aims to bring together leading academic
+            scientists, researchers and research scholars to exchange and
             share their experiences and research results on all aspects of
-            INFORMATION SCIENCE and COMMUNICATION TECHNOLOGY. It also 
-            provides a premier interdisciplinary platform for researchers, 
-            practitioners and educators to present and discuss the most recent 
-            innovations, trends, and concerns as well as practical challenges 
-            encountered and solutions adopted in the fields of INFORMATION SCIENCE 
+            INFORMATION SCIENCE and COMMUNICATION TECHNOLOGY. It also
+            provides a premier interdisciplinary platform for researchers,
+            practitioners and educators to present and discuss the most recent
+            innovations, trends, and concerns as well as practical challenges
+            encountered and solutions adopted in the fields of INFORMATION SCIENCE
             and COMMUNICATION TECHNOLOGY.
           </p>
         </div>
@@ -92,6 +70,5 @@ export const About = () => {
     </section>
   );
 };
-
 
 export default About;

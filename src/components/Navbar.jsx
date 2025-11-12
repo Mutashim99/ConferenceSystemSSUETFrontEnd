@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../store/authStore";
 import { Link } from "react-router-dom";
+// 1. Import motion and AnimatePresence
+import { motion, AnimatePresence } from "framer-motion";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useAuthStore();
@@ -14,8 +17,8 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  // --- New Logic to Determine Dashboard Path ---
-  let dashboardPath = "/"; // Default fallback
+  // --- Logic to Determine Dashboard Path ---
+  let dashboardPath = "/";
   if (user) {
     switch (user.role) {
       case "ADMIN":
@@ -25,26 +28,24 @@ const Navbar = () => {
         dashboardPath = "/author/dashboard";
         break;
       case "REVIEWER":
-        // Links to the main page within the reviewer's layout
-        dashboardPath = "/reviewer/dashboard/papers"; 
+        dashboardPath = "/reviewer/dashboard/papers";
         break;
       default:
-        dashboardPath = "/"; // Fallback to home
+        dashboardPath = "/";
     }
   }
-  // --- End of New Logic ---
 
-  // Links visible when logged out
+  // Links visible when logged out (Updated with a green CTA)
   const publicNavItems = [
-    { label: "SUBMIT A PAPER", to: "/author/dashboard/submit" },
+    { label: "SUBMIT A PAPER", to: "/author/dashboard/submit", cta: true },
     { label: "LOGIN", to: "/login" },
     { label: "REGISTER", to: "/register" },
   ];
 
-  // Links visible when logged in (Updated)
+  // Links visible when logged in
   const userNavItems = [
     { label: `Welcome, ${user?.firstName || user?.email}` },
-    { label: "MY DASHBOARD", to: dashboardPath }, // <-- Here is the new link
+    { label: "MY DASHBOARD", to: dashboardPath },
     { label: "LOGOUT", onClick: handleLogout },
   ];
 
@@ -57,7 +58,7 @@ const Navbar = () => {
         <button
           key={item.label}
           onClick={item.onClick}
-          className="text-sm font-semibold hover:text-gray-300 transition-colors"
+          className="text-sm font-semibold hover:opacity-80 transition-opacity"
         >
           {item.label}
         </button>
@@ -66,23 +67,36 @@ const Navbar = () => {
     // Render a non-clickable welcome message
     if (!item.to) {
       return (
-        <span key={item.label} className="text-sm font-semibold text-gray-300">
+        <span key={item.label} className="text-sm font-semibold text-gray-200">
           {item.label}
         </span>
       );
     }
-    // Render a navigation Link
+    // Render a CTA button (accent green)
+    if (item.cta) {
+      return (
+        <Link
+          key={item.label}
+          to={item.to}
+          className="text-sm font-semibold bg-[#34B04A] text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-all"
+        >
+          {item.label}
+        </Link>
+      );
+    }
+    // Render a standard navigation Link
     return (
       <Link
         key={item.label}
         to={item.to}
-        className="text-sm font-semibold hover:text-gray-300 transition-colors"
+        className="text-sm font-semibold hover:opacity-80 transition-opacity"
       >
         {item.label}
       </Link>
     );
   };
 
+  // 6. Updated mobile item styles for a cleaner list
   const renderMobileNavItem = (item) => {
     // Render a button for actions
     if (item.onClick) {
@@ -93,7 +107,7 @@ const Navbar = () => {
             item.onClick();
             setIsOpen(false);
           }}
-          className="block w-full text-left px-4 py-3 border-b border-gray-700 text-sm font-semibold"
+          className="block w-full text-left px-6 py-4 text-base font-medium hover:bg-[#5a2781] transition-colors"
         >
           {item.label}
         </button>
@@ -104,10 +118,23 @@ const Navbar = () => {
       return (
         <span
           key={item.label}
-          className="block w-full text-left px-4 py-3 border-b border-gray-700 text-sm font-semibold text-gray-300"
+          className="block w-full text-left px-6 py-4 text-base font-medium text-gray-300"
         >
           {item.label}
         </span>
+      );
+    }
+    // Render a CTA button
+    if (item.cta) {
+      return (
+        <Link
+          key={item.label}
+          to={item.to}
+          onClick={() => setIsOpen(false)}
+          className="block px-6 py-4 text-base font-medium bg-[#34B04A] text-center"
+        >
+          {item.label}
+        </Link>
       );
     }
     // Render a navigation Link
@@ -116,7 +143,7 @@ const Navbar = () => {
         key={item.label}
         to={item.to}
         onClick={() => setIsOpen(false)}
-        className="block px-4 py-3 border-b border-gray-700 text-sm font-semibold"
+        className="block px-6 py-4 text-base font-medium hover:bg-[#5a2781] transition-colors"
       >
         {item.label}
       </Link>
@@ -124,43 +151,75 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-[#521028] text-white w-full sticky top-0 z-50 shadow-md">
-      <div className="max-w-7xl h-20 mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        {/* Logo - changed to Link to home */}
-        <Link to="/" className="flex items-center space-x-2 shrink-0">
-          <img
-            src="https://icisct.com/wp-content/uploads/2024/11/logo.png"
-            alt="ICISCT Logo"
-            className="h-12 w-auto object-contain"
-            draggable="false"
-            onError={(e) => {
-              e.target.style.display = 'none'; // Hide broken image
-            }}
-          />
-          {/* <h1 className="font-bold">DEMO APP</h1> */}
+    <>
+      {/* Updated background to primary purple */}
+      <nav className="bg-[#662D91] text-white w-full sticky top-0 z-50 shadow-lg">
+        <div className="max-w-7xl h-20 mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2 shrink-0">
+            <img
+              src="https://icisct.com/wp-content/uploads/2024/11/logo.png"
+              alt="ICISCT Logo"
+              className="h-12 w-auto object-contain"
+              draggable="false"
+              onError={(e) => {
+                e.target.style.display = 'none';
+              }}
+            />
+          </Link>
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex space-x-6 items-center">
+            {navItems.map(renderNavItem)}
+          </div>
           
-        </Link>
+          {/* Mobile Menu Button - Toggles state */}
+          <div className="md:hidden">
+            <button onClick={() => setIsOpen(!isOpen)}>
+              {/* Show Menu icon, X is now in the drawer */}
+              <Menu size={24} />
+            </button>
+          </div>
+        </div>
+      </nav>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-6 items-center">
-          {navItems.map(renderNavItem)}
-        </div>
-        
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
+      {/* 2. NEW: Animated Mobile Drawer */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* 5. NEW: Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 bg-black/60 z-50" // z-50 to cover page
+            />
 
-      {/* Mobile Dropdown Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-[#4a0b25] border-t border-gray-700">
-          {navItems.map(renderMobileNavItem)}
-        </div>
-      )}
-    </nav>
+            {/* 3. NEW: Drawer Content */}
+            <motion.div
+              initial={{ x: "100%" }} // Start off-screen to the right
+              animate={{ x: 0 }} // Animate to 0 (on-screen)
+              exit={{ x: "100%" }} // Animate back off-screen
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="fixed top-0 right-0 bottom-0 w-80 max-w-[calc(100vw-4rem)] bg-[#662D91] text-white z-60 shadow-2xl" // z-60 to be on top of backdrop
+            >
+              {/* 4. NEW: Close button inside drawer */}
+              <div className="flex justify-end p-5">
+                <button onClick={() => setIsOpen(false)}>
+                  <X size={28} />
+                </button>
+              </div>
+              
+              {/* Menu Items */}
+              <div className="flex flex-col">
+                {navItems.map(renderMobileNavItem)}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 export default Navbar;
