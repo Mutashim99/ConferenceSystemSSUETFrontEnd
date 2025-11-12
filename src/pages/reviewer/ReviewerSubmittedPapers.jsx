@@ -119,7 +119,7 @@ const ReviewerSubmittedPapers = () => {
     <>
       <Breadcrumbs /> {/* <-- REMOVED: Unnecessary action prop */}
       <div className="p-3 sm:p-4">
-        <h1 className="text-3xl font-bold text-[#521028] mb-6">
+        <h1 className="text-3xl font-bold text-[#662D91] mb-6">
           Assigned Papers for Review
         </h1>
         <p className="text-gray-600 mb-6 max-w-2xl">

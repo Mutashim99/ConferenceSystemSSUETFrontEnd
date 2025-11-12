@@ -296,7 +296,7 @@ const AdminSubmittedPapersInternal = () => {
     <>
       <Link
         to="/admin/dashboard/register-reviewer"
-        className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+        className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#34B04A] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
       >
         <FileText className="w-4 h-4 me-1.5" />
         Register Reviewer
@@ -416,7 +416,7 @@ const AdminSubmittedPapersInternal = () => {
         <Breadcrumbs actions={breadcrumbActions} />
         {detailLoading ? (
           <div className="flex justify-center items-center h-64">
-            <Loader2 className="h-12 w-12 text-[#521028] animate-spin" />
+            <Loader2 className="h-12 w-12 text-[#34B04A] animate-spin" />
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-3 sm:p-6">
@@ -798,7 +798,7 @@ const AdminSubmittedPapersInternal = () => {
       <Breadcrumbs actions={breadcrumbActions} />
       <div className="p-3 sm:p-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-[#521028]">
+          <h1 className="text-3xl font-bold text-[#662D91]">
             Submitted Papers
           </h1>
         </div>

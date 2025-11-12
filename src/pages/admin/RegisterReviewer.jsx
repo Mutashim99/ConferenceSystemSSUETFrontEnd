@@ -89,7 +89,7 @@ const RegisterReviewer = () => {
 
       <div className="flex flex-col justify-center items-center">
         <div className="p-3 sm:p-6">
-          <h1 className="text-3xl font-bold text-[#521028] mb-6 max-w-md">
+          <h1 className="text-3xl font-bold text-[#662D91] mb-6 max-w-md">
             Register New Reviewer
           </h1>
           <p className="text-gray-600 mb-6 max-w-md">
@@ -120,7 +120,7 @@ const RegisterReviewer = () => {
                   value={form.firstName}
                   onChange={handleChange}
                   required
-                  className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                  className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#662D91] focus:outline-none"
                   placeholder="John"
                 />
               </div>
@@ -144,7 +144,7 @@ const RegisterReviewer = () => {
                   name="middleName"
                   value={form.middleName}
                   onChange={handleChange}
-                  className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                  className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#662D91] focus:outline-none"
                   placeholder="M."
                 />
               </div>
@@ -169,7 +169,7 @@ const RegisterReviewer = () => {
                   value={form.lastName}
                   onChange={handleChange}
                   required
-                  className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                  className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#662D91] focus:outline-none"
                   placeholder="Doe"
                 />
               </div>
@@ -194,7 +194,7 @@ const RegisterReviewer = () => {
                   name="affiliation"
                   value={form.affiliation}
                   onChange={handleChange}
-                  className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                  className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#662D91] focus:outline-none"
                   placeholder="Example University"
                 />
               </div>
@@ -219,7 +219,7 @@ const RegisterReviewer = () => {
                   value={form.email}
                   onChange={handleChange}
                   required
-                  className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                  className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#662D91] focus:outline-none"
                   placeholder="reviewer@example.com"
                 />
               </div>
@@ -245,7 +245,7 @@ const RegisterReviewer = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#521028] text-white font-semibold py-2.5 rounded-md hover:bg-[#6b1b3a] transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+              className="w-full btn-green text-white font-semibold py-2.5 rounded-md transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
             >
               {loading ? (
                 <Loader2 className="h-5 w-5 animate-spin" />

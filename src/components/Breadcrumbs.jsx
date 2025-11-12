@@ -45,9 +45,9 @@ const Breadcrumbs = ({ actions }) => {
         <li className="inline-flex items-center">
           <Link
             to="/"
-            className="inline-flex items-center text-sm font-semibold text-[#521028] hover:text-[#6b1b3a] transition-colors"
+            className="inline-flex items-center text-sm font-semibold text-[#34B04A] hover:text-[#2c9a40] transition-colors"
           >
-            <Home className="w-4 h-4 me-2 text-[#521028]" />
+            <Home className="w-4 h-4 me-2 text-[#34B04A]" />
             Home
           </Link>
         </li>
@@ -79,7 +79,7 @@ const Breadcrumbs = ({ actions }) => {
                   // Not last item - display a link
                   <Link
                     to={currentLink}
-                    className="ms-1 text-sm font-semibold text-[#521028] hover:text-[#6b1b3a] transition-colors md:ms-2"
+                    className="ms-1 text-sm font-semibold text-[#34B04A] hover:text-[#2c9a40] transition-colors md:ms-2"
                   >
                     {friendlyName}
                   </Link>
@@ -95,7 +95,7 @@ const Breadcrumbs = ({ actions }) => {
         {actions}
         <button
           onClick={handleLogout}
-          className="flex items-center cursor-pointer text-sm font-semibold text-white bg-[#521028] hover:bg-[#6b1b3a] px-3 py-2 rounded-md transition-colors whitespace-nowrap"
+          className="flex items-center cursor-pointer text-sm font-semibold text-white btn-green px-3 py-2 rounded-md transition-colors whitespace-nowrap"
         >
           <LogOut className="w-4 h-4 me-1.5" />
           Logout

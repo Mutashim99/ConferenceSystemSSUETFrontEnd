@@ -226,7 +226,7 @@ const SubmitPaper = () => {
   const breadcrumbActions = (
     <Link
       to="/author/dashboard/papers"
-      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#2c9a40] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
     >
       <FileText className="w-4 h-4 me-1.5" />
       Submitted Papers
@@ -237,7 +237,7 @@ const SubmitPaper = () => {
     <>
       <Breadcrumbs actions={breadcrumbActions} />
       <div className="p-2 md:p-6">
-        <h1 className="text-2xl font-bold text-[#521028] mb-6 flex justify-center">
+        <h1 className="text-2xl font-bold text-[#662D91] mb-6 flex justify-center">
           Submit Your Paper
         </h1>
 
@@ -255,7 +255,7 @@ const SubmitPaper = () => {
               name="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
               placeholder="Enter paper title"
               required
             />
@@ -353,7 +353,7 @@ const SubmitPaper = () => {
                             e.target.value
                           )
                         }
-                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028] bg-white"
+                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91] bg-white"
                       >
                         {SALUTATION_OPTIONS.map((opt) => (
                           <option key={opt} value={opt}>
@@ -378,7 +378,7 @@ const SubmitPaper = () => {
                           onChange={(e) =>
                             handleAuthorChange(index, "name", e.target.value)
                           }
-                          className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+                          className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
                           placeholder="Full name"
                           required
                           // --- REMOVED: disabled prop ---
@@ -401,7 +401,7 @@ const SubmitPaper = () => {
                           onChange={(e) =>
                             handleAuthorChange(index, "email", e.target.value)
                           }
-                          className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+                          className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
                           placeholder="author@example.com"
                           required
                           // --- REMOVED: disabled prop ---
@@ -428,7 +428,7 @@ const SubmitPaper = () => {
                               e.target.value
                             )
                           }
-                          className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+                          className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
                           placeholder="Example University"
                           required
                           // --- REMOVED: disabled prop ---
@@ -450,7 +450,7 @@ const SubmitPaper = () => {
                           e.target.checked
                         )
                       }
-                      className="h-4 w-4 text-[#521028] border-gray-300 rounded focus:ring-[#521028]"
+                      className="h-4 w-4 text-[#34B04A] border-gray-300 rounded focus:ring-[#662D91]"
                     />
                     <label
                       htmlFor={`corresponding-${index}`}
@@ -466,7 +466,7 @@ const SubmitPaper = () => {
               type="button"
               onClick={addAuthor}
               disabled={authors.length >= 6}
-              className="mt-3 flex items-center space-x-1 text-sm font-semibold text-[#521028] hover:text-[#6b1b3a] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-3 flex items-center space-x-1 text-sm font-semibold text-[#34B04A] hover:text-[#2c9a40] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Plus size={16} />
               <span>Add Another Author</span>
@@ -485,13 +485,13 @@ const SubmitPaper = () => {
                 onDragEnter={handleDragEnter}
                 onDragLeave={handleDragLeave}
                 className={`mt-1 flex justify-center w-full px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md cursor-pointer
-                ${isDragging ? "border-[#521028] bg-gray-50" : ""}`}
+                ${isDragging ? "border-[#662D91] bg-gray-50" : ""}`}
                 onClick={() => fileInputRef.current?.click()}
               >
                 <div className="space-y-1 text-center">
                   <UploadCloud className="mx-auto h-12 w-12 text-gray-400" />
                   <div className="flex text-sm text-gray-600">
-                    <span className="font-semibold text-[#521028]">
+                    <span className="font-semibold text-[#662D91]">
                       Click to upload
                     </span>
                     <input
@@ -512,7 +512,7 @@ const SubmitPaper = () => {
               // Show selected file
               <div className="mt-2 flex items-center justify-between p-3 bg-gray-100 border border-gray-300 rounded-md">
                 <div className="flex items-center space-x-2 overflow-hidden">
-                  <FileText className="h-5 w-5 text-[#521028] shrink-0" />
+                  <FileText className="h-5 w-5 text-[#662D91] shrink-0" />
                   <span className="text-sm font-medium text-gray-800 truncate">
                     {file.name}
                   </span>
@@ -520,7 +520,7 @@ const SubmitPaper = () => {
                 <button
                   type="button"
                   onClick={removeFile}
-                  className="p-1 text-red-600 rounded-full hover:bg-red-1Go"
+                  className="p-1 text-red-600 rounded-full hover:bg-red-1Go cursor-pointer"
                 >
                   <X size={20} />
                 </button>
@@ -546,7 +546,7 @@ const SubmitPaper = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center cursor-pointer py-3 mt-4 bg-[#521028] text-white font-semibold rounded-md hover:bg-[#6b1b3a] transition-colors disabled:opacity-70"
+            className="w-full flex justify-center cursor-pointer py-3 mt-4 btn-green text-white font-semibold rounded-md  transition-colors disabled:opacity-70"
           >
             {loading ? (
               <Loader2 className="h-5 w-5 animate-spin" />

@@ -78,7 +78,7 @@ const Navbar = () => {
         <Link
           key={item.label}
           to={item.to}
-          className="text-sm font-semibold bg-[#34B04A] text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-all"
+          className="text-sm font-semibold btn-green text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-all"
         >
           {item.label}
         </Link>
@@ -163,7 +163,7 @@ const Navbar = () => {
               className="h-12 w-auto object-contain"
               draggable="false"
               onError={(e) => {
-                e.target.style.display = 'none';
+                e.target.style.display = "none";
               }}
             />
           </Link>
@@ -172,7 +172,7 @@ const Navbar = () => {
           <div className="hidden md:flex space-x-6 items-center">
             {navItems.map(renderNavItem)}
           </div>
-          
+
           {/* Mobile Menu Button - Toggles state */}
           <div className="md:hidden">
             <button onClick={() => setIsOpen(!isOpen)}>
@@ -210,7 +210,7 @@ const Navbar = () => {
                   <X size={28} />
                 </button>
               </div>
-              
+
               {/* Menu Items */}
               <div className="flex flex-col">
                 {navItems.map(renderMobileNavItem)}

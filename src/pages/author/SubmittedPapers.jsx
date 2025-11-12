@@ -204,7 +204,7 @@ const SubmittedPapers = () => {
     <>
       <Breadcrumbs actions={breadcrumbActions} />
       <div className="p-2 md:p-6">
-        <h1 className="text-3xl font-bold text-[#521028] mb-8">
+        <h1 className="text-3xl font-bold text-[#662D91] mb-8">
           Submitted Papers
         </h1>
         {renderContent()}

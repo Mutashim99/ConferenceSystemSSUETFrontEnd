@@ -13,6 +13,24 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  .btn-green {
+  background-color: #34B04A;
+  color: white;
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+  .btn-green:hover {
+    background-color: #2c9a40;
+    cursor: pointer;
+  }
+
+  .btn-green:disabled {
+    opacity: 0.7;
+  }
+
 }
 
 html {

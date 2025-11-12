@@ -253,7 +253,7 @@ const ReviewerPaperDetails = () => {
           <div className="bg-white shadow-lg rounded-lg p-6">
             <button
               onClick={() => navigate("/reviewer/dashboard/papers")}
-              className="text-sm text-[#521028] font-semibold hover:underline mb-3"
+              className="text-sm text-[#34B04A] font-semibold hover:underline mb-3"
             >
               &larr; Back to all papers
             </button>

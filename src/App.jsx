@@ -40,7 +40,6 @@ function App() {
           <Route
             path="/author/dashboard/submit"
             element={
-              // **FIX:** Re-enabled the ProtectedRoute.
               <ProtectedRoute allowedRoles={["AUTHOR"]}>
                 <SubmitPaper />
               </ProtectedRoute>
