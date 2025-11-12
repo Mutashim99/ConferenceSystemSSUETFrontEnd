@@ -133,7 +133,7 @@ const PaperDetails = () => {
   const breadcrumbActions = (
     <Link
       to="/author/dashboard/papers"
-      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#34B04A] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
     >
       <FileText className="w-4 h-4 me-1.5" />
       Submitted Papers
@@ -215,7 +215,7 @@ const PaperDetails = () => {
         ) : (
           <div className="flex items-center justify-between p-3 bg-gray-100 border border-gray-300 rounded-md">
             <div className="flex items-center space-x-2 overflow-hidden">
-              <FileText className="h-5 w-5 text-[#521028] shrink-0" />
+              <FileText className="h-5 w-5 text-[#662D91] shrink-0" />
               <span className="text-sm font-medium text-gray-800 truncate">
                 {file.name}
               </span>
@@ -237,7 +237,7 @@ const PaperDetails = () => {
           type="button"
           onClick={handleResubmit}
           disabled={!file || isUploading}
-          className="w-full bg-[#521028] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#6b1b3a] disabled:opacity-50 flex justify-center items-center"
+          className="w-full btn-green text-white font-semibold py-2 px-4 rounded-md  disabled:opacity-50 flex justify-center items-center"
         >
           {isUploading ? (
             <Loader2 className="animate-spin h-5 w-5" />
@@ -259,7 +259,7 @@ const PaperDetails = () => {
       <>
         <Breadcrumbs actions={breadcrumbActions} />
         <div className="flex justify-center items-center h-64">
-          <Loader2 className="h-16 w-16 text-[#521028] animate-spin" />
+          <Loader2 className="h-16 w-16 text-[#662D91] animate-spin" />
           <p className="ml-4 text-xl text-gray-600">Loading paper details...</p>
         </div>
       </>
@@ -303,7 +303,7 @@ const PaperDetails = () => {
         {/* LEFT: Paper Details */}
         <div className="flex-1 space-y-6">
           <div className="bg-white shadow-lg rounded-lg p-6">
-            <h1 className="text-3xl font-bold text-[#521028] mb-4">{title}</h1>
+            <h1 className="text-3xl font-bold text-black mb-4">{title}</h1>
             <div className="flex flex-wrap gap-4 items-center">
               <span
                 className={`px-3 py-1 rounded-full text-sm font-bold ${getStatusClass(
@@ -320,7 +320,7 @@ const PaperDetails = () => {
                   href={fileUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-[#521028] font-semibold hover:underline"
+                  className="inline-flex items-center gap-2 text-[#34B04A] font-semibold hover:underline"
                 >
                   {/* --- CHANGED: Used Download icon --- */}
                   <Download size={18} /> View Paper PDF
@@ -332,7 +332,7 @@ const PaperDetails = () => {
           {showResubmit && <ResubmissionSection />}
 
           <div className="bg-white shadow-lg rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-[#521028] mb-3 flex items-center gap-2">
+            <h2 className="text-xl font-semibold text-[#662D91] mb-3 flex items-center gap-2">
               <BookOpen size={20} /> Abstract
             </h2>
             <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
@@ -346,7 +346,7 @@ const PaperDetails = () => {
           {/* --- CHANGED: "Authors" section --- */}
           {authors?.length > 0 && (
             <div className="bg-white shadow-lg rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-[#521028] mb-3 flex items-center gap-2">
+              <h2 className="text-xl font-semibold text-[#662D91] mb-3 flex items-center gap-2">
                 <Users size={20} /> Authors
               </h2>
               <ul className="list-none pl-0 text-sm text-gray-700 space-y-2">
@@ -380,7 +380,7 @@ const PaperDetails = () => {
 
           {/* --- CHANGED: "Reviews" section --- */}
           <div className="bg-white shadow-lg rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-[#521028] mb-3 flex items-center gap-2">
+            <h2 className="text-xl font-semibold text-[#662D91] mb-3 flex items-center gap-2">
               <MessageSquare size={20} /> Reviews
             </h2>
             {reviews?.length > 0 ? (
@@ -431,7 +431,7 @@ const PaperDetails = () => {
       lg:sticky lg:top-24`}
           >
             {/* Header with collapse toggle */}
-            <div className="border-b p-4 bg-[#521028] text-white rounded-t-lg flex justify-between items-center">
+            <div className="border-b p-4 bg-[#662D91] text-white rounded-t-lg flex justify-between items-center">
               <h2 className="font-semibold text-lg flex items-center gap-2">
                 <MessageSquare size={20} />
                 Feedback & Chat
@@ -472,7 +472,7 @@ const PaperDetails = () => {
                         <div
                           className={`max-w-[85%] w-fit p-3 rounded-lg text-sm ${
                             isMyMessage
-                              ? "bg-[#521028] text-white rounded-br-none"
+                              ? "bg-[#662D91] text-white rounded-br-none"
                               : "bg-gray-100 text-gray-800 rounded-bl-none"
                           }`}
                         >
@@ -505,12 +505,12 @@ const PaperDetails = () => {
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Type your message..."
-                    className="flex-1 p-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#521028]"
+                    className="flex-1 p-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#662D91]"
                   />
                   <button
                     type="submit"
                     disabled={isSending || !newMessage.trim()}
-                    className="bg-[#521028] text-white p-2.5 rounded-md hover:bg-[#6b1b3a] disabled:opacity-50"
+                    className="btn-green text-white p-2.5 rounded-md disabled:opacity-50"
                   >
                     {isSending ? (
                       <Loader2 className="animate-spin h-5 w-5" />
