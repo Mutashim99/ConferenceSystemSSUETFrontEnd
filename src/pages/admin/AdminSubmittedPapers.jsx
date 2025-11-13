@@ -218,7 +218,7 @@ const AdminSubmittedPapersInternal = () => {
           <p className="text-sm text-gray-600 mb-4">{successMessage}</p>
           <button
             onClick={closeModal}
-            className="w-full bg-[#521028] text-white font-semibold py-2 rounded-md hover:bg-[#6b1b3a]"
+            className="w-full btn-green text-white font-semibold py-2 rounded-md"
           >
             Close
           </button>
@@ -416,7 +416,7 @@ const AdminSubmittedPapersInternal = () => {
         <Breadcrumbs actions={breadcrumbActions} />
         {detailLoading ? (
           <div className="flex justify-center items-center h-64">
-            <Loader2 className="h-12 w-12 text-[#34B04A] animate-spin" />
+            <Loader2 className="h-12 w-12 text-[#662D91] animate-spin" />
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-3 sm:p-6">
@@ -426,12 +426,12 @@ const AdminSubmittedPapersInternal = () => {
               <div className="bg-white shadow-lg rounded-lg p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h1 className="text-2xl font-bold text-[#521028]">
+                    <h1 className="text-2xl font-bold text-black">
                       {selectedPaper.title}
                     </h1>
                     <button
                       onClick={handleBackToList}
-                      className="text-sm text-[#521028] font-semibold hover:underline mt-1"
+                      className="text-sm text-[#34B04A] font-semibold hover:underline mt-1"
                     >
                       &larr; Back to list
                     </button>
@@ -459,7 +459,7 @@ const AdminSubmittedPapersInternal = () => {
                       href={selectedPaper.fileUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-2 mt-2 text-[#521028] font-semibold hover:underline"
+                      className="inline-flex items-center gap-2 mt-2 text-[#34B04A] font-semibold hover:underline"
                     >
                       <Download size={16} /> View/Download Paper PDF
                     </a>
@@ -523,7 +523,7 @@ const AdminSubmittedPapersInternal = () => {
 
               {/* --- Abstract --- */}
               <div className="bg-white shadow-lg rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-[#521028] mb-4">
+                <h3 className="text-xl font-semibold text-[#662D91] mb-4">
                   Abstract
                 </h3>
                 <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">
@@ -533,7 +533,7 @@ const AdminSubmittedPapersInternal = () => {
 
               {/* --- Reviews Section --- */}
               <div className="bg-white shadow-lg rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-[#521028] mb-4">
+                <h3 className="text-xl font-semibold text-[#662D91] mb-4">
                   Reviews
                 </h3>
                 {selectedPaper.reviews && selectedPaper.reviews.length > 0 ? (
@@ -571,7 +571,7 @@ const AdminSubmittedPapersInternal = () => {
 
               {/* --- Feedback Log --- */}
               <div className="bg-white shadow-lg rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-[#521028] mb-4">
+                <h3 className="text-xl font-semibold text-[#662D91] mb-4">
                   Feedback Log
                 </h3>
                 {selectedPaper.feedbacks &&
@@ -609,7 +609,7 @@ const AdminSubmittedPapersInternal = () => {
             <div className="lg:col-span-1 space-y-6">
               {/* --- Admin Actions --- */}
               <div className="bg-white shadow-lg rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-[#521028] mb-4">
+                <h3 className="text-xl font-semibold text-[#662D91] mb-4">
                   Admin Actions
                 </h3>
                 {error && (
@@ -628,7 +628,7 @@ const AdminSubmittedPapersInternal = () => {
                     <button
                       onClick={() => onApprovePaper(selectedPaper.id)}
                       disabled={actionLoading}
-                      className="w-full bg-green-600 text-white font-semibold px-5 py-2 rounded-md hover:bg-green-700 flex items-center justify-center gap-2"
+                      className="w-full btn-green text-white font-semibold px-5 py-2 rounded-md  flex items-center justify-center gap-2"
                     >
                       {actionLoading === "approve" ? (
                         <Loader2 className="h-5 w-5 animate-spin" />
@@ -656,7 +656,7 @@ const AdminSubmittedPapersInternal = () => {
                       id="finalStatus"
                       value={newFinalStatus}
                       onChange={(e) => setNewFinalStatus(e.target.value)}
-                      className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                      className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#662D91] focus:outline-none"
                     >
                       <option value="">Select status...</option>
                       {finalStatuses.map((status) => (
@@ -668,7 +668,7 @@ const AdminSubmittedPapersInternal = () => {
                     <button
                       onClick={onSetFinalStatus}
                       disabled={!newFinalStatus || actionLoading}
-                      className="bg-[#521028] text-white font-semibold px-4 py-2 rounded-md hover:bg-[#6b1b3a] flex items-center justify-center gap-2 disabled:opacity-50"
+                      className="btn-green text-white font-semibold px-4 py-2 rounded-md flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                       {actionLoading === "status" ? (
                         <Loader2 className="h-5 w-5 animate-spin" />
@@ -704,7 +704,7 @@ const AdminSubmittedPapersInternal = () => {
 
               {/* --- Reviewer Assignments --- */}
               <div className="bg-white shadow-lg rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-[#521028] mb-4">
+                <h3 className="text-xl font-semibold text-[#662D91] mb-4">
                   Reviewer Assignments
                 </h3>
 
@@ -829,7 +829,7 @@ const AdminSubmittedPapersInternal = () => {
                 >
                   {/* Top: Title and Status */}
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-lg font-bold text-[#521028] pr-2">
+                    <h3 className="text-lg font-bold text-black pr-2">
                       {paper.title}
                     </h3>
                     <StatusBadge status={paper.status} />
@@ -859,7 +859,7 @@ const AdminSubmittedPapersInternal = () => {
                   {/* Action Button */}
                   <button
                     onClick={() => handleViewPaper(paper.id)}
-                    className="w-full mt-4 bg-[#521028] text-white font-semibold py-2 rounded-md hover:bg-[#6b1b3a] flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full mt-4 btn-green text-white font-semibold py-2 rounded-md flex items-center justify-center gap-2 disabled:opacity-50"
                     disabled={detailLoading}
                   >
                     {detailLoading && viewingPaperId === paper.id ? (
@@ -878,7 +878,7 @@ const AdminSubmittedPapersInternal = () => {
             {/* --- Desktop Table View (Hidden < lg) --- */}
             <div className="hidden lg:block bg-white shadow-md rounded-lg overflow-x-auto">
               <table className="w-full text-sm text-left border-collapse">
-                <thead className="bg-[#521028] text-white">
+                <thead className="bg-[#662D91] text-white">
                   <tr>
                     <th className="p-3">Title</th>
                     <th className="p-3">Submitted By</th>
@@ -916,7 +916,7 @@ const AdminSubmittedPapersInternal = () => {
                       <td className="p-3">
                         <button
                           onClick={() => handleViewPaper(paper.id)}
-                          className="text-[#521028] font-semibold hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                          className="text-[#34B04A] font-semibold hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-50"
                           disabled={detailLoading}
                         >
                           {detailLoading && viewingPaperId === paper.id ? (

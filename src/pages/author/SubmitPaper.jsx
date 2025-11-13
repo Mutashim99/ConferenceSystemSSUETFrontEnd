@@ -166,6 +166,11 @@ const SubmitPaper = () => {
       return;
     }
 
+    if (keywords.length > 5) {
+      setError("Keywords cannot be more than 5.");
+      return;
+    }
+
     // --- Validate all author fields ---
     for (const author of authors) {
       if (!author.name || !author.email || !author.institute) {
