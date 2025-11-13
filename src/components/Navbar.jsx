@@ -158,9 +158,9 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 shrink-0">
             <img
-              src="https://icisct.com/wp-content/uploads/2024/11/logo.png"
+              src="/logo.png"
               alt="ICISCT Logo"
-              className="h-12 w-auto object-contain"
+              className="h-12 w-auto object-contain bg-[#662D91] " 
               draggable="false"
               onError={(e) => {
                 e.target.style.display = "none";
