@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import {
   X,
   Plus,
@@ -10,14 +10,12 @@ import {
   BookOpen,
   AlertTriangle,
   CheckCircle,
-  Loader2, // <-- Added Loader2 for submit button
+  Loader2,
 } from "lucide-react";
-import api from "../../api/axios"; // <-- Corrected path
-import Breadcrumbs from "../../components/Breadcrumbs"; // <-- Corrected path
+import api from "../../api/axios";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import { Link } from "react-router-dom";
-import useAuthStore from "../../store/authStore"; // <-- Corrected path
 
-// --- NEW: Salutation Options ---
 const SALUTATION_OPTIONS = ["Mr", "Ms", "Mrs", "Dr", "Prof", "Mx"];
 
 const SubmitPaper = () => {
@@ -27,14 +25,13 @@ const SubmitPaper = () => {
   const [topicArea, setTopicArea] = useState("");
   const [file, setFile] = useState(null);
 
-  // --- CHANGED: Updated state to start with one blank author ---
   const [authors, setAuthors] = useState([
     {
       salutation: "Mr",
       name: "",
       email: "",
       institute: "",
-      isCorresponding: false, // <-- Default to false
+      isCorresponding: false,
     },
   ]);
 
@@ -44,7 +41,12 @@ const SubmitPaper = () => {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
 
-  // --- REMOVED: useEffect for pre-filling author info ---
+  // --- Helper: Calculate current keyword count ---
+  const getKeywordCount = (text) => {
+    if (!text) return 0;
+    // Split by comma, remove whitespace, and filter out empty entries
+    return text.split(",").filter((k) => k.trim() !== "").length;
+  };
 
   // --- Author Logic ---
   const handleAuthorChange = (index, field, value) => {
@@ -57,7 +59,6 @@ const SubmitPaper = () => {
     if (authors.length < 6) {
       setAuthors([
         ...authors,
-        // Add a new blank author object
         {
           salutation: "Mr",
           name: "",
@@ -69,23 +70,21 @@ const SubmitPaper = () => {
     }
   };
 
-  // --- CHANGED: Updated removal logic ---
   const removeAuthor = (index) => {
-    // Prevent removing the last author
     if (authors.length <= 1) {
       setError("You must have at least one author.");
-      setTimeout(() => setError(null), 3000); // Clear error after 3s
+      setTimeout(() => setError(null), 3000);
       return;
     }
     const newAuthors = authors.filter((_, i) => i !== index);
     setAuthors(newAuthors);
   };
 
-  // --- File Handling Logic (Unchanged) ---
+  // --- File Handling Logic ---
   const validateFile = (file) => {
     if (file && file.type === "application/pdf") {
       setFile(file);
-      setError(null); // Clear previous file errors
+      setError(null);
       return true;
     } else {
       setError("Invalid file type. Please upload a PDF.");
@@ -128,19 +127,17 @@ const SubmitPaper = () => {
   const removeFile = () => {
     setFile(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = null; // Reset the file input
+      fileInputRef.current.value = null;
     }
   };
 
   // --- Form Submission Logic ---
-  // --- CHANGED: Updated resetForm logic ---
   const resetForm = () => {
     setTitle("");
     setAbstract("");
     setKeywords("");
     setTopicArea("");
     setFile(null);
-    // Reset authors to one blank author
     setAuthors([
       {
         salutation: "Mr",
@@ -166,8 +163,24 @@ const SubmitPaper = () => {
       return;
     }
 
-    if (keywords.length > 5) {
-      setError("Keywords cannot be more than 5.");
+    // --- KEYWORD FIX IS HERE ---
+    // 1. Split by comma
+    // 2. Trim whitespace around words
+    // 3. Remove empty strings (in case user types "AI, , ML")
+    const keywordList = keywords
+      .split(",")
+      .map((k) => k.trim())
+      .filter((k) => k !== "");
+
+    if (keywordList.length > 5) {
+      setError(
+        `You have entered ${keywordList.length} keywords. Maximum allowed is 5.`
+      );
+      return;
+    }
+
+    if (keywordList.length === 0) {
+      setError("Please enter at least one keyword.");
       return;
     }
 
@@ -181,13 +194,11 @@ const SubmitPaper = () => {
       }
     }
 
-    // --- Check that at least one corresponding author is selected ---
     if (!authors.some((a) => a.isCorresponding)) {
       setError("Please select at least one corresponding author.");
       return;
     }
 
-    // --- File size check (20MB max) ---
     const MAX_SIZE_MB = 20;
     const fileSizeMB = file.size / (1024 * 1024);
     if (fileSizeMB > MAX_SIZE_MB) {
@@ -197,11 +208,13 @@ const SubmitPaper = () => {
 
     setLoading(true);
 
-    // --- Create FormData ---
     const formData = new FormData();
     formData.append("title", title);
     formData.append("abstract", abstract);
-    formData.append("keywords", keywords);
+    
+    // Send the cleaned, comma-separated string to the backend
+    formData.append("keywords", keywordList.join(", ")); 
+    
     formData.append("topicArea", topicArea);
     formData.append("paper", file);
 
@@ -209,7 +222,6 @@ const SubmitPaper = () => {
     formData.append("authors", JSON.stringify(validAuthors));
 
     try {
-      // Make the API call
       const res = await api.post("/author/papers/submit", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -237,6 +249,8 @@ const SubmitPaper = () => {
       Submitted Papers
     </Link>
   );
+
+  const currentKeywordCount = getKeywordCount(keywords);
 
   return (
     <>
@@ -292,16 +306,26 @@ const SubmitPaper = () => {
               name="keywords"
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
-              className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+              className={`w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 
+                ${currentKeywordCount > 5 
+                  ? "border-red-500 focus:ring-red-500" 
+                  : "border-gray-300 focus:ring-[#521028]"
+                }`}
               placeholder="e.g., AI, ML, Data Science"
               required
             />
-            <p className="text-xs text-gray-500 mt-1">
-              Comma-separated keywords.
-            </p>
+            <div className="flex justify-between mt-1">
+              <p className="text-xs text-gray-500">
+                Separate keywords with commas.
+              </p>
+              {/* Visual Counter */}
+              <p className={`text-xs font-medium ${currentKeywordCount > 5 ? "text-red-600" : "text-gray-500"}`}>
+                {currentKeywordCount}/5 keywords
+              </p>
+            </div>
           </div>
 
-          {/* --- NEW: Topic Area --- */}
+          {/* Topic Area */}
           <div>
             <label className="block text-sm font-semibold text-gray-700">
               Topic Area
@@ -317,7 +341,7 @@ const SubmitPaper = () => {
             />
           </div>
 
-          {/* --- Authors (Dynamic) --- */}
+          {/* Authors (Dynamic) */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Authors (up to 6)
@@ -328,17 +352,15 @@ const SubmitPaper = () => {
                   key={index}
                   className="border border-gray-200 rounded-lg p-4 space-y-4 relative"
                 >
-                  {/* --- CHANGED: Allow removing first author if not the last one --- */}
                   <button
                     type="button"
                     onClick={() => removeAuthor(index)}
                     className="absolute top-2 right-2 p-1 text-red-600 rounded-full hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={authors.length <= 1} // Can't remove the last author
+                    disabled={authors.length <= 1}
                   >
                     <Trash2 size={18} />
                   </button>
 
-                  {/* --- CHANGED: Removed "Primary Author" text --- */}
                   <p className="font-semibold text-gray-800">
                     Author {index + 1}
                   </p>
@@ -386,7 +408,6 @@ const SubmitPaper = () => {
                           className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
                           placeholder="Full name"
                           required
-                          // --- REMOVED: disabled prop ---
                         />
                       </div>
                     </div>
@@ -409,7 +430,6 @@ const SubmitPaper = () => {
                           className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
                           placeholder="author@example.com"
                           required
-                          // --- REMOVED: disabled prop ---
                         />
                       </div>
                     </div>
@@ -436,7 +456,6 @@ const SubmitPaper = () => {
                           className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
                           placeholder="Example University"
                           required
-                          // --- REMOVED: disabled prop ---
                         />
                       </div>
                     </div>
@@ -478,7 +497,7 @@ const SubmitPaper = () => {
             </button>
           </div>
 
-          {/* File Upload (Drag and Drop) */}
+          {/* File Upload */}
           <div>
             <label className="block text-sm font-semibold text-gray-700">
               Upload PDF
@@ -514,7 +533,6 @@ const SubmitPaper = () => {
                 </div>
               </div>
             ) : (
-              // Show selected file
               <div className="mt-2 flex items-center justify-between p-3 bg-gray-100 border border-gray-300 rounded-md">
                 <div className="flex items-center space-x-2 overflow-hidden">
                   <FileText className="h-5 w-5 text-[#662D91] shrink-0" />
@@ -547,11 +565,10 @@ const SubmitPaper = () => {
             </div>
           )}
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center cursor-pointer py-3 mt-4 btn-green text-white font-semibold rounded-md  transition-colors disabled:opacity-70"
+            className="w-full flex justify-center cursor-pointer py-3 mt-4 btn-green text-white font-semibold rounded-md transition-colors disabled:opacity-70"
           >
             {loading ? (
               <Loader2 className="h-5 w-5 animate-spin" />
