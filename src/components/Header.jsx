@@ -71,7 +71,7 @@ export const Header = () => {
         >
           Venue:{" "}
           <span className="font-bold">
-            Sir Syed University of Engineering and Technology, Karachi
+            University Of Karachi & Sir Syed University of Engineering and Technology
           </span>
         </motion.h3>
         
