@@ -14,14 +14,13 @@ export const About = () => {
         {/* Content (Updated text size and line height for elegance) */}
         <div className="text-justify mb-12 text-base md:text-lg text-gray-700 leading-relaxed space-y-5">
           <p>
-            Sir Syed University of Engineering and Technology holds a unique
-            position in the country’s educational system. As a respected
-            research and teaching institution, it is committed to intellectual
-            leadership, and to excellence in both developing knowledge and
-            conveying that knowledge to its students. Sir Syed University of
-            Engineering and TechnologySir Syed University of Engineering and
-            Technology meets the commitments to preserve knowledge through its
-            instructional and research programs for higher level education.
+            University Of Karachi holds a unique position in the country’s
+            educational system. As a respected research and teaching
+            institution, it is committed to intellectual leadership, and to
+            excellence in both developing knowledge and conveying that knowledge
+            to its students. University Of Karachi meets the commitments to
+            preserve knowledge through its instructional and research programs
+            for higher level education.
           </p>
           <p>
             The Department of Computer Science, University of Karachi, was
@@ -56,7 +55,7 @@ export const About = () => {
             on the number and length of the presentations.
           </p>
           <p>
-            The ICISCT 2025 event aims to bring together leading academic
+            The ICISCT 2026 event aims to bring together leading academic
             scientists, researchers and research scholars to exchange and share
             their experiences and research results on all aspects of INFORMATION
             SCIENCE and COMMUNICATION TECHNOLOGY. It also provides a premier
