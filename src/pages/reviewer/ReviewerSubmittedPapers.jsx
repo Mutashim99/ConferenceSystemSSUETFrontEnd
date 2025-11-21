@@ -119,7 +119,7 @@ const ReviewerSubmittedPapers = () => {
     <>
       <Breadcrumbs /> {/* <-- REMOVED: Unnecessary action prop */}
       <div className="p-3 sm:p-4">
-        <h1 className="text-3xl font-bold text-[#662D91] mb-6">
+        <h1 className="text-3xl font-bold text-[#521028] mb-6">
           Assigned Papers for Review
         </h1>
         <p className="text-gray-600 mb-6 max-w-2xl">
@@ -201,7 +201,7 @@ const ReviewerSubmittedPapers = () => {
             {/* --- NEW: Desktop Table View (Hidden < lg) --- */}
             <div className="hidden lg:block bg-white shadow-md rounded-lg overflow-hidden">
               <table className="w-full text-sm text-left border-collapse">
-                <thead className="bg-[#662D91] text-white">
+                <thead className="bg-[#521028] text-white">
                   <tr>
                     <th className="p-3">Title</th>
                     <th className="p-3">Paper Status</th>
@@ -232,7 +232,7 @@ const ReviewerSubmittedPapers = () => {
                       <td className="p-3">
                         <button
                           onClick={() => handlePaperClick(paper.id)}
-                          className="text-[#34B04A] font-semibold hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                          className="text-[#447E36] font-semibold hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-50"
                           disabled={viewingPaperId === paper.id}
                         >
                           {viewingPaperId === paper.id ? (

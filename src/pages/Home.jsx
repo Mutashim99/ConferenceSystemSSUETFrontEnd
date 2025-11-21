@@ -16,33 +16,44 @@ export const Home = () => {
   return (
     <>
       <Navbar />
-      <Header />
-      
-      {/* Each main section is now wrapped for animation */}
+      <Header id="home" />
+
       <AnimatedSection>
-        <About />
+        <section id="about">
+          <About />
+        </section>
       </AnimatedSection>
-      
+
       <AnimatedSection>
-        <ConferenceTracks />
+        <section id="tracks">
+          <ConferenceTracks />
+        </section>
       </AnimatedSection>
-      
+
       <AnimatedSection>
-        <AgendaHighlights />
+        <section id="agenda">
+          <AgendaHighlights />
+        </section>
       </AnimatedSection>
-      
+
       <AnimatedSection>
-        <Speakers />
+        <section id="speakers">
+          <Speakers />
+        </section>
       </AnimatedSection>
-      
+
       <AnimatedSection>
-        <Sponsors />
+        <section id="sponsors">
+          <Sponsors />
+        </section>
       </AnimatedSection>
-      
+
       <AnimatedSection>
-        <Contact />
+        <section id="contact">
+          <Contact />
+        </section>
       </AnimatedSection>
-      
+
       <Footer />
     </>
   );

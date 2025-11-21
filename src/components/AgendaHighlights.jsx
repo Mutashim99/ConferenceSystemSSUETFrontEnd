@@ -33,12 +33,12 @@ export const AgendaHighlights = () => {
     <section className="py-20 md:py-24 px-6 md:px-16 bg-white font-poppins">
       <div className="max-w-4xl mx-auto">
         {/* Heading */}
-        <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#662D91] font-sans mb-16 text-center">
+        <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans mb-16 text-center">
           Agenda Highlights
         </h2>
 
         {/* Vertical Timeline */}
-        <div className="relative flex flex-col pl-6 border-l-4 border-[#34B04A]">
+        <div className="relative flex flex-col pl-6 border-l-4 border-[#447E36]">
           {timelineEvents.map((event, index) => (
             <motion.div
               key={index}
@@ -49,10 +49,10 @@ export const AgendaHighlights = () => {
               transition={{ duration: 0.5, delay: index * 0.2 }}
             >
               {/* Timeline Dot */}
-              <div className="absolute -left-8 top-1 w-4 h-4 rounded-full bg-white border-4 border-[#34B04A]"></div>
-              
+              <div className="absolute -left-8 top-1 w-4 h-4 rounded-full bg-white border-4 border-[#447E36]"></div>
+
               {/* Icon */}
-              <div className="absolute -left-[43px] top-0 p-2 bg-[#34B04A] text-white rounded-full shadow-md">
+              <div className="absolute -left-[43px] top-0 p-2 bg-[#447E36] text-white rounded-full shadow-md">
                 {event.icon}
               </div>
 
@@ -64,9 +64,7 @@ export const AgendaHighlights = () => {
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   {event.title}
                 </h3>
-                <p className="text-base text-gray-700">
-                  {event.description}
-                </p>
+                <p className="text-base text-gray-700">{event.description}</p>
               </div>
             </motion.div>
           ))}

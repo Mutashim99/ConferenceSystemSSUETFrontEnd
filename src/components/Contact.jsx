@@ -28,7 +28,7 @@ export const Contact = () => {
     >
       <div className="max-w-3xl mx-auto text-center">
         {/* Heading (Updated to primary purple) */}
-        <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#662D91] font-sans mb-12">
+        <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans mb-12">
           Contact Us
         </h2>
 
@@ -53,7 +53,7 @@ export const Contact = () => {
               value={formData.name}
               onChange={handleChange}
               // Updated focus ring to accent green
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#34B04A] focus:outline-none transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#447E36] focus:outline-none transition-all"
               placeholder="Enter your name"
             />
           </div>
@@ -74,7 +74,7 @@ export const Contact = () => {
               value={formData.email}
               onChange={handleChange}
               // Updated focus ring to accent green
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#34B04A] focus:outline-none transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#447E36] focus:outline-none transition-all"
               placeholder="Enter your email"
             />
           </div>
@@ -95,7 +95,7 @@ export const Contact = () => {
               value={formData.subject}
               onChange={handleChange}
               // Updated focus ring to accent green
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#34B04A] focus:outline-none transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#447E36] focus:outline-none transition-all"
               placeholder="Enter subject"
             />
           </div>
@@ -115,7 +115,7 @@ export const Contact = () => {
               value={formData.message}
               onChange={handleChange}
               // Updated focus ring to accent green
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#34B04A] focus:outline-none resize-none transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#447E36] focus:outline-none resize-none transition-all"
               placeholder="Type your message here..."
             ></textarea>
           </div>
@@ -124,7 +124,7 @@ export const Contact = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="bg-[#34B04A] hover:bg-opacity-90 text-white font-semibold px-10 py-3 rounded-lg transition-all duration-200 shadow-md"
+              className="bg-[#447E36] hover:bg-opacity-90 text-white font-semibold px-10 py-3 rounded-lg transition-all duration-200 shadow-md"
             >
               Send Message
             </button>

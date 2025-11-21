@@ -4,32 +4,32 @@ import { Brain, ShieldCheck, Database, Cloud, Bot, Code } from "lucide-react";
 // Track data - you can customize this
 const tracks = [
   {
-    icon: <Brain size={40} className="text-[#34B04A]" />,
+    icon: <Brain size={40} className="text-[#447E36]" />,
     title: "AI & Machine Learning",
     description: "Exploring the new frontiers of artificial intelligence.",
   },
   {
-    icon: <ShieldCheck size={40} className="text-[#34B04A]" />,
+    icon: <ShieldCheck size={40} className="text-[#447E36]" />,
     title: "Cybersecurity",
     description: "Securing the digital world from modern threats.",
   },
   {
-    icon: <Database size={40} className="text-[#34B04A]" />,
+    icon: <Database size={40} className="text-[#447E36]" />,
     title: "Data Science",
     description: "Leveraging big data for insightful analytics.",
   },
   {
-    icon: <Cloud size={40} className="text-[#34B04A]" />,
+    icon: <Cloud size={40} className="text-[#447E36]" />,
     title: "Cloud Computing",
     description: "The future of scalable infrastructure and services.",
   },
   {
-    icon: <Bot size={40} className="text-[#34B04A]" />,
+    icon: <Bot size={40} className="text-[#447E36]" />,
     title: "Robotics & IoT",
     description: "Connecting the physical and digital worlds.",
   },
   {
-    icon: <Code size={40} className="text-[#34B04A]" />,
+    icon: <Code size={40} className="text-[#447E36]" />,
     title: "Software Engineering",
     description: "Advanced methodologies for robust development.",
   },
@@ -46,7 +46,7 @@ export const ConferenceTracks = () => {
     <section className="py-20 md:py-24 px-6 md:px-16 bg-gray-50 font-poppins">
       <div className="max-w-7xl mx-auto text-center">
         {/* Heading */}
-        <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#662D91] font-sans mb-16">
+        <h2 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans mb-16">
           Conference Tracks
         </h2>
 

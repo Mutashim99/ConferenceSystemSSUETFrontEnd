@@ -45,9 +45,9 @@ const Breadcrumbs = ({ actions }) => {
         <li className="inline-flex items-center">
           <Link
             to="/"
-            className="inline-flex items-center text-sm font-semibold text-[#34B04A] hover:text-[#2c9a40] transition-colors"
+            className="inline-flex items-center text-sm font-semibold text-[#447E36] hover:text-[#2c9a40] transition-colors"
           >
-            <Home className="w-4 h-4 me-2 text-[#34B04A]" />
+            <Home className="w-4 h-4 me-2 text-[#447E36]" />
             Home
           </Link>
         </li>
@@ -79,7 +79,7 @@ const Breadcrumbs = ({ actions }) => {
                   // Not last item - display a link
                   <Link
                     to={currentLink}
-                    className="ms-1 text-sm font-semibold text-[#34B04A] hover:text-[#2c9a40] transition-colors md:ms-2"
+                    className="ms-1 text-sm font-semibold text-[#447E36] hover:text-[#2c9a40] transition-colors md:ms-2"
                   >
                     {friendlyName}
                   </Link>

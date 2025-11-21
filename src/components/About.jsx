@@ -7,20 +7,21 @@ export const About = () => {
     >
       <div className="max-w-4xl mx-auto text-center">
         {/* Heading (Updated to primary purple) */}
-        <h2 className="text-3xl mb-6 md:text-4xl font-extrabold tracking-wide uppercase text-[#662D91] font-sans">
+        <h2 className="text-3xl mb-6 md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans">
           About Us
         </h2>
 
         {/* Content (Updated text size and line height for elegance) */}
         <div className="text-justify mb-12 text-base md:text-lg text-gray-700 leading-relaxed space-y-5">
           <p>
-            Sir Syed University of Engineering and Technology holds a unique position in the country’s
-            educational system. As a respected research and teaching institution,
-            it is committed to intellectual leadership, and to excellence in both
-            developing knowledge and conveying that knowledge to its students.
-            Sir Syed University of Engineering and TechnologySir Syed University of Engineering and Technology meets the commitments to preserve knowledge
-            through its instructional and research programs for higher level
-            education.
+            Sir Syed University of Engineering and Technology holds a unique
+            position in the country’s educational system. As a respected
+            research and teaching institution, it is committed to intellectual
+            leadership, and to excellence in both developing knowledge and
+            conveying that knowledge to its students. Sir Syed University of
+            Engineering and TechnologySir Syed University of Engineering and
+            Technology meets the commitments to preserve knowledge through its
+            instructional and research programs for higher level education.
           </p>
           <p>
             The Department of Computer Science, University of Karachi, was
@@ -31,17 +32,17 @@ export const About = () => {
             education in Computer Science and Technology.
           </p>
           <p>
-            To further strengthen the discipline of Computer Science by producing
-            high-quality professionals with sound fundamental knowledge, the
-            Department launched the BS (Computer Science) program in 1996 and
-            2001 — a four-year degree leading to the MS (Computer Science), a
-            two-year program after completing the BS. The MS program leads to the
-            PhD (Computer Science) program.
+            To further strengthen the discipline of Computer Science by
+            producing high-quality professionals with sound fundamental
+            knowledge, the Department launched the BS (Computer Science) program
+            in 1996 and 2001 — a four-year degree leading to the MS (Computer
+            Science), a two-year program after completing the BS. The MS program
+            leads to the PhD (Computer Science) program.
           </p>
         </div>
 
         {/* Heading (Updated to primary purple) */}
-        <h2 className="text-3xl mb-6 md:text-4xl font-extrabold tracking-wide uppercase text-[#662D91] font-sans">
+        <h2 className="text-3xl mb-6 md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans">
           Conference Aims and Objectives
         </h2>
 
@@ -56,14 +57,14 @@ export const About = () => {
           </p>
           <p>
             The ICISCT 2025 event aims to bring together leading academic
-            scientists, researchers and research scholars to exchange and
-            share their experiences and research results on all aspects of
-            INFORMATION SCIENCE and COMMUNICATION TECHNOLOGY. It also
-            provides a premier interdisciplinary platform for researchers,
-            practitioners and educators to present and discuss the most recent
-            innovations, trends, and concerns as well as practical challenges
-            encountered and solutions adopted in the fields of INFORMATION SCIENCE
-            and COMMUNICATION TECHNOLOGY.
+            scientists, researchers and research scholars to exchange and share
+            their experiences and research results on all aspects of INFORMATION
+            SCIENCE and COMMUNICATION TECHNOLOGY. It also provides a premier
+            interdisciplinary platform for researchers, practitioners and
+            educators to present and discuss the most recent innovations,
+            trends, and concerns as well as practical challenges encountered and
+            solutions adopted in the fields of INFORMATION SCIENCE and
+            COMMUNICATION TECHNOLOGY.
           </p>
         </div>
       </div>

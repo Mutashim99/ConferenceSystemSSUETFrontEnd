@@ -138,7 +138,7 @@ const SubmittedPapers = () => {
         {/* --- Desktop Table View (Hidden < lg) --- */}
         <div className="hidden lg:block bg-white shadow-lg rounded-lg overflow-x-auto">
           <table className="w-full text-sm text-left border-collapse">
-            <thead className="bg-[#662D91] text-white">
+            <thead className="bg-[#521028] text-white">
               <tr>
                 <th className="p-3">ID</th>
                 <th className="p-3">Title</th>
@@ -174,7 +174,7 @@ const SubmittedPapers = () => {
                       onClick={() =>
                         navigate(`/author/dashboard/papers/${paper.id}`)
                       }
-                      className="text-[#34B04A] font-semibold hover:underline flex items-center gap-1 cursor-pointer"
+                      className="text-[#447E36] font-semibold hover:underline flex items-center gap-1 cursor-pointer"
                     >
                       <Eye size={16} />
                       View
@@ -192,7 +192,7 @@ const SubmittedPapers = () => {
   const breadcrumbActions = (
     <Link
       to="/author/dashboard/submit"
-      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#34B04A] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#447E36] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
     >
       <FileText className="w-4 h-4 me-1.5" />
       Submit Paper
@@ -204,7 +204,7 @@ const SubmittedPapers = () => {
     <>
       <Breadcrumbs actions={breadcrumbActions} />
       <div className="p-2 md:p-6">
-        <h1 className="text-3xl font-bold text-[#662D91] mb-8">
+        <h1 className="text-3xl font-bold text-[#521028] mb-8">
           Submitted Papers
         </h1>
         {renderContent()}

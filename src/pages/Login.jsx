@@ -33,7 +33,7 @@ const Login = () => {
       <Navbar />
       <div className="flex items-center justify-center min-h-[calc(100vh-80px)] bg-gray-100 px-4">
         <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-          <h2 className="text-2xl font-bold text-center text-[#662D91] mb-6">
+          <h2 className="text-2xl font-bold text-center text-[#521028] mb-6">
             Login to ICISCT
           </h2>
           <form className="space-y-4" onSubmit={handleSubmit}>
@@ -45,7 +45,7 @@ const Login = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
+                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
                 placeholder="Enter your email"
                 required
               />
@@ -58,7 +58,7 @@ const Login = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
+                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
                 placeholder="Enter your password"
                 required
               />
@@ -76,7 +76,7 @@ const Login = () => {
           </form>
           <p className="text-sm text-center text-gray-600 mt-4">
             Don’t have an account?{" "}
-            <Link to="/register" className="text-[#34B04A] font-semibold">
+            <Link to="/register" className="text-[#447E36] font-semibold">
               Register here
             </Link>
           </p>

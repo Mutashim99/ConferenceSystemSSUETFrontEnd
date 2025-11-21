@@ -36,7 +36,7 @@ const Register = () => {
       <Navbar />
       <div className="flex items-center justify-center min-h-[calc(100vh-80px)] bg-gray-100 py-8 px-4">
         <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-          <h2 className="text-2xl font-bold text-center text-[#662D91] mb-6">
+          <h2 className="text-2xl font-bold text-center text-[#521028] mb-6">
             Register for ICISCT
           </h2>
           <form className="space-y-4" onSubmit={handleSubmit}>
@@ -48,7 +48,7 @@ const Register = () => {
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
-                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
+                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
                 placeholder="Enter your first name"
                 required
               />
@@ -61,7 +61,7 @@ const Register = () => {
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
-                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
+                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
                 placeholder="Enter your last name"
                 required
               />
@@ -75,7 +75,7 @@ const Register = () => {
                 value={formData.email}
                 onChange={handleChange}
                 type="email"
-                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
+                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
                 placeholder="Enter your email"
                 required
               />
@@ -88,7 +88,7 @@ const Register = () => {
                 name="affiliation"
                 value={formData.affiliation}
                 onChange={handleChange}
-                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
+                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
                 placeholder="Enter your affiliation"
                 required
               />
@@ -102,7 +102,7 @@ const Register = () => {
                 value={formData.password}
                 onChange={handleChange}
                 type="password"
-                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#662D91]"
+                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
                 placeholder="Enter your password"
                 required
                 minLength={6}
@@ -121,7 +121,7 @@ const Register = () => {
           </form>
           <p className="text-sm text-center text-gray-600 mt-4">
             Already have an account?{" "}
-            <Link to="/login" className="text-[#34B04A] font-semibold">
+            <Link to="/login" className="text-[#447E36] font-semibold">
               Login here
             </Link>
           </p>

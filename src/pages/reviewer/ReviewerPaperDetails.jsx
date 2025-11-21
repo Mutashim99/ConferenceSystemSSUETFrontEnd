@@ -203,7 +203,7 @@ const ReviewerPaperDetails = () => {
   const breadcrumbActions = (
     <Link
       to="/reviewer/dashboard/papers"
-      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#34B04A] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
+      className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#447E36] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
     >
       <FileText className="w-4 h-4 me-1.5" />
       Submitted Papers
@@ -214,7 +214,7 @@ const ReviewerPaperDetails = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <Loader2 className="h-12 w-12 text-[#662D91] animate-spin" />
+        <Loader2 className="h-12 w-12 text-[#521028] animate-spin" />
       </div>
     );
   }
@@ -252,7 +252,7 @@ const ReviewerPaperDetails = () => {
           <div className="bg-white shadow-lg rounded-lg p-6">
             <button
               onClick={() => navigate("/reviewer/dashboard/papers")}
-              className="text-sm text-[#34B04A] font-semibold hover:underline mb-3"
+              className="text-sm text-[#447E36] font-semibold hover:underline mb-3"
             >
               &larr; Back to all papers
             </button>
@@ -268,7 +268,7 @@ const ReviewerPaperDetails = () => {
                 href={paper.fileUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 mt-4 text-[#34B04A] font-semibold hover:underline"
+                className="inline-flex items-center gap-2 mt-4 text-[#447E36] font-semibold hover:underline"
               >
                 <Download size={16} /> View/Download Paper PDF
               </a>
@@ -277,7 +277,7 @@ const ReviewerPaperDetails = () => {
 
           {/* --- Abstract Card --- */}
           <div className="bg-white shadow-lg rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-[#662D91] mb-4">
+            <h3 className="text-xl font-semibold text-[#521028] mb-4">
               <BookOpen size={20} className="inline-block mr-2" />
               Abstract
             </h3>
@@ -289,7 +289,7 @@ const ReviewerPaperDetails = () => {
           {/* --- REPLACED: Author Info Card (to match PaperDetails layout) --- */}
           {paper.authors && paper.authors.length > 0 && (
             <div className="bg-white shadow-lg rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-[#662D91] mb-3 flex items-center gap-2">
+              <h2 className="text-xl font-semibold text-[#521028] mb-3 flex items-center gap-2">
                 <Users size={20} /> Authors
               </h2>
               <ul className="list-none pl-0 text-sm text-gray-700 space-y-2">
@@ -328,7 +328,7 @@ const ReviewerPaperDetails = () => {
 
           {/* --- Review Form Card --- */}
           <div className="bg-white shadow-lg rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-[#662D91] mb-4">
+            <h3 className="text-xl font-semibold text-[#521028] mb-4">
               <Edit size={20} className="inline-block mr-2" />
               {isReviewSubmitted ? "Update Your Review" : "Submit Your Review"}
             </h3>
@@ -354,7 +354,7 @@ const ReviewerPaperDetails = () => {
                   name="recommendation"
                   value={reviewForm.recommendation}
                   onChange={handleReviewFormChange}
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#662D91] focus:outline-none"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
                 >
                   {RECOMMENDATION_OPTIONS.map((opt) => (
                     <option key={opt} value={opt}>
@@ -378,7 +378,7 @@ const ReviewerPaperDetails = () => {
                   rows="8"
                   value={reviewForm.comments}
                   onChange={handleReviewFormChange}
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#662D91] focus:outline-none"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#521028] focus:outline-none"
                   placeholder="Provide constructive feedback for the author..."
                   required
                 />
@@ -423,7 +423,7 @@ const ReviewerPaperDetails = () => {
   ${isCollapsed ? "h-14" : "h-[80vh] max-h-[800px]"} `}
           >
             {/* Header with collapse toggle */}
-            <div className="border-b p-4 bg-[#662D91] text-white rounded-t-lg flex justify-between items-center">
+            <div className="border-b p-4 bg-[#521028] text-white rounded-t-lg flex justify-between items-center">
               <h2 className="font-semibold text-lg flex items-center gap-2">
                 <MessageSquare size={20} />
                 Author Feedback Chat
@@ -450,7 +450,7 @@ const ReviewerPaperDetails = () => {
                         key={msg.id}
                         className={`max-w-[85%] w-fit p-3 rounded-lg text-sm ${
                           msg.sender.id === user?.id
-                            ? "bg-[#662D91] text-white ml-auto"
+                            ? "bg-[#521028] text-white ml-auto"
                             : "bg-gray-100 text-gray-800"
                         }`}
                       >
@@ -488,7 +488,7 @@ const ReviewerPaperDetails = () => {
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     placeholder="Type your message..."
-                    className="flex-1 p-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#662D91]"
+                    className="flex-1 p-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#521028]"
                   />
                   <button
                     type="submit"

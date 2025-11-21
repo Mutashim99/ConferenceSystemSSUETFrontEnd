@@ -15,12 +15,12 @@
   -moz-osx-font-smoothing: grayscale;
 
   .btn-green {
-  background-color: #34B04A;
-  color: white;
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
+    background-color: #447e36;
+    color: white;
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
 
   .btn-green:hover {
     background-color: #2c9a40;
@@ -30,13 +30,11 @@
   .btn-green:disabled {
     opacity: 0.7;
   }
-
 }
 
 html {
   scroll-behavior: smooth;
 }
-
 
 @media (prefers-color-scheme: light) {
   :root {
