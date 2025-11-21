@@ -35,7 +35,7 @@ const Navbar = () => {
 
   // 🔥 NEW: Home Page Section Navigation
   const sectionLinks = [
-    { label: "HOME", href: "#home" },
+    { label: "HOME", href: "/" },
     { label: "ABOUT", href: "#about" },
 
     { label: "SPEAKERS", href: "#speakers" },

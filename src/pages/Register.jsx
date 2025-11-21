@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthStore from "../store/authStore";
 import Navbar from "../components/Navbar";
-// --- 5. Register Component (Fixed) ---
+import { Eye, EyeOff } from "lucide-react";
+
 const Register = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -11,6 +12,9 @@ const Register = () => {
     affiliation: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+
   const { register, loading, error } = useAuthStore();
   const navigate = useNavigate();
 
@@ -19,16 +23,9 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // **FIX:** The 'register' function now also returns the user or 'false'.
     const user = await register(formData);
 
-    if (user) {
-      // Registration was successful and user is logged in.
-      // Default role is AUTHOR, so redirect to author dashboard.
-      navigate("/author/dashboard/submit");
-    }
-    // If 'user' is false, the 'error' state will be set
-    // and the UI will display it.
+    if (user) navigate("/author/dashboard/submit");
   };
 
   return (
@@ -39,6 +36,7 @@ const Register = () => {
           <h2 className="text-2xl font-bold text-center text-[#521028] mb-6">
             Register for ICISCT
           </h2>
+
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label className="block text-sm font-semibold text-gray-700">
@@ -53,6 +51,7 @@ const Register = () => {
                 required
               />
             </div>
+
             <div>
               <label className="block text-sm font-semibold text-gray-700">
                 Last Name
@@ -66,6 +65,7 @@ const Register = () => {
                 required
               />
             </div>
+
             <div>
               <label className="block text-sm font-semibold text-gray-700">
                 Email
@@ -80,6 +80,7 @@ const Register = () => {
                 required
               />
             </div>
+
             <div>
               <label className="block text-sm font-semibold text-gray-700">
                 Affiliation
@@ -93,7 +94,9 @@ const Register = () => {
                 required
               />
             </div>
-            <div>
+
+            {/* PASSWORD FIELD WITH EYE TOGGLE */}
+            <div className="relative">
               <label className="block text-sm font-semibold text-gray-700">
                 Password
               </label>
@@ -101,16 +104,26 @@ const Register = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                type="password"
-                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+                type={showPassword ? "text" : "password"}
+                className="w-full mt-1 p-2 pr-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
                 placeholder="Enter your password"
                 required
                 minLength={6}
               />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-[62%] -translate-y-1/2 text-gray-600"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
             </div>
+
             {error && (
               <p className="text-red-600 text-sm text-center">{error}</p>
             )}
+
             <button
               type="submit"
               disabled={loading}
@@ -119,6 +132,7 @@ const Register = () => {
               {loading ? "Registering..." : "Register"}
             </button>
           </form>
+
           <p className="text-sm text-center text-gray-600 mt-4">
             Already have an account?{" "}
             <Link to="/login" className="text-[#447E36] font-semibold">

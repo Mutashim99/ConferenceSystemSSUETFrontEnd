@@ -2,30 +2,26 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthStore from "../store/authStore";
 import Navbar from "../components/Navbar";
+import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // Get state and actions from the store
+  const [showPassword, setShowPassword] = useState(false);
+
   const { login, error, loading } = useAuthStore();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // **FIX:** The 'login' function now returns the user object or 'false'.
-    // This avoids a race condition where we try to read the state
-    // before Zustand has finished updating it.
     const user = await login(email, password);
 
     if (user) {
-      // Now we can safely check the role from the returned user object.
       if (user.role === "ADMIN") navigate("/admin/dashboard");
       else if (user.role === "AUTHOR") navigate("/author/dashboard");
       else if (user.role === "REVIEWER") navigate("/reviewer/dashboard");
-      else navigate("/"); // Fallback for any other roles
+      else navigate("/");
     }
-    // If 'user' is false, the 'error' state in the store
-    // will be set, and the UI will display it.
   };
 
   return (
@@ -36,6 +32,7 @@ const Login = () => {
           <h2 className="text-2xl font-bold text-center text-[#521028] mb-6">
             Login to ICISCT
           </h2>
+
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label className="block text-sm font-semibold text-gray-700">
@@ -50,19 +47,30 @@ const Login = () => {
                 required
               />
             </div>
-            <div>
+
+            {/* PASSWORD FIELD WITH EYE ICON */}
+            <div className="relative">
               <label className="block text-sm font-semibold text-gray-700">
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
+                className="w-full mt-1 p-2 pr-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#521028]"
                 placeholder="Enter your password"
                 required
               />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-[62%] -translate-y-1/2 text-gray-600"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
             </div>
+
             <button
               type="submit"
               disabled={loading}
@@ -70,10 +78,12 @@ const Login = () => {
             >
               {loading ? "Logging in..." : "Login"}
             </button>
+
             {error && (
               <p className="text-red-600 text-sm mt-2 text-center">{error}</p>
             )}
           </form>
+
           <p className="text-sm text-center text-gray-600 mt-4">
             Don’t have an account?{" "}
             <Link to="/register" className="text-[#447E36] font-semibold">
@@ -85,4 +95,5 @@ const Login = () => {
     </>
   );
 };
+
 export default Login;
