@@ -17,6 +17,7 @@ import useAuthStore from "./store/authStore";
 import { useEffect } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ReviewerPaperDetails from "./pages/reviewer/ReviewerPaperDetails";
+import { Analytics } from '@vercel/analytics/react';
 function App() {
   // Get the fetchUser action from the store.
   const fetchUser = useAuthStore((s) => s.fetchUser);
@@ -28,6 +29,8 @@ function App() {
   }, [fetchUser]);
 
   return (
+    <>
+    <Analytics />
     <Router>
       {/* <Navbar /> */}
       <div className="bg-gray-50 min-h-[calc(100vh-80px)]">
@@ -114,6 +117,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </>
   );
 }
 
