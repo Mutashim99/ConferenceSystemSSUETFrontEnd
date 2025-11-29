@@ -1,13 +1,12 @@
 import api from "../../api/axios";
 import { useNavigate } from "react-router-dom";
-// Changed to AuthorLayout, which we just made
 import DashboardLayout from "../../components/DashboardLayout";
 import { useState, useEffect } from "react";
 import {
   FileSearch,
   Loader2,
   AlertTriangle,
-  Eye, // Added for the view button
+  Eye,
   FileText,
 } from "lucide-react";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -34,7 +33,6 @@ const SubmittedPapers = () => {
     fetchPapers();
   }, []);
 
-  // Helper function to format date
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -43,7 +41,6 @@ const SubmittedPapers = () => {
     });
   };
 
-  // Helper function to get status colors
   const getStatusClass = (status) => {
     switch (status) {
       case "ACCEPTED":
@@ -61,6 +58,19 @@ const SubmittedPapers = () => {
         return "bg-blue-100 text-blue-800";
       default:
         return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  // --- NEW: Payment Status Helper ---
+  const getPaymentClass = (status) => {
+    switch (status) {
+      case "PAID":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "WAIVED":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "UNPAID":
+      default:
+        return "bg-red-50 text-red-800 border-red-200";
     }
   };
 
@@ -92,7 +102,6 @@ const SubmittedPapers = () => {
       );
     }
 
-    // --- UPDATED RESPONSIVE RETURN ---
     return (
       <>
         {/* --- Mobile Card View (Visible < lg) --- */}
@@ -104,13 +113,19 @@ const SubmittedPapers = () => {
                 <h3 className="text-lg font-bold text-[#521028] pr-2">
                   {paper.title}
                 </h3>
-                <span
-                  className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${getStatusClass(
-                    paper.status
-                  )}`}
-                >
-                  {paper.status.replace(/_/g, " ")}
-                </span>
+                <div className="flex flex-col gap-1 items-end">
+                    <span
+                    className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${getStatusClass(
+                        paper.status
+                    )}`}
+                    >
+                    {paper.status.replace(/_/g, " ")}
+                    </span>
+                    {/* Payment Badge Mobile */}
+                    <span className={`px-2 py-0.5 text-xs font-bold border rounded ${getPaymentClass(paper.paymentStatus)}`}>
+                       Fees: {paper.paymentStatus || "UNPAID"}
+                    </span>
+                </div>
               </div>
 
               {/* Details */}
@@ -143,6 +158,7 @@ const SubmittedPapers = () => {
                 <th className="p-3">ID</th>
                 <th className="p-3">Title</th>
                 <th className="p-3">Status</th>
+                <th className="p-3">Fees Status</th> {/* <-- NEW COLUMN */}
                 <th className="p-3">Submitted On</th>
                 <th className="p-3">Detailed View</th>
               </tr>
@@ -164,6 +180,12 @@ const SubmittedPapers = () => {
                       )}`}
                     >
                       {paper.status.replace(/_/g, " ")}
+                    </span>
+                  </td>
+                  {/* Fees Badge Desktop */}
+                  <td className="p-3">
+                     <span className={`px-2 py-1 text-xs font-bold border rounded ${getPaymentClass(paper.paymentStatus)}`}>
+                       {paper.paymentStatus || "UNPAID"}
                     </span>
                   </td>
                   <td className="p-3 text-gray-600">
@@ -200,7 +222,6 @@ const SubmittedPapers = () => {
   );
 
   return (
-    // Use the correct layout
     <>
       <Breadcrumbs actions={breadcrumbActions} />
       <div className="p-2 md:p-6">

@@ -32,12 +32,13 @@ import {
   Star,
   Download,
   List,
+  DollarSign, // <-- ADDED: For Fees icon
 } from "lucide-react";
 import api from "../../api/axios";
 import { Link } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 
-// --- Helper Functions (No Changes) ---
+// --- Helper Functions ---
 
 const formatDate = (dateString) => {
   if (!dateString) return "N/A";
@@ -68,6 +69,19 @@ const getStatusClass = (status) => {
       return "bg-blue-100 text-blue-800";
     default:
       return "bg-gray-100 text-gray-800";
+  }
+};
+
+// --- NEW: Payment Status Helper ---
+const getPaymentClass = (status) => {
+  switch (status) {
+    case "PAID":
+      return "bg-green-100 text-green-800 border-green-200";
+    case "WAIVED":
+      return "bg-blue-100 text-blue-800 border-blue-200";
+    case "UNPAID":
+    default:
+      return "bg-red-50 text-red-800 border-red-200";
   }
 };
 
@@ -124,7 +138,7 @@ const AdminSubmittedPapersInternal = () => {
   const [newFinalStatus, setNewFinalStatus] = useState("");
   const finalStatuses = ["ACCEPTED", "REJECTED", "REVISION_REQUIRED"];
 
-  // --- API Functions (No Changes) ---
+  // --- API Functions ---
   const fetchPapers = useCallback(async () => {
     setListLoading(true);
     setError(null);
@@ -175,9 +189,9 @@ const AdminSubmittedPapersInternal = () => {
       setDetailLoading(false);
       setViewingPaperId(null);
     }
-  }, []); // Removed finalStatuses, it's a constant
+  }, []);
 
-  // --- Action Handlers (No Changes) ---
+  // --- Action Handlers ---
   const handleViewPaper = (id) => {
     setViewingPaperId(id);
     fetchPaperDetails(id);
@@ -195,7 +209,6 @@ const AdminSubmittedPapersInternal = () => {
     );
     return (
       <>
-        <Breadcrumbs actions={breadcrumbActions} />
         <div className="text-center text-red-600 mt-10">
           <AlertTriangle size={40} className="mx-auto mb-2" />
           <p>Critical Error: ModalContext is missing.</p>
@@ -205,6 +218,32 @@ const AdminSubmittedPapersInternal = () => {
   }
 
   const { openModal, closeModal } = modalContext;
+
+  // --- NEW: Handle Payment Status Change ---
+  const handlePaymentChange = async (paperId, newStatus) => {
+    // Optimistic loading state using string ID
+    setActionLoading(`payment-${paperId}`);
+    try {
+      await api.patch(`/admin/papers/${paperId}/payment-status`, {
+        paymentStatus: newStatus,
+      });
+      
+      // Update local state directly to reflect change without full reload
+      if (selectedPaper && selectedPaper.id === paperId) {
+        setSelectedPaper((prev) => ({ ...prev, paymentStatus: newStatus }));
+      }
+      setPapers((prevPapers) =>
+        prevPapers.map((p) =>
+          p.id === paperId ? { ...p, paymentStatus: newStatus } : p
+        )
+      );
+    } catch (err) {
+      console.error("Error updating payment status:", err);
+      alert("Failed to update payment status");
+    } finally {
+      setActionLoading(null);
+    }
+  };
 
   const handleAdminAction = async (actionName, apiCall, successMessage) => {
     setActionLoading(actionName);
@@ -301,14 +340,6 @@ const AdminSubmittedPapersInternal = () => {
         <FileText className="w-4 h-4 me-1.5" />
         Register Reviewer
       </Link>
-
-      {/* <Link
-        to="/admin/dashboard/assign-reviewer"
-        className="flex items-center text-sm font-semibold text-gray-700 hover:text-[#521028] px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors whitespace-nowrap"
-      >
-        <FileText className="w-4 h-4 me-1.5" />
-        Assign Reviewer
-      </Link> */}
     </>
   );
 
@@ -398,7 +429,7 @@ const AdminSubmittedPapersInternal = () => {
     );
   };
 
-  // --- Memoized Components (No Changes) ---
+  // --- Memoized Components ---
   const availableReviewers = React.useMemo(() => {
     if (!selectedPaper || !reviewers.length) return [];
     const assignedIds = new Set(
@@ -410,7 +441,7 @@ const AdminSubmittedPapersInternal = () => {
   // --- Render ---
 
   if (selectedPaper) {
-    // --- Detail View (This was already responsive, no changes needed) ---
+    // --- Detail View ---
     return (
       <>
         <Breadcrumbs actions={breadcrumbActions} />
@@ -436,10 +467,16 @@ const AdminSubmittedPapersInternal = () => {
                       &larr; Back to list
                     </button>
                   </div>
-                  <StatusBadge
-                    status={selectedPaper.status}
-                    className="text-base"
-                  />
+                  <div className="flex flex-col items-end gap-2">
+                    <StatusBadge
+                        status={selectedPaper.status}
+                        className="text-base"
+                    />
+                    {/* Payment Badge in Header */}
+                    <span className={`px-2 py-0.5 text-xs font-bold border rounded ${getPaymentClass(selectedPaper.paymentStatus)}`}>
+                       Fees: {selectedPaper.paymentStatus || "UNPAID"}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="space-y-3 text-sm text-gray-700">
@@ -454,6 +491,24 @@ const AdminSubmittedPapersInternal = () => {
                     <strong>Topic Area:</strong>{" "}
                     {selectedPaper.topicArea || "N/A"}
                   </p>
+                  
+                  {/* Camera Ready Download Link */}
+                  {selectedPaper.cameraReadyUrl && (
+                    <div className="mt-3 bg-green-50 p-3 rounded border border-green-200">
+                      <p className="text-green-800 font-bold flex items-center gap-2 mb-1">
+                         <CheckCircle size={14}/> Camera Ready Version Available
+                      </p>
+                      <a
+                        href={selectedPaper.cameraReadyUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 text-green-700 font-semibold hover:underline"
+                      >
+                        <Download size={16} /> Download Final Version
+                      </a>
+                    </div>
+                  )}
+
                   {selectedPaper.fileUrl && (
                     <a
                       href={selectedPaper.fileUrl}
@@ -461,14 +516,13 @@ const AdminSubmittedPapersInternal = () => {
                       rel="noreferrer"
                       className="inline-flex items-center gap-2 mt-2 text-[#447E36] font-semibold hover:underline"
                     >
-                      <Download size={16} /> View/Download Paper PDF
+                      <Download size={16} /> View/Download Original Paper
                     </a>
                   )}
                 </div>
 
                 {/* --- Author & Co-Authors --- */}
                 <div className="mt-6 pt-4 border-t">
-                  {/* --- CHANGED: Renamed to Submitter --- */}
                   <h4 className="text-base font-semibold text-gray-800 mb-2">
                     Submitter
                   </h4>
@@ -486,7 +540,6 @@ const AdminSubmittedPapersInternal = () => {
                     </span>
                   </p>
 
-                  {/* --- CHANGED: Reads from `authors` instead of `coAuthors` --- */}
                   {selectedPaper.authors &&
                     selectedPaper.authors.length > 0 && (
                       <>
@@ -499,7 +552,6 @@ const AdminSubmittedPapersInternal = () => {
                               <span className="font-semibold">
                                 {author.salutation} {author.name}
                               </span>
-                              {/* --- NEW: Added corresponding badge --- */}
                               {author.isCorresponding && (
                                 <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded">
                                   Corresponding
@@ -550,8 +602,6 @@ const AdminSubmittedPapersInternal = () => {
                           </p>
                           <StatusBadge status={review.recommendation} />
                         </div>
-
-                        {/* --- REMOVED: Rating and Star display removed --- */}
 
                         <p className="text-gray-700 text-sm mt-3 whitespace-pre-wrap">
                           {review.comments}
@@ -617,6 +667,27 @@ const AdminSubmittedPapersInternal = () => {
                     {error}
                   </div>
                 )}
+                
+                {/* --- NEW: Payment Status Control --- */}
+                <div className="mb-6 p-3 bg-gray-50 rounded border border-gray-200">
+                   <h4 className="flex items-center text-sm font-bold text-gray-700 mb-2">
+                     <DollarSign size={16} className="mr-1"/> Registration Fees
+                   </h4>
+                   <select
+                      value={selectedPaper.paymentStatus || "UNPAID"}
+                      onChange={(e) => handlePaymentChange(selectedPaper.id, e.target.value)}
+                      disabled={actionLoading === `payment-${selectedPaper.id}`}
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                   >
+                     <option value="UNPAID">Unpaid</option>
+                     <option value="PAID">Paid</option>
+                     <option value="WAIVED">Waived</option>
+                   </select>
+                   <p className="text-xs text-gray-500 mt-2">
+                     Set to 'Paid' to confirm registration.
+                   </p>
+                </div>
+                {/* ----------------------------------- */}
 
                 {/* ACTION: Approve Paper */}
                 {selectedPaper.status === "PENDING_APPROVAL" && (
@@ -641,7 +712,7 @@ const AdminSubmittedPapersInternal = () => {
                 )}
 
                 {/* ACTION: Set Final Status */}
-                <div>
+                <div className="mt-4">
                   <label
                     htmlFor="finalStatus"
                     className="block text-sm font-medium text-gray-700 mb-1"
@@ -792,7 +863,7 @@ const AdminSubmittedPapersInternal = () => {
     );
   }
 
-  // --- Main List View (THIS IS THE UPDATED PART) ---
+  // --- Main List View ---
   return (
     <>
       <Breadcrumbs actions={breadcrumbActions} />
@@ -832,7 +903,13 @@ const AdminSubmittedPapersInternal = () => {
                     <h3 className="text-lg font-bold text-black pr-2">
                       {paper.title}
                     </h3>
-                    <StatusBadge status={paper.status} />
+                    <div className="flex flex-col gap-1 items-end">
+                      <StatusBadge status={paper.status} />
+                      {/* Fees Badge for Mobile */}
+                      <span className={`px-2 py-0.5 text-xs font-bold border rounded ${getPaymentClass(paper.paymentStatus)}`}>
+                        {paper.paymentStatus || "UNPAID"}
+                      </span>
+                    </div>
                   </div>
 
                   {/* Author Info */}
@@ -883,6 +960,7 @@ const AdminSubmittedPapersInternal = () => {
                     <th className="p-3">Title</th>
                     <th className="p-3">Submitted By</th>
                     <th className="p-3">Status</th>
+                    <th className="p-3">Fees Status</th> {/* <-- NEW COLUMN */}
                     <th className="p-3">Reviews</th>
                     <th className="p-3">Submitted On</th>
                     <th className="p-3">Actions</th>
@@ -907,6 +985,26 @@ const AdminSubmittedPapersInternal = () => {
                       <td className="p-3">
                         <StatusBadge status={paper.status} />
                       </td>
+                      
+                      {/* --- NEW: Fees Dropdown Cell --- */}
+                      <td className="p-3">
+                         <div className="relative">
+                            {actionLoading === `payment-${paper.id}` && (
+                                <Loader2 className="absolute left-2 top-2 h-4 w-4 animate-spin text-gray-500" />
+                            )}
+                            <select 
+                                value={paper.paymentStatus || "UNPAID"}
+                                onChange={(e) => handlePaymentChange(paper.id, e.target.value)}
+                                disabled={actionLoading === `payment-${paper.id}`}
+                                className={`block w-28 pl-2 pr-6 py-1 text-xs font-bold border rounded appearance-none focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer ${getPaymentClass(paper.paymentStatus)} ${actionLoading === `payment-${paper.id}` ? 'opacity-50 pl-8' : ''}`}
+                            >
+                                <option value="UNPAID">Unpaid</option>
+                                <option value="PAID">Paid</option>
+                                <option value="WAIVED">Waived</option>
+                            </select>
+                         </div>
+                      </td>
+
                       <td className="p-3 text-center text-gray-700">
                         {paper._count.reviews || 0}
                       </td>
