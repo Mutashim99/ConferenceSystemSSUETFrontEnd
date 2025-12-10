@@ -309,128 +309,128 @@ export const Speakers = ({ id }) => {
   ];
 
   return (
-    <motion.section
-      id={id}
-      className="py-20 md:py-24 px-6 md:px-16 bg-gray-50 font-poppins"
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.05 }}
-      transition={{ duration: 0.8 }}
-    >
-      <div className="max-w-7xl mx-auto text-center">
-        {/* International Speakers */}
-        <h2
-          id="internationallyInvitedSpeakers"
-          className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans mb-16"
-        >
-          International Invited Speakers
-        </h2>
-        <div className="grid grid-cols-1 mb-16 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {internationalInvitedSpeakers.map((speaker, index) => (
-            <motion.div
-              key={index}
-              className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 p-6 flex flex-col items-center"
-              whileHover={{ scale: 1.03, y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <div className="w-40 h-40 rounded-full border-4 border-[#447E36] overflow-hidden mb-4 shadow-inner">
-                <img
-                  src={speaker.image}
-                  alt={speaker.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                {speaker.name}
-              </h3>
-              <p className="text-sm text-gray-600 mb-5 text-center">
-                ({speaker.location})
-              </p>
-              {/* <motion.button
+    // <motion.section
+    //   id={id}
+    //   className="py-20 md:py-24 px-6 md:px-16 bg-gray-50 font-poppins"
+    //   initial={{ opacity: 0, y: 50 }}
+    //   whileInView={{ opacity: 1, y: 0 }}
+    //   viewport={{ once: true, amount: 0.05 }}
+    //   transition={{ duration: 0.8 }}
+    // >
+    <div className="max-w-7xl mx-auto text-center">
+      {/* International Speakers */}
+      <h2
+        id="internationallyInvitedSpeakers"
+        className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans mb-16"
+      >
+        International Invited Speakers
+      </h2>
+      <div className="grid grid-cols-1 mb-16 sm:grid-cols-2 md:grid-cols-3 gap-10">
+        {internationalInvitedSpeakers.map((speaker, index) => (
+          <motion.div
+            key={index}
+            className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 p-6 flex flex-col items-center"
+            whileHover={{ scale: 1.03, y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className="w-40 h-40 rounded-full border-4 border-[#447E36] overflow-hidden mb-4 shadow-inner">
+              <img
+                src={speaker.image}
+                alt={speaker.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-1">
+              {speaker.name}
+            </h3>
+            <p className="text-sm text-gray-600 mb-5 text-center">
+              ({speaker.location})
+            </p>
+            {/* <motion.button
                 className="px-6 py-2 bg-[#447E36] text-white text-sm font-medium rounded-md"
                 whileHover={{ scale: 1.1, backgroundColor: "#2d9a40" }}
               >
                 Read More
               </motion.button> */}
-            </motion.div>
-          ))}
-        </div>
-
-        {/* National Speakers */}
-        <h2
-          id="nationalInvitedSpeakers"
-          className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans mb-16"
-        >
-          National Invited Speakers
-        </h2>
-        <div className="grid grid-cols-1 mb-16 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {nationalInvitedSpeakers.map((speaker, index) => (
-            <motion.div
-              key={index}
-              className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 p-6 flex flex-col items-center"
-              whileHover={{ scale: 1.03, y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <div className="w-40 h-40 rounded-full border-4 border-[#447E36] overflow-hidden mb-4 shadow-inner">
-                <img
-                  src={speaker.image}
-                  alt={speaker.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                {speaker.name}
-              </h3>
-              <p className="text-sm text-gray-600 mb-5 text-center">
-                ({speaker.location})
-              </p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Organizing Committee */}
-        <h2
-          id="organizingCommittee"
-          className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans mb-16"
-        >
-          Organizing committee
-        </h2>
-        <div className="grid grid-cols-1 mb-16 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {organizingCommittee.map((speaker, index) => (
-            <motion.div
-              key={index}
-              className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 p-6 flex flex-col items-center"
-              whileHover={{ scale: 1.03, y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <div className="w-40 h-40 rounded-full border-4 border-[#447E36] overflow-hidden mb-4 shadow-inner">
-                <img
-                  src={speaker.image}
-                  alt={speaker.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                {speaker.name}
-              </h3>
-              <p className="text-sm text-gray-600 mb-5 text-center">
-                ({speaker.location})
-              </p>
-              {/* <motion.button
-                className="px-6 py-2 bg-[#447E36] text-white text-sm font-medium rounded-md"
-                whileHover={{ scale: 1.1, backgroundColor: "#2d9a40" }}
-              >
-                Read More
-              </motion.button> */}
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="flex justify-center items-center">
-          <img src="./sample-img.png" alt="Sample" />
-        </div>
+          </motion.div>
+        ))}
       </div>
-    </motion.section>
+
+      {/* National Speakers */}
+      <h2
+        id="nationalInvitedSpeakers"
+        className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans mb-16"
+      >
+        National Invited Speakers
+      </h2>
+      <div className="grid grid-cols-1 mb-16 sm:grid-cols-2 md:grid-cols-3 gap-10">
+        {nationalInvitedSpeakers.map((speaker, index) => (
+          <motion.div
+            key={index}
+            className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 p-6 flex flex-col items-center"
+            whileHover={{ scale: 1.03, y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className="w-40 h-40 rounded-full border-4 border-[#447E36] overflow-hidden mb-4 shadow-inner">
+              <img
+                src={speaker.image}
+                alt={speaker.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-1">
+              {speaker.name}
+            </h3>
+            <p className="text-sm text-gray-600 mb-5 text-center">
+              ({speaker.location})
+            </p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Organizing Committee */}
+      <h2
+        id="organizingCommittee"
+        className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans mb-16"
+      >
+        Organizing committee
+      </h2>
+      <div className="grid grid-cols-1 mb-16 sm:grid-cols-2 md:grid-cols-3 gap-10">
+        {organizingCommittee.map((speaker, index) => (
+          <motion.div
+            key={index}
+            className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 p-6 flex flex-col items-center"
+            whileHover={{ scale: 1.03, y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className="w-40 h-40 rounded-full border-4 border-[#447E36] overflow-hidden mb-4 shadow-inner">
+              <img
+                src={speaker.image}
+                alt={speaker.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-1">
+              {speaker.name}
+            </h3>
+            <p className="text-sm text-gray-600 mb-5 text-center">
+              ({speaker.location})
+            </p>
+            {/* <motion.button
+                className="px-6 py-2 bg-[#447E36] text-white text-sm font-medium rounded-md"
+                whileHover={{ scale: 1.1, backgroundColor: "#2d9a40" }}
+              >
+                Read More
+              </motion.button> */}
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="flex justify-center items-center">
+        <img src="./sample-img.png" alt="Sample" />
+      </div>
+    </div>
+    // </motion.section>
   );
 };
 
