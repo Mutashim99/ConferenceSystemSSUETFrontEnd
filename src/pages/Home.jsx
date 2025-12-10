@@ -36,11 +36,7 @@ export const Home = () => {
         </section>
       </AnimatedSection>
 
-      <AnimatedSection>
-        <section id="speakers">
-          <Speakers />
-        </section>
-      </AnimatedSection>
+      <Speakers id="speakers" />
 
       <AnimatedSection>
         <section id="sponsors">
