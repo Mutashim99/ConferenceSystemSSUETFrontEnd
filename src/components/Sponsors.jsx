@@ -7,6 +7,12 @@ const sponsorLogos = [
   "/logos/sed.jpg",
   "/logos/ssuet.png",
   "/logos/csit.jpg",
+  "https://media.licdn.com/dms/image/v2/D5603AQHczvfABD_yRQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1719323330784?e=1767225600&v=beta&t=vpYM_ehWlMNnC9nsSSU5dXrmmNy_qteRUrOXupQXOrc",
+  "https://www.iccs.edu/esims/images/iccbs_logo.png",
+  "https://scontent.fkhi2-2.fna.fbcdn.net/v/t39.30808-6/308203578_403708711956831_763658589569409051_n.png?_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=-RuNaSqQpmAQ7kNvwF4Pa77&_nc_oc=Adke4LIHIh0BE7Qi0NXLFK3nqeC6M9yeviC4RCLYbNqXpd001DP_4azIdcgja4BR0Qw&_nc_zt=23&_nc_ht=scontent.fkhi2-2.fna&_nc_gid=-5iB7sTssEsCrmFF0jK5RA&oh=00_AfkOCUiSsD5l5sGEiJOl9MmwrF2gWwTZQVsHVkv7wZ1SFw&oe=69423630",
+  "https://api.ieeensusb.org/media_files/main_website_files/About/IEEE/About_Image/e4c81f5dd1d43164425630c4ab971bd5.jpeg",
+  "https://macs.iobm.edu.pk/wp-content/uploads/2022/06/IEEE-karachi.png",
+
 ];
 
 export const Sponsors = () => {

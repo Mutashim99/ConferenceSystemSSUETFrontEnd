@@ -14,7 +14,7 @@ export const About = () => {
         {/* Content (Updated text size and line height for elegance) */}
         <div className="text-justify mb-12 text-base md:text-lg text-gray-700 leading-relaxed space-y-5">
           <p>
-            University Of Karachi holds a unique position in the country’s
+            University of Karachi holds a unique position in the country’s
             educational system. As a respected research and teaching
             institution, it is committed to intellectual leadership, and to
             excellence in both developing knowledge and conveying that knowledge
@@ -23,20 +23,19 @@ export const About = () => {
             for higher level education.
           </p>
           <p>
-            The Department of Computer Science, University of Karachi, was
-            established by a resolution of Academic Council in its meeting held
-            on November 27, 1984, and it began functioning in the academic year
-            1985-86 by offering a Degree Program in Master of Computer Science
-            (MCS) — becoming one of the first institutions in Karachi imparting
-            education in Computer Science and Technology.
+            The Department of Computer Science, University of Karachi, offers a
+            comprehensive range of degree programs, including BS degrees in
+            Computer Science (CS), Software Engineering (SE), and Artificial
+            Intelligence (AI). Additionally, the department provides advanced
+            postgraduate studies through its MS and PhD programs in Computer
+            Science.
           </p>
           <p>
             To further strengthen the discipline of Computer Science by
             producing high-quality professionals with sound fundamental
             knowledge, the Department launched the BS (Computer Science) program
             in 1996 and 2001 — a four-year degree leading to the MS (Computer
-            Science), a two-year program after completing the BS. The MS program
-            leads to the PhD (Computer Science) program.
+            Science), a two-year program after completing the BS.
           </p>
         </div>
 
