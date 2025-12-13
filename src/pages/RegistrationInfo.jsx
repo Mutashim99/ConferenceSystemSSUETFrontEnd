@@ -10,48 +10,69 @@ const RegistrationInfo = () => {
     visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
   };
 
-  // Dates from your handwritten note
+  // 🔥 UPDATED: Professional Colors & Black Text
   const timelineEvents = [
     {
       date: "1 DEC 2025",
       label: "Call for Papers",
-      color: "blue-500",
+      // Neutral Start (Slate Gray)
+      dotColor: "bg-slate-600",
+      ringColor: "ring-slate-600",
+      textColor: "text-gray-700", // Black/Dark Gray
       position: "top",
     },
     {
       date: "15 JAN 2026",
       label: "Abstract Submission Deadline",
-      color: "purple-500",
+      // Theme Maroon (Important Deadline)
+      dotColor: "bg-[#521028]",
+      ringColor: "ring-[#521028]",
+      textColor: "text-gray-700",
       position: "bottom",
     },
     {
       date: "20 JAN 2026",
       label: "Approval of Abstract",
-      color: "indigo-500",
+      // Neutral Step
+      dotColor: "bg-slate-600",
+      ringColor: "ring-slate-600",
+      textColor: "text-gray-700",
       position: "top",
     },
     {
       date: "15 FEB 2026",
       label: "Paper Submission Deadline",
-      color: "yellow-500",
+      // Theme Maroon (Critical Deadline)
+      dotColor: "bg-[#521028]",
+      ringColor: "ring-[#521028]",
+      textColor: "text-gray-700",
       position: "bottom",
     },
     {
       date: "1 MAR 2026",
       label: "Notification of Acceptance / Revision",
-      color: "red-600",
+      // Theme Green (Positive Outcome)
+      dotColor: "bg-[#447E36]",
+      ringColor: "ring-[#447E36]",
+      textColor: "text-gray-700",
       position: "top",
     },
     {
       date: "15 MAR 2026",
       label: "Camera Ready Submission & Copyright",
-      color: "teal-500",
+      // Neutral Step
+      dotColor: "bg-slate-600",
+      ringColor: "ring-slate-600",
+      textColor: "text-gray-700",
       position: "bottom",
     },
     {
       date: "20 MAR 2026",
       label: "Registration Deadline",
-      color: "[#447E36]",
+      // Theme Green (Final Step)
+      dotColor: "bg-[#447E36]",
+      ringColor: "ring-[#447E36]",
+      textColor: "text-gray-700",
       position: "top",
     },
   ];
@@ -104,18 +125,18 @@ const RegistrationInfo = () => {
                       >
                         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
                           <p
-                            className={`text-xs font-bold uppercase tracking-wider text-${event.color}`}
+                            className={`text-xs font-bold uppercase tracking-wider ${event.textColor}`}
                           >
                             {event.label}
                           </p>
-                          <p className="text-lg font-extrabold text-[#521028] mt-1">
+                          <p className="text-lg font-extrabold text-gray-900 mt-1">
                             {event.date}
                           </p>
                         </div>
                       </div>
                       <div className="w-[10%] flex justify-center">
                         <div
-                          className={`w-6 h-6 rounded-full bg-${event.color} border-4 border-white ring-2 ring-${event.color} shadow-sm`}
+                          className={`w-6 h-6 rounded-full ${event.dotColor} border-4 border-white ring-2 ${event.ringColor} shadow-sm`}
                         ></div>
                       </div>
                       <div className="w-[45%]"></div>
@@ -140,10 +161,10 @@ const RegistrationInfo = () => {
                       className="relative flex flex-col items-center group w-32"
                     >
                       <div
-                        className={`w-10 h-10 rounded-full bg-${event.color} border-[6px] border-white ring-4 ring-${event.color} z-10 relative transition-transform duration-300 group-hover:scale-110 shadow-lg`}
+                        className={`w-10 h-10 rounded-full ${event.dotColor} border-[6px] border-white ring-4 ${event.ringColor} z-10 relative transition-transform duration-300 group-hover:scale-110 shadow-lg`}
                       >
                         <div
-                          className={`absolute inset-0 rounded-full bg-${event.color} blur-xl opacity-0 group-hover:opacity-40 transition-opacity`}
+                          className={`absolute inset-0 rounded-full ${event.dotColor} blur-xl opacity-0 group-hover:opacity-40 transition-opacity`}
                         ></div>
                       </div>
                       <div
@@ -159,21 +180,21 @@ const RegistrationInfo = () => {
                         {isTopText ? (
                           <>
                             <span
-                              className={`text-xs font-bold text-${event.color} uppercase leading-tight mb-2 px-2`}
+                              className={`text-xs font-bold ${event.textColor} uppercase leading-tight mb-2 px-2`}
                             >
                               {event.label}
                             </span>
-                            <span className="text-xl font-extrabold text-[#521028]">
+                            <span className="text-xl font-extrabold text-gray-900">
                               {event.date}
                             </span>
                           </>
                         ) : (
                           <>
-                            <span className="text-xl font-extrabold text-[#521028] mb-2">
+                            <span className="text-xl font-extrabold text-gray-900 mb-2">
                               {event.date}
                             </span>
                             <span
-                              className={`text-xs font-bold text-${event.color} uppercase leading-tight px-2`}
+                              className={`text-xs font-bold ${event.textColor} uppercase leading-tight px-2`}
                             >
                               {event.label}
                             </span>
@@ -261,7 +282,7 @@ const RegistrationInfo = () => {
             </div>
           </motion.section>
 
-          {/* --- SECTION 3: WHAT IS INCLUDED --- */}
+          {/* --- SECTION 3: BANK DETAILS --- */}
           <motion.section
             variants={containerVariants}
             initial="hidden"

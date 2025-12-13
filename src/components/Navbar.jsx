@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { useNavigate, Link, useLocation } from "react-router-dom"; // Added useLocation
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import useAuthStore from "../store/authStore";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -8,7 +8,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
-  const location = useLocation(); // Hook to get current route
+  const location = useLocation();
 
   const handleLogout = async () => {
     await logout();
@@ -36,23 +36,19 @@ const Navbar = () => {
 
   // --- NAVIGATION LOGIC ---
 
-  // 1. The Home link is always visible.
-  // We use 'to' instead of 'href' to avoid full page reloads.
   const homeLink = { label: "HOME", to: "/" };
 
-  // 2. These links only make sense on the Home Page
   const homeSectionLinks = [
     { label: "ABOUT", href: "#about" },
     { label: "SPEAKERS", href: "#speakers" },
     { label: "CONTACT", href: "#contact" },
   ];
 
-  // 3. Determine which links to show based on the current route
   const isHomePage = location.pathname === "/";
 
   const visibleLinks = isHomePage
     ? [homeLink, ...homeSectionLinks]
-    : [homeLink]; // On other pages, only show HOME
+    : [homeLink];
 
   // Guest navigation items
   const publicNavItems = [
@@ -66,6 +62,8 @@ const Navbar = () => {
   // Logged-in user items
   const userNavItems = [
     ...visibleLinks,
+    // 🔥 ADDED: Registration info is now visible for logged-in users
+    { label: "REGISTRATION INFO", to: "/registration-info" },
     { label: "DASHBOARD", to: dashboardPath },
     { label: "LOGOUT", onClick: handleLogout },
   ];
@@ -74,9 +72,7 @@ const Navbar = () => {
 
   // --- RENDER FUNCTIONS ---
 
-  // Desktop item render
   const renderNavItem = (item) => {
-    // Handle anchor links (sections)
     if (item.href) {
       return (
         <a
@@ -101,7 +97,6 @@ const Navbar = () => {
       );
     }
 
-    // Handle standard Router links (pages)
     if (item.to) {
       if (item.cta) {
         return (
@@ -125,7 +120,6 @@ const Navbar = () => {
       );
     }
 
-    // Fallback for text-only items
     return (
       <span key={item.label} className="text-sm font-semibold text-gray-200">
         {item.label}
@@ -133,7 +127,6 @@ const Navbar = () => {
     );
   };
 
-  // Mobile drawer item render
   const renderMobileNavItem = (item) => {
     if (item.href) {
       return (
