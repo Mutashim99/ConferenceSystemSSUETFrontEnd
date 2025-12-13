@@ -36,7 +36,9 @@ export const Home = () => {
         </section>
       </AnimatedSection>
 
-      <Speakers id="speakers" />
+      <section id="speakers">
+        <Speakers />
+      </section>
 
       <AnimatedSection>
         <section id="sponsors">

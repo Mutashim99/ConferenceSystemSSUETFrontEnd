@@ -137,6 +137,11 @@ export const Speakers = ({ id }) => {
       image: "./organizing_committee/sadiq.jpeg",
     },
     {
+      name: "Prof. Dr. Bilquees Gul",
+      location: "Co-Chair (Dean Faculty of Science, UoK)",
+      image: "./organizing_committee/bilquees.jpeg",
+    },
+    {
       name: "Prof. Dr. Muhammad Aamir",
       location: "Co-Chair (Dean ECE, SSUET)",
       image: "./organizing_committee/aamir.jpeg",

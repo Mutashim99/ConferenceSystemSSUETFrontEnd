@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom"; // Added useLocation
 import useAuthStore from "../store/authStore";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -8,6 +8,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation(); // Hook to get current route
 
   const handleLogout = async () => {
     await logout();
@@ -33,18 +34,30 @@ const Navbar = () => {
     }
   }
 
-  // 🔥 NEW: Home Page Section Navigation
-  const sectionLinks = [
-    { label: "HOME", href: "/" },
-    { label: "ABOUT", href: "#about" },
+  // --- NAVIGATION LOGIC ---
 
+  // 1. The Home link is always visible.
+  // We use 'to' instead of 'href' to avoid full page reloads.
+  const homeLink = { label: "HOME", to: "/" };
+
+  // 2. These links only make sense on the Home Page
+  const homeSectionLinks = [
+    { label: "ABOUT", href: "#about" },
     { label: "SPEAKERS", href: "#speakers" },
     { label: "CONTACT", href: "#contact" },
   ];
 
+  // 3. Determine which links to show based on the current route
+  const isHomePage = location.pathname === "/";
+
+  const visibleLinks = isHomePage
+    ? [homeLink, ...homeSectionLinks]
+    : [homeLink]; // On other pages, only show HOME
+
   // Guest navigation items
   const publicNavItems = [
-    ...sectionLinks, // add section links first
+    ...visibleLinks,
+    { label: "REGISTRATION INFO", to: "/registration-info" },
     { label: "SUBMIT A PAPER", to: "/author/dashboard/submit", cta: true },
     { label: "LOGIN", to: "/login" },
     { label: "REGISTER", to: "/register" },
@@ -52,16 +65,18 @@ const Navbar = () => {
 
   // Logged-in user items
   const userNavItems = [
-    ...sectionLinks,
-    // { label: `Welcome, ${user?.firstName || user?.email}` },
+    ...visibleLinks,
     { label: "DASHBOARD", to: dashboardPath },
     { label: "LOGOUT", onClick: handleLogout },
   ];
 
   const navItems = !user ? publicNavItems : userNavItems;
 
+  // --- RENDER FUNCTIONS ---
+
   // Desktop item render
   const renderNavItem = (item) => {
+    // Handle anchor links (sections)
     if (item.href) {
       return (
         <a
@@ -86,34 +101,35 @@ const Navbar = () => {
       );
     }
 
-    if (!item.to) {
-      return (
-        <span key={item.label} className="text-sm font-semibold text-gray-200">
-          {item.label}
-        </span>
-      );
-    }
-
-    if (item.cta) {
+    // Handle standard Router links (pages)
+    if (item.to) {
+      if (item.cta) {
+        return (
+          <Link
+            key={item.label}
+            to={item.to}
+            className="text-sm font-semibold text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-all"
+          >
+            {item.label}
+          </Link>
+        );
+      }
       return (
         <Link
           key={item.label}
           to={item.to}
-          className="text-sm font-semibold  text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-all"
+          className="text-sm font-semibold hover:opacity-80 transition-opacity"
         >
           {item.label}
         </Link>
       );
     }
 
+    // Fallback for text-only items
     return (
-      <Link
-        key={item.label}
-        to={item.to}
-        className="text-sm font-semibold hover:opacity-80 transition-opacity"
-      >
+      <span key={item.label} className="text-sm font-semibold text-gray-200">
         {item.label}
-      </Link>
+      </span>
     );
   };
 
@@ -147,24 +163,25 @@ const Navbar = () => {
       );
     }
 
-    if (!item.to) {
-      return (
-        <span
-          key={item.label}
-          className="block w-full text-left px-6 py-4 text-base font-medium text-gray-300"
-        >
-          {item.label}
-        </span>
-      );
-    }
-
-    if (item.cta) {
+    if (item.to) {
+      if (item.cta) {
+        return (
+          <Link
+            key={item.label}
+            to={item.to}
+            onClick={() => setIsOpen(false)}
+            className="block px-6 py-4 text-base font-medium bg-[#447E36] text-center"
+          >
+            {item.label}
+          </Link>
+        );
+      }
       return (
         <Link
           key={item.label}
           to={item.to}
           onClick={() => setIsOpen(false)}
-          className="block px-6 py-4 text-base font-medium bg-[#447E36] text-center"
+          className="block px-6 py-4 text-base font-medium hover:bg-[#5a2781] transition-colors"
         >
           {item.label}
         </Link>
@@ -172,14 +189,12 @@ const Navbar = () => {
     }
 
     return (
-      <Link
+      <span
         key={item.label}
-        to={item.to}
-        onClick={() => setIsOpen(false)}
-        className="block px-6 py-4 text-base font-medium hover:bg-[#5a2781] transition-colors"
+        className="block w-full text-left px-6 py-4 text-base font-medium text-gray-300"
       >
         {item.label}
-      </Link>
+      </span>
     );
   };
 

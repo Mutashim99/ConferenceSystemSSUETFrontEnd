@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import RegistrationInfo from "./pages/RegistrationInfo";
 import SubmitPaper from "./pages/author/SubmitPaper";
 import SubmittedPapers from "./pages/author/SubmittedPapers";
 import PaperDetails from "./pages/author/PaperDetails";
@@ -17,7 +18,7 @@ import useAuthStore from "./store/authStore";
 import { useEffect } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ReviewerPaperDetails from "./pages/reviewer/ReviewerPaperDetails";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 function App() {
   // Get the fetchUser action from the store.
   const fetchUser = useAuthStore((s) => s.fetchUser);
@@ -30,63 +31,64 @@ function App() {
 
   return (
     <>
-    <Analytics />
-    <Router>
-      {/* <Navbar /> */}
-      <div className="bg-gray-50 min-h-[calc(100vh-80px)]">
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          {/* AUTHOR DASHBOARD (Protected) */}
-          <Route
-            path="/author/dashboard/submit"
-            element={
-              <ProtectedRoute allowedRoles={["AUTHOR"]}>
-                <SubmitPaper />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/author/dashboard/papers"
-            element={
-              <ProtectedRoute allowedRoles={["AUTHOR"]}>
-                <SubmittedPapers />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/author/dashboard/papers/:id"
-            element={
-              <ProtectedRoute allowedRoles={["AUTHOR"]}>
-                <PaperDetails />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/author/dashboard"
-            element={<Navigate to="/author/dashboard/submit" />}
-          />
+      <Analytics />
+      <Router>
+        {/* <Navbar /> */}
+        <div className="bg-gray-50 min-h-[calc(100vh-80px)]">
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/registration-info" element={<RegistrationInfo />} />
+            {/* AUTHOR DASHBOARD (Protected) */}
+            <Route
+              path="/author/dashboard/submit"
+              element={
+                <ProtectedRoute allowedRoles={["AUTHOR"]}>
+                  <SubmitPaper />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/author/dashboard/papers"
+              element={
+                <ProtectedRoute allowedRoles={["AUTHOR"]}>
+                  <SubmittedPapers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/author/dashboard/papers/:id"
+              element={
+                <ProtectedRoute allowedRoles={["AUTHOR"]}>
+                  <PaperDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/author/dashboard"
+              element={<Navigate to="/author/dashboard/submit" />}
+            />
 
-          {/* ADMIN DASHBOARD (Protected) */}
-          <Route
-            path="/admin/dashboard/papers"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN"]}>
-                <AdminSubmittedPapers />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/dashboard/register-reviewer"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN"]}>
-                <RegisterReviewer />
-              </ProtectedRoute>
-            }
-          />
-          {/* <Route
+            {/* ADMIN DASHBOARD (Protected) */}
+            <Route
+              path="/admin/dashboard/papers"
+              element={
+                <ProtectedRoute allowedRoles={["ADMIN"]}>
+                  <AdminSubmittedPapers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/dashboard/register-reviewer"
+              element={
+                <ProtectedRoute allowedRoles={["ADMIN"]}>
+                  <RegisterReviewer />
+                </ProtectedRoute>
+              }
+            />
+            {/* <Route
             path="/admin/dashboard/assign-reviewer"
             element={
               // <ProtectedRoute allowedRoles={["ADMIN"]}>
@@ -94,29 +96,35 @@ function App() {
               // </ProtectedRoute>
             }
           /> */}
-          <Route
-            path="/admin/dashboard"
-            element={<Navigate to="/admin/dashboard/papers" />}
-          />
+            <Route
+              path="/admin/dashboard"
+              element={<Navigate to="/admin/dashboard/papers" />}
+            />
 
-          {/* REVIEWER DASHBOARD (Protected) */}
-          <Route
-            path="/reviewer/dashboard/*"
-            element={
-              <ProtectedRoute allowedRoles={["REVIEWER"]}>
-                <Routes>
-                  <Route path="papers" element={<ReviewerSubmittedPapers />} />
-                  <Route path="papers/:id" element={<ReviewerPaperDetails />} />
-                  <Route path="/" element={<Navigate to="papers" />} />
-                </Routes>
-              </ProtectedRoute>
-            }
-          />
-          {/* Fallback for any other route */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </div>
-    </Router>
+            {/* REVIEWER DASHBOARD (Protected) */}
+            <Route
+              path="/reviewer/dashboard/*"
+              element={
+                <ProtectedRoute allowedRoles={["REVIEWER"]}>
+                  <Routes>
+                    <Route
+                      path="papers"
+                      element={<ReviewerSubmittedPapers />}
+                    />
+                    <Route
+                      path="papers/:id"
+                      element={<ReviewerPaperDetails />}
+                    />
+                    <Route path="/" element={<Navigate to="papers" />} />
+                  </Routes>
+                </ProtectedRoute>
+              }
+            />
+            {/* Fallback for any other route */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </div>
+      </Router>
     </>
   );
 }
