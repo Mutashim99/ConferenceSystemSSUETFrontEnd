@@ -43,6 +43,16 @@ export const Footer = () => {
         <p className="text-sm text-gray-200">
           © {new Date().getFullYear()} ICISCT — All Rights Reserved.
         </p>
+        <p className="text-xs text-gray-400">
+          Technology Partner:{" "}
+          <a
+            href="https://smoothledger.com"
+            target="_blank"
+            className="text-gray-200 hover:text-white hover:underline transition-colors duration-200 font-medium"
+          >
+            SmoothLedger
+          </a>
+        </p>
       </div>
     </footer>
   );
