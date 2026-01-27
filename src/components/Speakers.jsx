@@ -289,7 +289,7 @@ export const Speakers = ({ id }) => {
     {
       name: "Dr. Humera Tariq",
       location: "Member",
-      image: "./organizing_committee/humera.jpeg",
+      image: "./organizing_committee/humera.jpg",
     },
     {
       name: "Mr. Mukesh Kumar Rathi Maheshwari",
