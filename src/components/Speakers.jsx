@@ -15,7 +15,7 @@ export const Speakers = ({ id }) => {
     {
       name: "Prof Arthur James Swart",
       location: "Central University of Technology, South Africa",
-      image: "./international_invited_speakers/Arthur.webp",
+      image: "./international_invited_speakers/Arthur.JPG",
     },
     {
       name: "Prof Hui Wang",
@@ -148,7 +148,7 @@ export const Speakers = ({ id }) => {
     },
     {
       name: "Engr. Muhammad Zakir Shaikh",
-      location: "Secretary (Chair IEEE CS Karachi)",
+      location: "(Secretary (Director NCRA Lab, Mehran University))",
       image: "./organizing_committee/zakir.jpeg",
     },
     {
@@ -212,10 +212,17 @@ export const Speakers = ({ id }) => {
       image: "./organizing_committee/osama.jpeg",
     },
     {
-      name: "Engr. Ayesha Urooj",
+      name: "Dr. Urooj Waheed",
       location: "Sponsorship Coordinator",
-      image: "./organizing_committee/",
+      image: "./organizing_committee/Dr. Urooj Waheed.jpg",
     },
+
+    {
+      name: "Engr. Ayesha Urooj",
+      location: "Co-Sponsorship Coordinator ",
+      image: "./organizing_committee/Engr. Ayesha Urooj.jpg",
+    },
+
     {
       name: "Engr. Fayyaz Ali",
       location: "Marketing & PR Coordinator",
@@ -310,6 +317,24 @@ export const Speakers = ({ id }) => {
       name: "Ms. Maryam Feroz",
       location: "Member",
       image: "./organizing_committee/maryam.jpeg",
+    },
+
+    {
+      name: "Dr. Fozia Hanif Khan",
+      location: "Member",
+      image: "./organizing_committee/Dr. Fozia Hanif Khan.jpg",
+    },
+
+    {
+      name: "Dr. Muhammad Ayaz",
+      location: "Member",
+      image: "./organizing_committee/Dr. Muhammad Ayaz.jpg",
+    },
+
+    {
+      name: "Prof. Dr. Najeeb Alam Khan",
+      location: "Member",
+      image: "./organizing_committee/Prof. Dr. Najeeb Alam Khan.jpg",
     },
   ];
 
