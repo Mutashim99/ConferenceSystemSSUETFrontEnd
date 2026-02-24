@@ -457,6 +457,9 @@ const AdminSubmittedPapersInternal = () => {
               <div className="bg-white shadow-lg rounded-lg p-6">
                 <div className="flex justify-between items-start mb-4">
                   <div>
+                    <span className="text-sm text-gray-500 font-mono font-semibold block mb-1">
+                      Paper ID: {selectedPaper.id}
+                    </span>
                     <h1 className="text-2xl font-bold text-black">
                       {selectedPaper.title}
                     </h1>
@@ -900,9 +903,14 @@ const AdminSubmittedPapersInternal = () => {
                 >
                   {/* Top: Title and Status */}
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-lg font-bold text-black pr-2">
-                      {paper.title}
-                    </h3>
+                    <div className="pr-2">
+                      <span className="text-xs text-gray-500 font-mono font-semibold block mb-1">
+                        ID: {paper.id}
+                      </span>
+                      <h3 className="text-lg font-bold text-black">
+                        {paper.title}
+                      </h3>
+                    </div>
                     <div className="flex flex-col gap-1 items-end">
                       <StatusBadge status={paper.status} />
                       {/* Fees Badge for Mobile */}
@@ -957,10 +965,11 @@ const AdminSubmittedPapersInternal = () => {
               <table className="w-full text-sm text-left border-collapse">
                 <thead className="bg-[#521028] text-white">
                   <tr>
+                    <th className="p-3">ID</th>
                     <th className="p-3">Title</th>
                     <th className="p-3">Submitted By</th>
                     <th className="p-3">Status</th>
-                    <th className="p-3">Fees Status</th> {/* <-- NEW COLUMN */}
+                    <th className="p-3">Fees Status</th>
                     <th className="p-3">Reviews</th>
                     <th className="p-3">Submitted On</th>
                     <th className="p-3">Actions</th>
@@ -972,6 +981,9 @@ const AdminSubmittedPapersInternal = () => {
                       key={paper.id}
                       className="border-b hover:bg-gray-50 transition"
                     >
+                      <td className="p-3 text-sm text-gray-900 font-medium">
+                        {paper.id}
+                      </td>
                       <td className="p-3 font-medium text-gray-900">
                         {paper.title}
                       </td>
