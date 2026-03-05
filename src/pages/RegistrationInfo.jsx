@@ -251,7 +251,7 @@ const RegistrationInfo = () => {
                     {
                       cat: "Attendee (Non-Author)",
                       early: "-",
-                      reg: "PKR 1500",
+                      reg: "PKR 2000",
                     },
                     {
                       cat: "International Author",
