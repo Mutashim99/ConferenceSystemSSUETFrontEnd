@@ -146,9 +146,14 @@ export const Speakers = ({ id }) => {
       location: "Co-Chair (Dean ECE, SSUET)",
       image: "./organizing_committee/aamir.jpeg",
     },
+        {
+      name: "Prof. Dr. Muhammad Shahab Siddiqui",
+      location: "Co-Chair (Chair, IEEE Karachi Computer Society Chapter,Chairperson, Department of Computing, Indus University)",
+      image: "./organizing_committee/shahab.jpg",
+    },
     {
       name: "Engr. Muhammad Zakir Shaikh",
-      location: "(Secretary (Director NCRA Lab, Mehran University))",
+      location: "Secretary (Director NCRA Lab, Mehran University)",
       image: "./organizing_committee/zakir.jpeg",
     },
     {
@@ -211,6 +216,16 @@ export const Speakers = ({ id }) => {
       location: "Logistics Coordinator",
       image: "./organizing_committee/osama.jpeg",
     },
+     {
+      name: "Engr. Bari Ahmed Khan",
+      location: "Co-Logistics Coordinator",
+      image: "./organizing_committee/bari.jpeg",
+    },
+     {
+      name: "Mr. Zaeem Tariq",
+      location: "Co-Logistics Coordinator",
+      image: "./organizing_committee/zaeem.jpeg",
+    },
     {
       name: "Dr. Urooj Waheed",
       location: "Sponsorship Coordinator",
@@ -233,16 +248,16 @@ export const Speakers = ({ id }) => {
       location: "Volunteers Coordinator",
       image: "./organizing_committee/sonish.webp",
     },
-    {
-      name: "Ms. Maham Imran",
-      location: "Creative Designing Coordinator",
-      image: "./organizing_committee/",
-    },
-    {
-      name: "Ms. Roohi Kamal",
-      location: "Member",
-      image: "./organizing_committee/roohi.webp",
-    },
+    // {
+    //   name: "Ms. Maham Imran",
+    //   location: "Creative Designing Coordinator",
+    //   image: "./organizing_committee/",
+    // },
+    // {
+    //   name: "Ms. Roohi Kamal",
+    //   location: "Member",
+    //   image: "./organizing_committee/roohi.webp",
+    // },
     {
       name: "Dr. Muzammil Ahmed Khan",
       location: "Member",
