@@ -40,11 +40,11 @@ export const Home = () => {
         <Speakers />
       </section>
 
-      <AnimatedSection>
+      {/* <AnimatedSection>
         <section id="sponsors">
           <Sponsors />
         </section>
-      </AnimatedSection>
+      </AnimatedSection> */}
 
       <AnimatedSection>
         <section id="contact">
