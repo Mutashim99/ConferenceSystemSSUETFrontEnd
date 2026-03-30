@@ -1,12 +1,11 @@
-import { motion } from "framer-motion"; // Import motion
+import { motion } from "framer-motion";
 
-// Define variants for the container and its items
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2, // Each child will animate 0.2s after the previous one
+      staggerChildren: 0.2,
     },
   },
 };
@@ -23,9 +22,24 @@ const itemVariants = {
   },
 };
 
+const topRowLogos = [
+  "/logos/ku.jpg",
+  "/logos/ssuet.png",
+  "/logos/hec_sindh.jpeg",
+  "https://api.ieeensusb.org/media_files/main_website_files/About/IEEE/About_Image/e4c81f5dd1d43164425630c4ab971bd5.jpeg",
+  "https://macs.iobm.edu.pk/wp-content/uploads/2022/06/IEEE-karachi.png",
+  "/logos/ubit.jpeg",
+  "/logos/sed.jpg",
+];
+
+const bottomRowLogos = [
+  "/logos/csit.jpg",
+  "https://www.iccs.edu/esims/images/iccbs_logo.png",
+];
+
 export const Header = () => {
   return (
-    <header className="relative w-full min-h-[calc(100vh-5rem)] flex items-center justify-center text-center text-white font-poppins">
+    <header className="relative w-full min-h-[calc(100vh-5rem)] flex items-center justify-center text-center text-white font-poppins py-8 lg:py-0">
       {/* Background Image */}
       <img
         src="/header-img.png"
@@ -33,24 +47,68 @@ export const Header = () => {
         className="absolute inset-0 w-full h-full object-cover"
       />
       {/* Purple overlay */}
-      <div className="absolute inset-0 w-full h-full bg-[#521028] opacity-50"></div>
+      <div className="absolute inset-0 w-full h-full bg-[#521028] opacity-60"></div>
 
-      {/* Content (Wrapped in motion.div) */}
+      {/* Content */}
       <motion.div
-        className="relative z-10 px-4"
+        className="relative z-10 px-4 w-full max-w-5xl mx-auto flex flex-col items-center justify-center"
         variants={containerVariants}
         initial="hidden"
-        animate="visible" // Animate on load
+        animate="visible"
       >
+        {/* Glassmorphism Sponsor Container */}
+        <motion.div
+          variants={itemVariants}
+          className="bg-white/50 backdrop-blur-md border border-white/30 rounded-[1.5rem] md:rounded-[2rem] px-3 py-4 md:px-8 md:py-6 mb-5 md:mb-8 shadow-2xl w-full max-w-5xl"
+        >
+          {/* Unified Logo Container - This fixes the awkward wrapping */}
+          <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 md:gap-5 lg:gap-6">
+            {/* Top Array */}
+            {topRowLogos.map((logo, index) => (
+              <div
+                key={`top-${index}`}
+                className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-white rounded-xl shadow-sm flex items-center justify-center p-1.5 hover:scale-110 transition-transform duration-300"
+              >
+                <img
+                  src={logo}
+                  alt={`Sponsor ${index + 1}`}
+                  className="max-w-full max-h-full object-contain"
+                  onError={(e) => {
+                    e.target.src = "https://placehold.co/128x64?text=LOGO";
+                  }}
+                />
+              </div>
+            ))}
+
+            {/* Bottom Array */}
+            {bottomRowLogos.map((logo, index) => (
+              <div
+                key={`bottom-${index}`}
+                className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-white rounded-xl shadow-sm flex items-center justify-center p-1.5 hover:scale-110 transition-transform duration-300"
+              >
+                <img
+                  src={logo}
+                  alt={`Sponsor bottom ${index + 1}`}
+                  className="max-w-full max-h-full object-contain"
+                  onError={(e) => {
+                    e.target.src = "https://placehold.co/128x64?text=LOGO";
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Text and CTAs */}
         <motion.h2
-          className="text-2xl md:text-3xl font-bold mb-3 tracking-wide"
+          className="text-xl md:text-2xl font-bold mb-2 tracking-wide drop-shadow-md"
           variants={itemVariants}
         >
           GET READY
         </motion.h2>
 
         <motion.h1
-          className="text-3xl md:text-5xl font-extrabold leading-tight mb-5 drop-shadow-md"
+          className="text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight mb-3 md:mb-4 drop-shadow-lg"
           variants={itemVariants}
         >
           4th International Conference On Information Science & Communication
@@ -58,14 +116,14 @@ export const Header = () => {
         </motion.h1>
 
         <motion.p
-          className="text-lg md:text-2xl font-semibold mb-2"
+          className="text-base sm:text-lg md:text-2xl font-semibold mb-2 drop-shadow-md"
           variants={itemVariants}
         >
           15 April - 16 April 2026
         </motion.p>
 
         <motion.h3
-          className="text-lg md:text-2xl font-semibold mb-10"
+          className="text-sm sm:text-base md:text-2xl font-semibold mb-6 md:mb-8 drop-shadow-md"
           variants={itemVariants}
         >
           Venue:{" "}
@@ -77,19 +135,19 @@ export const Header = () => {
 
         {/* CTA Buttons */}
         <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center w-full sm:w-auto"
           variants={itemVariants}
         >
           <motion.a
             href="/author/dashboard/submit"
-            className="bg-[#447E36] text-white font-semibold px-8 py-3 rounded-lg text-lg hover:bg-opacity-90 transition-all shadow-lg"
+            className="bg-[#447E36] text-white font-semibold px-6 py-3 rounded-lg text-base md:text-lg hover:bg-[#3b6e2f] transition-colors shadow-lg"
             whileHover={{ scale: 1.05 }}
           >
             Submit a Paper
           </motion.a>
           <motion.a
             href="#about"
-            className="bg-white text-[#521028] font-semibold px-8 py-3 rounded-lg text-lg hover:bg-gray-100 transition-all shadow-lg"
+            className="bg-white text-[#521028] font-semibold px-6 py-3 rounded-lg text-base md:text-lg hover:bg-gray-100 transition-colors shadow-lg"
             whileHover={{ scale: 1.05 }}
           >
             Learn More

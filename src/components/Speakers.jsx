@@ -67,16 +67,7 @@ export const Speakers = ({ id }) => {
     profile:
       "A dedicated and versatile researcher and IT professional with over 15 years of experience in academia and industry across Finland, Afghanistan, and Pakistan. Currently serving as a Postdoctoral Researcher at LUT University, focusing on electrical engineering, the Internet of Things (IoT), IoT platforms, cyber-physical systems, and the digital transformation of industrial sectors.\n\nHe holds a Master’s degree in Software Engineering from LUT University and has a strong foundation in software development, databases, and IT systems. His teaching background includes a lecturer role at Kardan University, where he was recognized with the Best Lecturer Award in 2010. Earlier in his career, he worked as an MIS Officer in the banking sector, handling responsibilities such as software testing, data consolidation from multiple branches, reporting using Crystal Reports, and maintaining database systems."
   },
-  {
-    name: "Mr. Fahim Uz Zaman",
-    location: "United Kingdom (UK)",
-    image: "./international_invited_speakers/fahim.png",
-    topic: "Virtual Reality (VR) Gaming Has Emerged as an Important Area of Interactive Entertainment",
-    abstract:
-      "Virtual Reality (VR) gaming has emerged as an important area of interactive entertainment, with users increasingly engaging through different Head-Mounted Displays (HMDs) across both local and cloud-based platforms. However, the effect of different VR devices on the Quality of Experience (QoE) of gamers remains insufficiently explored. This study investigates the comparative impact of ordinary display systems, normal VR headsets, and Samsung Gear VR powered by Oculus on users’ visual quality, enjoyment, satisfaction, and perceived network performance. A subjective lab-based experiment was conducted with 20 participants using Grand Theft Auto V in two scenarios: emulator-based local gaming and cloud-based gaming through Vortex.gg. The findings show that Oculus-based VR provided the highest QoE in terms of visual quality, enjoyment, and satisfaction, outperforming both normal VR boxes and traditional displays. The study also found that network latency, jitter, and packet loss significantly reduced QoE in cloud gaming compared to emulator-based gameplay. These results highlight that both device quality and network conditions play a decisive role in shaping immersive gaming experiences. The work offers practical insight for VR device manufacturers, game developers, and cloud gaming providers seeking to improve user satisfaction and overall VR gaming performance.",
-    profile:
-      "Fahim Uz Zaman is a technologist, researcher, educator, and academic leader specializing in DevOps, cloud computing, cybersecurity, artificial intelligence, and software engineering. He serves as an Advanced Technical Lecturer in Web and DevOps Engineering and Programme Leader for the Software Engineering stream at Newcastle College University Centre, UK, where he oversees curriculum design and industry-focused teaching in areas such as Infrastructure as Code, CI/CD, and cloud-native systems. A Gold Medalist with a BS in Computer Science from Sindh Madressatul Islam University, he also holds an MS in Computer Science and an MSc in Cyber Security Management from the University of Law, UK. His research contributions span serverless computing, cloud databases, datacenter reliability, and AI applications, with publications in reputable journals and conferences. He has extensive teaching and training experience, including roles as a Microsoft Certified Trainer, IoT Lead Trainer at PIAIC, and CCNA instructor at Saylani Welfare. Recognized with multiple awards, including HEC Merit Scholarships and an international travel grant, he also holds professional certifications such as Microsoft Certified: Azure AI Engineer Associate and AWS Certified AI Practitioner."
-  }
+
   ];
 
   const invitedSpeakers = [
@@ -161,6 +152,16 @@ export const Speakers = ({ id }) => {
       "In this talk, I explore how trust is both a critical enabler and a major vulnerability in the evolving landscapes of Industry 4.0 and Industry 5.0. As digital systems become more intelligent and interconnected driven by Artificial Intelligence, the Internet of Things, and Blockchain trust is no longer optional; it is foundational. However, we are also witnessing the rise of deepfakes, cybersecurity threats, and opaque algorithms factors that deeply undermine our confidence in machines, data, and even each other. This presentation is based on a systematic review of 40 studies, from which six key themes have emerged, including the role of trust in digital transformation, human–machine collaboration, and the educational shifts needed to build resilient, trustworthy ecosystems. I will also highlight specific points where trust tends to break down such as chatbot failures, false online reviews, and digital payment systems and propose practical solutions. These include explainable AI, multi-level trust evaluation frameworks, and targeted workforce training. Finally, while Industry 4.0 is actively unfolding, Industry 5.0 is still in its early stages—creating exciting opportunities for research and roadmap validation. This talk aims to spark discussion on how we can reimagine trust not just as a technical issue, but as a social and strategic imperative in the digital age.",
     profile:
       "Prof. Dr. Sajjad Ahmad Madani is a senior academic leader at COMSATS University Islamabad with over 20 years of experience. He has led 3 institutional reforms and pioneered digital and AI-enabled education. An IEEE senior member, he has authored 100+ research publications. His work focuses on Generative AI, ethics, and the future of higher education."
+  },
+  {
+    name: "Mr. Fahim Uz Zaman",
+    location: "United Kingdom (UK)",
+    image: "./international_invited_speakers/fahim.png",
+    topic: "Virtual Reality (VR) Gaming Has Emerged as an Important Area of Interactive Entertainment",
+    abstract:
+      "Virtual Reality (VR) gaming has emerged as an important area of interactive entertainment, with users increasingly engaging through different Head-Mounted Displays (HMDs) across both local and cloud-based platforms. However, the effect of different VR devices on the Quality of Experience (QoE) of gamers remains insufficiently explored. This study investigates the comparative impact of ordinary display systems, normal VR headsets, and Samsung Gear VR powered by Oculus on users’ visual quality, enjoyment, satisfaction, and perceived network performance. A subjective lab-based experiment was conducted with 20 participants using Grand Theft Auto V in two scenarios: emulator-based local gaming and cloud-based gaming through Vortex.gg. The findings show that Oculus-based VR provided the highest QoE in terms of visual quality, enjoyment, and satisfaction, outperforming both normal VR boxes and traditional displays. The study also found that network latency, jitter, and packet loss significantly reduced QoE in cloud gaming compared to emulator-based gameplay. These results highlight that both device quality and network conditions play a decisive role in shaping immersive gaming experiences. The work offers practical insight for VR device manufacturers, game developers, and cloud gaming providers seeking to improve user satisfaction and overall VR gaming performance.",
+    profile:
+      "Fahim Uz Zaman is a technologist, researcher, educator, and academic leader specializing in DevOps, cloud computing, cybersecurity, artificial intelligence, and software engineering. He serves as an Advanced Technical Lecturer in Web and DevOps Engineering and Programme Leader for the Software Engineering stream at Newcastle College University Centre, UK, where he oversees curriculum design and industry-focused teaching in areas such as Infrastructure as Code, CI/CD, and cloud-native systems. A Gold Medalist with a BS in Computer Science from Sindh Madressatul Islam University, he also holds an MS in Computer Science and an MSc in Cyber Security Management from the University of Law, UK. His research contributions span serverless computing, cloud databases, datacenter reliability, and AI applications, with publications in reputable journals and conferences. He has extensive teaching and training experience, including roles as a Microsoft Certified Trainer, IoT Lead Trainer at PIAIC, and CCNA instructor at Saylani Welfare. Recognized with multiple awards, including HEC Merit Scholarships and an international travel grant, he also holds professional certifications such as Microsoft Certified: Azure AI Engineer Associate and AWS Certified AI Practitioner."
   }
   ];
 
@@ -241,11 +242,12 @@ export const Speakers = ({ id }) => {
       location: "Chair Registration Committee",
       image: "./organizing_committee/priha.webp",
     },
-    {
-      name: "Engr. Noman Ali Khan",
-      location: "Co-Chair Registration Committee",
-      image: "./organizing_committee/noman.webp",
+        {
+      name: "Dr. Urooj Waheed",
+      location: "Sponsorship Coordinator",
+      image: "./organizing_committee/Dr. Urooj Waheed.jpg",
     },
+
     {
       name: "Engr. Hassan Zaki",
       location: "Hospitality & Protocol Coordinator",
@@ -271,10 +273,10 @@ export const Speakers = ({ id }) => {
       location: "Co-Logistics Coordinator",
       image: "./organizing_committee/zaeem.jpeg",
     },
-    {
-      name: "Dr. Urooj Waheed",
-      location: "Sponsorship Coordinator",
-      image: "./organizing_committee/Dr. Urooj Waheed.jpg",
+        {
+      name: "Engr. Noman Ali Khan",
+      location: "Co-Chair Registration Committee",
+      image: "./organizing_committee/noman.webp",
     },
     {
       name: "Engr. Ayesha Urooj",
