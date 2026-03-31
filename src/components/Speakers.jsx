@@ -242,12 +242,12 @@ export const Speakers = ({ id }) => {
       location: "Chair Registration Committee",
       image: "./organizing_committee/priha.webp",
     },
-        {
+
+     {
       name: "Dr. Urooj Waheed",
-      location: "Sponsorship Coordinator",
+      location: "Co-Chair Registration Committee",
       image: "./organizing_committee/Dr. Urooj Waheed.jpg",
     },
-
     {
       name: "Engr. Hassan Zaki",
       location: "Hospitality & Protocol Coordinator",
@@ -275,7 +275,7 @@ export const Speakers = ({ id }) => {
     },
         {
       name: "Engr. Noman Ali Khan",
-      location: "Co-Chair Registration Committee",
+      location: "Sponsorship Coordinator",
       image: "./organizing_committee/noman.webp",
     },
     {
