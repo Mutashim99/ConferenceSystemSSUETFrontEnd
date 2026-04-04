@@ -371,7 +371,7 @@ export const Speakers = ({ id }) => {
     },
     {
       name: "Engr. Dr. Farheen Qazi",
-      location: "Co-Chair Review Committee",
+      location: "Chair Review Committee",
       image: "./organizing_committee/farheen.webp",
     },
     {
