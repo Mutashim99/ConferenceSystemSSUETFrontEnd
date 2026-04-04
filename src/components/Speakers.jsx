@@ -528,6 +528,19 @@ export const Speakers = ({ id }) => {
       image: "./organizing_committee/Prof. Dr. Najeeb Alam Khan.jpg",
     },
   ];
+  const technicalSupportCommittee = [
+    { name: "Mr. Hafiz M. Mutashim Mohsin", location: "SSUET", image: "./technical_support_committee/me.jpg" },
+    { name: "Mr. Riyan Jamil", location: "SSUET", image: "./technical_support_committee/riyan.jpg" },
+    { name: "Mr. Wasif Waheed", location: "SSUET", image: "./technical_support_committee/wasif.png" },
+    { name: "Ms. Romana Tahir", location: "SSUET", image: "./technical_support_committee/romana.jpeg" },
+    { name: "Ms. Sarah Siddiqui", location: "SSUET", image: "./technical_support_committee/sarah.jpeg" },
+    { name: "Mr. M. Abdul Rafay", location: "SSUET", image: "./technical_support_committee/rafay.jpg" },
+    { name: "Mr. Syed Azfar Abbas", location: "UBIT", image: "./technical_support_committee/azfar.jpeg" },
+    { name: "Ms. Arisha Arshad", location: "UBIT", image: "./technical_support_committee/arisha.jpeg" },
+    { name: "Mr. M. Shaham Siddiqui", location: "UBIT", image: "./technical_support_committee/shaham.jpeg" },
+    { name: "Mr. Safwan Ahmed", location: "DSU", image: "./technical_support_committee/safwan.jpeg" },
+    { name: "Mr. M. Hasan Ashraf", location: "DSU", image: "./technical_support_committee/hasan.jpeg" },
+  ];
 
   return (
     <>
@@ -653,9 +666,39 @@ export const Speakers = ({ id }) => {
             </motion.div>
           ))}
         </div>
-
+        {/* TECHNICAL SUPPORT COMMITTEE */}
+        <h2
+          id="technicalSupportCommittee"
+          className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans mb-16"
+        >
+          Technical Support Committee
+        </h2>
+        <div className="grid grid-cols-1 mb-16 sm:grid-cols-2 md:grid-cols-3 gap-10">
+          {technicalSupportCommittee.map((member, index) => (
+            <motion.div
+              key={index}
+              className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 p-6 flex flex-col items-center"
+              whileHover={{ scale: 1.03, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="w-40 h-40 rounded-full border-4 border-[#447E36] overflow-hidden mb-4 shadow-inner">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-1 text-center">
+                {member.name}
+              </h3>
+              <p className="text-sm text-gray-600 mb-5 text-center">
+                ({member.location})
+              </p>
+            </motion.div>
+          ))}
+        </div>
         <div className="flex justify-center items-center">
-          <img src="./sample-img.png" alt="Sample" />
+          <img src="./bottom.jpg" alt="Sample" />
         </div>
       </div>
 
