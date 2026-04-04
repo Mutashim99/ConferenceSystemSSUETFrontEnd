@@ -334,28 +334,9 @@ const RegistrationInfo = () => {
                 </h3>
                 <div className="space-y-3 font-mono text-sm opacity-90">
                   <p>
-                    <span className="opacity-60 block text-xs uppercase">
-                      Bank Name
-                    </span>{" "}
-                    Dummy
-                  </p>
-                  <p>
-                    <span className="opacity-60 block text-xs uppercase">
-                      Account Title
-                    </span>{" "}
-                    Dummy
-                  </p>
-                  <p>
-                    <span className="opacity-60 block text-xs uppercase">
-                      IBAN
-                    </span>{" "}
-                    Dummy
-                  </p>
-                  <p>
-                    <span className="opacity-60 block text-xs uppercase">
-                      Swift Code
-                    </span>{" "}
-                    Dummy
+                    Contact details
+                    <p>faqazi@ssuet.edu.pk</p>
+                    <p>dsa@ssuet.edu.pk</p>
                   </p>
                 </div>
               </div>

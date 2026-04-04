@@ -26,15 +26,15 @@ const topRowLogos = [
   "/logos/ku.jpg",
   "/logos/ssuet.png",
   "/logos/hec_sindh.jpeg",
-  "https://api.ieeensusb.org/media_files/main_website_files/About/IEEE/About_Image/e4c81f5dd1d43164425630c4ab971bd5.jpeg",
-  "https://macs.iobm.edu.pk/wp-content/uploads/2022/06/IEEE-karachi.png",
-  "/logos/ubit.jpeg",
-  "/logos/sed.jpg",
+  "https://www.iccs.edu/esims/images/iccbs_logo.png",
+  "/logos/ieekarachi.jpg",
+  "/logos/ieeeadvance.jpg",
 ];
 
 const bottomRowLogos = [
+  "/logos/ubit.jpeg",
+  "/logos/sed.jpg",
   "/logos/csit.jpg",
-  "https://www.iccs.edu/esims/images/iccbs_logo.png",
 ];
 
 export const Header = () => {
