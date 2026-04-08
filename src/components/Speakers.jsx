@@ -185,6 +185,17 @@ export const Speakers = ({ id }) => {
       profile:
         "Professor Dr. Athar Mahboob is a visionary leader, decorated engineer, and one of Pakistan’s most influential figures in higher education and technological innovation.\n\nWith a career spanning over three decades, Dr. Mahboob has consistently pushed the boundaries of academic excellence and institutional growth. He currently serves as the Vice-Chancellor of Al-Kawthar University in Karachi, adding to a distinguished leadership legacy that includes serving as the Vice-Chancellor of the Islamia University of Bahawalpur and the founding Vice-Chancellor of Khawaja Fareed University of Engineering and Information Technology. Under his stewardship, these institutions underwent historic expansions in infrastructure, research output, and student enrollment.\n\nA scholar of international repute, Dr. Mahboob earned his PhD in Electrical Engineering from the National University of Sciences and Technology (NUST), following foundational academic success at Florida State University obtaining BS and MS degrees in Electrical Engineering. His expertise in cybersecurity, cryptography, and computer networks is backed by over 40 published research papers and the successful completion of more than 100 industrial projects through his firm, Ibn Khaldun Systems.\n\nIn recognition of his extraordinary contributions to science and education, the President of Pakistan conferred upon him the Tamgha-e-Imtiaz in 2012. Dr. Mahboob is not only a builder of universities but a catalyst for digital transformation, bridging the gap between complex engineering and practical societal solutions.",
     },
+     {
+      name: "Prof. Dr. S. M. Aqil Burney",
+      location: "Karachi, Pakistan.",
+      image: "./national_invited_speakers/burney.png",
+      topic:
+        "Multi Criteria Decision Making (MCDM) Methods and its applications",
+      abstract:
+        "This work deals with multi criteria decision making (MCDM) methods and applications in textile industry with review of related work and some published work of the author with coauthors. Fundamentals are discussed using some important survey papers which are linked in the presentation Decision systems explained for decision making and eight important aspects are discussed. DSS tools are discussed and type of DSS are explained and material related is discussed and helpful in applications in Renewable Energy and water supply resources planning. work in progress.",
+      profile:
+        "Prof. Dr. S. M. Aqil Burney is a distinguished academician, researcher, and educationist, widely recognized for his significant contributions to the fields of computer science, data science, and artificial intelligence. With an extensive career spanning several decades, he has played a pivotal role in advancing higher education and research in Pakistan. He has served in key academic and administrative positions, including as Vice Chancellor of the University of Karachi, and has been actively involved in curriculum development, research supervision, and institutional leadership. Dr. Burney has authored numerous research publications in reputable national and international journals, particularly in areas such as data mining, soft computing, and decision support systems. His dedication to academic excellence, innovation, and capacity building has earned him a respected position in the academic community.",
+    },
   ];
 
   const invitedSpeakers = [
@@ -239,17 +250,7 @@ export const Speakers = ({ id }) => {
       profile:
         "Dr. Salman Ahmed is an Associate Professor at the Faculty of Computer Science and Engineering (FCSE) at GIKI, with a strong academic background that includes a BSc from UET Peshawar (2005), an MSc from Universiti Teknologi Petronas, Malaysia (2007), and a PhD from the University of Alberta, Canada (2013). Prior to his current role, he served as Director of the IoT Cyber Security Lab at the National Center for Cyber Security. His research focuses on cybersecurity, IoT systems, multi-agent systems, and control systems. Dr. Ahmed has received numerous prestigious awards, including the University Gold Medal, Provost Doctoral Award, and Chancellor Emeritus Scholarship, and has led significant research initiatives such as the Rs. 40.5 million Secured IoT Devices (SID) Project. He has collaborated with national and international organizations, including the Malaysian Ministry of Science and Technology and NSERC Canada, and has actively contributed to academic governance through roles in the Syndicate of UET Peshawar, the Governing Council of GIKI, and as President of the IEEE Peshawar Subsection.",
     },
-    {
-      name: "Prof. Dr. S. M. Aqil Burney",
-      location: "Karachi, Pakistan.",
-      image: "./national_invited_speakers/burney.png",
-      topic:
-        "Multi Criteria Decision Making (MCDM) Methods and its applications",
-      abstract:
-        "This work deals with multi criteria decision making (MCDM) methods and applications in textile industry with review of related work and some published work of the author with coauthors. Fundamentals are discussed using some important survey papers which are linked in the presentation Decision systems explained for decision making and eight important aspects are discussed. DSS tools are discussed and type of DSS are explained and material related is discussed and helpful in applications in Renewable Energy and water supply resources planning. work in progress.",
-      profile:
-        "Prof. Dr. S. M. Aqil Burney is a distinguished academician, researcher, and educationist, widely recognized for his significant contributions to the fields of computer science, data science, and artificial intelligence. With an extensive career spanning several decades, he has played a pivotal role in advancing higher education and research in Pakistan. He has served in key academic and administrative positions, including as Vice Chancellor of the University of Karachi, and has been actively involved in curriculum development, research supervision, and institutional leadership. Dr. Burney has authored numerous research publications in reputable national and international journals, particularly in areas such as data mining, soft computing, and decision support systems. His dedication to academic excellence, innovation, and capacity building has earned him a respected position in the academic community.",
-    },
+   
     {
       name: "Prof. Dr. Shehnila Zardari",
       location:
