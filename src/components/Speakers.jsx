@@ -196,6 +196,18 @@ export const Speakers = ({ id }) => {
       profile:
         "Prof. Dr. S. M. Aqil Burney is a distinguished academician, researcher, and educationist, widely recognized for his significant contributions to the fields of computer science, data science, and artificial intelligence. With an extensive career spanning several decades, he has played a pivotal role in advancing higher education and research in Pakistan. He has served in key academic and administrative positions, including as Vice Chancellor of the University of Karachi, and has been actively involved in curriculum development, research supervision, and institutional leadership. Dr. Burney has authored numerous research publications in reputable national and international journals, particularly in areas such as data mining, soft computing, and decision support systems. His dedication to academic excellence, innovation, and capacity building has earned him a respected position in the academic community.",
     },
+
+    {
+      name: "PM. Ir. Dr. Tan Tian Swee",
+      location:
+        "Director of Biomedical Engineering, Universiti Teknologi Malaysia",
+      image: "./international_invited_speakers/tan-tian.jpeg",
+      topic:
+        "Decoding Neural Communication through EEG for Intelligent Brain-Computer Interfaces",
+      abstract: "",
+      profile:
+        "PM. Ir. Dr. Tan Tian Swee is a distinguished academic and researcher currently serving as the Director of Biomedical Engineering at Universiti Teknologi Malaysia (UTM). He earned his B.Sc. in Electrical-Mechatronics, followed by his M.Sc. and Ph.D. in Digital Signal Processing, all from UTM. Dr. Tan's core expertise lies in Medical Imaging, Electronics, and Signal Processing. Throughout his career, he has led numerous high-impact research grants and projects, focusing on innovations like wireless power transfer for biomedical applications, EEG-based Brain-Computer Interfaces, and fuzzy logic-based medical systems.\n\nHe is a highly decorated researcher, having won multiple Gold awards at international and national exhibitions, including the International Innovation Day and INATEX. With an H-index of 18, Dr. Tan has extensively published in top-tier journals and actively contributes to the academic community as a supervisor, assessor, and evaluator. Furthermore, he is a Corporate Member of the Institute of Engineering Malaysia (IEM) and a Graduate Member of the Board of Engineers Malaysia (BEM).",
+    },
   ];
 
   const invitedSpeakers = [
@@ -233,7 +245,7 @@ export const Speakers = ({ id }) => {
     {
       name: "Prof. Dr. Sajjad Ahmad Madani",
       location: "COMSATS University, Islamabad, Pakistan.",
-      image: "./national_invited_speakers/sajjad.png",
+      image: "./national_invited_speakers/sajjad.jpeg",
       topic: "GenAI, Ethics, and the Future of Work",
       abstract:
         "“GenAI, Ethics, and the Future of Work” traces the arc from past industrial revolutions to today’s AI transformation, showing why this era is fundamentally different. The talk explores the wonders of generative AI across disciplines such as computer science, physics, biochemistry, and automation, while also considering its disruptive potential in other industries. At the same time, it confronts the ethical dilemmas AI introduces from the life-or-death decisions of self-driving cars to the challenges of integrity and authenticity in higher education. Rather than closing with simple answers, the session leaves the audience with open questions about responsibility, human purpose, and the meaning of work in an age where machines can increasingly think, create, and decide alongside us.",
