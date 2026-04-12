@@ -185,7 +185,7 @@ export const Speakers = ({ id }) => {
       profile:
         "Professor Dr. Athar Mahboob is a visionary leader, decorated engineer, and one of Pakistan’s most influential figures in higher education and technological innovation.\n\nWith a career spanning over three decades, Dr. Mahboob has consistently pushed the boundaries of academic excellence and institutional growth. He currently serves as the Vice-Chancellor of Al-Kawthar University in Karachi, adding to a distinguished leadership legacy that includes serving as the Vice-Chancellor of the Islamia University of Bahawalpur and the founding Vice-Chancellor of Khawaja Fareed University of Engineering and Information Technology. Under his stewardship, these institutions underwent historic expansions in infrastructure, research output, and student enrollment.\n\nA scholar of international repute, Dr. Mahboob earned his PhD in Electrical Engineering from the National University of Sciences and Technology (NUST), following foundational academic success at Florida State University obtaining BS and MS degrees in Electrical Engineering. His expertise in cybersecurity, cryptography, and computer networks is backed by over 40 published research papers and the successful completion of more than 100 industrial projects through his firm, Ibn Khaldun Systems.\n\nIn recognition of his extraordinary contributions to science and education, the President of Pakistan conferred upon him the Tamgha-e-Imtiaz in 2012. Dr. Mahboob is not only a builder of universities but a catalyst for digital transformation, bridging the gap between complex engineering and practical societal solutions.",
     },
-     {
+    {
       name: "Prof. Dr. S. M. Aqil Burney",
       location: "Karachi, Pakistan.",
       image: "./national_invited_speakers/burney.png",
@@ -250,7 +250,7 @@ export const Speakers = ({ id }) => {
       profile:
         "Dr. Salman Ahmed is an Associate Professor at the Faculty of Computer Science and Engineering (FCSE) at GIKI, with a strong academic background that includes a BSc from UET Peshawar (2005), an MSc from Universiti Teknologi Petronas, Malaysia (2007), and a PhD from the University of Alberta, Canada (2013). Prior to his current role, he served as Director of the IoT Cyber Security Lab at the National Center for Cyber Security. His research focuses on cybersecurity, IoT systems, multi-agent systems, and control systems. Dr. Ahmed has received numerous prestigious awards, including the University Gold Medal, Provost Doctoral Award, and Chancellor Emeritus Scholarship, and has led significant research initiatives such as the Rs. 40.5 million Secured IoT Devices (SID) Project. He has collaborated with national and international organizations, including the Malaysian Ministry of Science and Technology and NSERC Canada, and has actively contributed to academic governance through roles in the Syndicate of UET Peshawar, the Governing Council of GIKI, and as President of the IEEE Peshawar Subsection.",
     },
-   
+
     {
       name: "Prof. Dr. Shehnila Zardari",
       location:
@@ -530,17 +530,89 @@ export const Speakers = ({ id }) => {
     },
   ];
   const technicalSupportCommittee = [
-    { name: "Mr. Hafiz M. Mutashim Mohsin", location: "SSUET", image: "./technical_support_committee/me.jpg" },
-    { name: "Mr. Riyan Jamil", location: "SSUET", image: "./technical_support_committee/riyan.jpg" },
-    { name: "Mr. Wasif Waheed", location: "SSUET", image: "./technical_support_committee/wasif.png" },
-    { name: "Ms. Romana Tahir", location: "SSUET", image: "./technical_support_committee/romana.jpeg" },
-    { name: "Ms. Sarah Siddiqui", location: "SSUET", image: "./technical_support_committee/sarah.jpeg" },
-    { name: "Mr. M. Abdul Rafay", location: "SSUET", image: "./technical_support_committee/rafay.jpg" },
-    { name: "Mr. Syed Azfar Abbas", location: "UBIT", image: "./technical_support_committee/azfar.jpeg" },
-    { name: "Ms. Arisha Arshad", location: "UBIT", image: "./technical_support_committee/arisha.jpeg" },
-    { name: "Mr. M. Shaham Siddiqui", location: "UBIT", image: "./technical_support_committee/shaham.jpeg" },
-    { name: "Mr. Safwan Ahmed", location: "DSU", image: "./technical_support_committee/safwan.jpeg" },
-    { name: "Mr. M. Hasan Ashraf", location: "DSU", image: "./technical_support_committee/hasan.jpeg" },
+    {
+      name: "Mr. Hafiz M. Mutashim Mohsin",
+      location: "SSUET",
+      image: "./technical_support_committee/me.jpg",
+    },
+    {
+      name: "Mr. Riyan Jamil",
+      location: "SSUET",
+      image: "./technical_support_committee/riyan.jpg",
+    },
+    {
+      name: "Mr. Wasif Waheed",
+      location: "SSUET",
+      image: "./technical_support_committee/wasif.png",
+    },
+    {
+      name: "Ms. Romana Tahir",
+      location: "SSUET",
+      image: "./technical_support_committee/romana.jpeg",
+    },
+    {
+      name: "Ms. Sarah Siddiqui",
+      location: "SSUET",
+      image: "./technical_support_committee/sarah.jpeg",
+    },
+    {
+      name: "Mr. M. Abdul Rafay",
+      location: "SSUET",
+      image: "./technical_support_committee/rafay.jpeg",
+    },
+    {
+      name: "Ms. Malaika Sadiq",
+      location: "SSUET",
+      image: "./technical_support_committee/malaika.jpeg",
+    },
+    {
+      name: "Mr. Jazib Noor",
+      location: "SSUET",
+      image: "./technical_support_committee/jazib.png",
+    },
+    {
+      name: "Mr. Maaz Ur Rehman",
+      location: "SSUET",
+      image: "./technical_support_committee/maaz.jpg",
+    },
+    {
+      name: "Mr. Syed Azfar Abbas",
+      location: "UBIT",
+      image: "./technical_support_committee/azfar.jpeg",
+    },
+    {
+      name: "Ms. Arisha Arshad",
+      location: "UBIT",
+      image: "./technical_support_committee/arisha.jpeg",
+    },
+    {
+      name: "Mr. M. Shaham Siddiqui",
+      location: "UBIT",
+      image: "./technical_support_committee/shaham.jpeg",
+    },
+    {
+      name: "Mr. Safwan Ahmed",
+      location: "DSU",
+      image: "./technical_support_committee/safwan.jpeg",
+    },
+    {
+      name: "Mr. M. Hasan Ashraf",
+      location: "DSU",
+      image: "./technical_support_committee/hasan.jpeg",
+    },
+    {
+      name: "Mr. M. Hasan Ashraf",
+      location: "DSU",
+      image: "./technical_support_committee/hasan.jpeg",
+    },
+    {
+      name: "Mr. Khizer yousaf",
+      image: "./technical_support_committee/khizer.jpeg",
+    },
+    {
+      name: "Mr. Muneeb Mustafa",
+      image: "./technical_support_committee/muneeb.jpeg",
+    },
   ];
 
   return (
@@ -693,7 +765,7 @@ export const Speakers = ({ id }) => {
                 {member.name}
               </h3>
               <p className="text-sm text-gray-600 mb-5 text-center">
-                ({member.location})
+                {member.location ? member.location : ""}
               </p>
             </motion.div>
           ))}
