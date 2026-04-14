@@ -78,7 +78,7 @@ export const Speakers = ({ id }) => {
     },
     {
       name: "Prof. Dr. Haji Zulkifly Baharom",
-      location: "United Kingdom (UK)",
+      location: "Malaysia",
       image: "./international_invited_speakers/zul.jpg",
       topic:
         "Sharing of Experience on HR's value case study that People-focused companies are Four times more likely to outperform peers!",
@@ -594,11 +594,6 @@ export const Speakers = ({ id }) => {
       name: "Mr. Safwan Ahmed",
       location: "DSU",
       image: "./technical_support_committee/safwan.jpeg",
-    },
-    {
-      name: "Mr. M. Hasan Ashraf",
-      location: "DSU",
-      image: "./technical_support_committee/hasan.jpeg",
     },
     {
       name: "Mr. M. Hasan Ashraf",
