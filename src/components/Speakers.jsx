@@ -79,7 +79,7 @@ export const Speakers = ({ id }) => {
     {
       name: "Prof. Dr. Haji Zulkifly Baharom",
       location: "Malaysia ",
-      image: "./international_invited_speakers/zul.jpg",
+      image: "./international_invited_speakers/zul.jpeg",
       topic:
         "Sharing of Experience on HR's value case study that People-focused companies are Four times more likely to outperform peers!",
       abstract:
