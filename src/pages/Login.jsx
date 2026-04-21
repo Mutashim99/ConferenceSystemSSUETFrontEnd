@@ -8,16 +8,20 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [localError, setLocalError] = useState(""); // Added this line
 
   const { login, error, loading } = useAuthStore();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLocalError("");
+    
     // Frontend block: Only allow the admin email
     if (email.toLowerCase() !== "icisct26@gmail.com") {
-      alert("System Access Closed: The conference has concluded. Only administrators can log in at this time.");
+      setLocalError(
+        "Access Denied: The conference has concluded. Only administrators can log in.",
+      );
       return;
     }
 
@@ -42,8 +46,12 @@ const Login = () => {
 
           {/* CONFERENCE CONCLUSION MESSAGE */}
           <div className="bg-amber-50 border border-amber-200 text-amber-800 text-sm text-center rounded-md p-4 mb-6">
-            <span className="font-semibold block mb-1">Thank you for participating!</span>
-            The ICISCT conference held on April 15th and 16th has now officially concluded. System access is currently restricted, but we will be back again next year!
+            <span className="font-semibold block mb-1">
+              Thank you for participating!
+            </span>
+            The ICISCT conference held on April 15th and 16th has now officially
+            concluded. System access is currently restricted, but we will be
+            back again next year!
           </div>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
@@ -92,8 +100,8 @@ const Login = () => {
               {loading ? "Logging in..." : "Login"}
             </button>
 
-            {error && (
-              <p className="text-red-600 text-sm mt-2 text-center">{error}</p>
+            {(error || localError) && (
+              <p className="text-red-600 text-sm mt-2 text-center">{localError || error}</p>
             )}
           </form>
 
