@@ -8,23 +8,12 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [localError, setLocalError] = useState(""); // Added this line
 
   const { login, error, loading } = useAuthStore();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLocalError("");
-    
-    // Frontend block: Only allow the admin email
-    if (email.toLowerCase() !== "icisct26@gmail.com") {
-      setLocalError(
-        "Access Denied: The conference has concluded. Only administrators can log in.",
-      );
-      return;
-    }
-
     const user = await login(email, password);
 
     if (user) {
@@ -40,19 +29,9 @@ const Login = () => {
       <Navbar />
       <div className="flex items-center justify-center min-h-[calc(100vh-80px)] bg-gray-100 px-4">
         <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-          <h2 className="text-2xl font-bold text-center text-[#521028] mb-2">
+          <h2 className="text-2xl font-bold text-center text-[#521028] mb-6">
             Login to ICISCT
           </h2>
-
-          {/* CONFERENCE CONCLUSION MESSAGE */}
-          <div className="bg-amber-50 border border-amber-200 text-amber-800 text-sm text-center rounded-md p-4 mb-6">
-            <span className="font-semibold block mb-1">
-              Thank you for participating!
-            </span>
-            The ICISCT conference held on April 15th and 16th has now officially
-            concluded. System access is currently restricted, but we will be
-            back again next year!
-          </div>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
@@ -100,8 +79,8 @@ const Login = () => {
               {loading ? "Logging in..." : "Login"}
             </button>
 
-            {(error || localError) && (
-              <p className="text-red-600 text-sm mt-2 text-center">{localError || error}</p>
+            {error && (
+              <p className="text-red-600 text-sm mt-2 text-center">{error}</p>
             )}
           </form>
 
