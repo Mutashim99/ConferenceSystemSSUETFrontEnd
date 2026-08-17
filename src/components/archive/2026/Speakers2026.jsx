@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export const Speakers = ({ id }) => {
+export const Speakers2026 = ({ id }) => {
   const [selectedSpeaker, setSelectedSpeaker] = useState(null);
 
   const keynoteSpeakers = [
@@ -311,105 +311,236 @@ export const Speakers = ({ id }) => {
   ];
   const organizingCommittee = [
     {
-      name: "Prof. Dr. Muhammad Tufail Jokhio",
-      location: "Patron-in-Chief",
-      image: "/organizing_committee/tufail.jpeg",
+      name: "Prof Dr Khalid Mahmood Iraqi",
+      location: "Patron in Chief",
+      image: "/organizing_committee/khalid.jpeg",
     },
     {
-      name: "Dr. M. Sadiq Ali Khan",
-      location: "Conference Chair",
+      name: "Prof. Dr. Muhammad Afzal Haq",
+      location: "Patron",
+      image: "/organizing_committee/afzaal.webp",
+    },
+    {
+      name: "Dr M Sadiq Ali Khan",
+      location: "Chair (Chairman Dept of CS, UoK)",
       image: "/organizing_committee/sadiq.jpeg",
     },
     {
       name: "Prof. Dr. Bilquees Gul",
-      location: "Co-Chair",
+      location: "Co-Chair (Dean Faculty of Science, UoK)",
       image: "/organizing_committee/bilquees.jpeg",
     },
     {
-      name: "Dr. Bhagwan Das",
-      location: "Co-Chair",
-      image: "/international_invited_speakers/bhagwan2.jpeg",
-    },
-    {
-      name: "Dr. Engr. Farheen Qazi",
-      location: "Conference Secretary",
-      image: "/organizing_committee/farheen.webp",
-    },
-    {
-      name: "Engr. M. Zakir Shaikh",
-      location: "Co-Secretary",
-      image: "/organizing_committee/zakir.jpeg",
-    },
-    {
-      name: "Dr. Muhammad Aamir",
-      location: "Chair Program Committee",
+      name: "Prof. Dr. Muhammad Aamir",
+      location: "Co-Chair (Dean ECE, SSUET)",
       image: "/organizing_committee/aamir.jpeg",
     },
     {
-      name: "Dr. Humaira Azam",
+      name: "Prof. Dr. Muhammad Shahab Siddiqui",
+      location:
+        "Co-Chair (Chair, IEEE Karachi Computer Society Chapter,Chairperson, Department of Computing, Indus University)",
+      image: "/organizing_committee/shahab.jpg",
+    },
+    {
+      name: "Engr. Muhammad Zakir Shaikh",
+      location: "Secretary (Director NCRA Lab, Mehran University)",
+      image: "/organizing_committee/zakir.jpeg",
+    },
+    {
+      name: "Engr. Dur-e-Shawar Agha",
+      location: "Co-Secretary",
+      image: "/organizing_committee/shawar.webp",
+    },
+    {
+      name: "Engr. Dr. Muhammad Naseem",
+      location: "Chair Program Committee",
+      image: "/organizing_committee/naseem.webp",
+    },
+    {
+      name: "Engr. Dr. Kashif Shaikh",
+      location: "Chair Program Committee",
+      image: "/organizing_committee/kashif.webp",
+    },
+
+    {
+      name: "Dr. Humera Azam",
       location: "Co-Chair Program Committee",
       image: "/organizing_committee/humeraazam.jpg",
     },
     {
-      name: "Dr. Muhammad Naseem",
-      location: "Chair Technical Program Committee",
-      image: "/organizing_committee/naseem.webp",
+      name: "Prof Dr. Bhawany Shankar Choudhary",
+      location: "Chair TPC",
+      image: "/organizing_committee/bawaney.jpeg",
     },
     {
-      name: "Engr. Dur-e-Shawar Agha",
-      location: "Co-Chair Technical Program Committee",
-      image: "/organizing_committee/shawar.webp",
+      name: "Engr. Dr. Huma Jamshed",
+      location: "Co-Chair TPC",
+      image: "/organizing_committee/huma.png",
     },
+    {
+      name: "Dr. Bagwandas",
+      location: "Chair Review Committee",
+      image: "/international_invited_speakers/bhagwan.jpeg",
+    },
+    {
+      name: "Engr. Dr. Farheen Qazi",
+      location: "Chair Review Committee",
+      image: "/organizing_committee/farheen.webp",
+    },
+    {
+      name: "Engr. Priha Bhatti",
+      location: "Chair Registration Committee",
+      image: "/organizing_committee/priha.webp",
+    },
+
     {
       name: "Dr. Urooj Waheed",
-      location: "Chair Registration Committee",
+      location: "Co-Chair Registration Committee",
       image: "/organizing_committee/Dr. Urooj Waheed.jpg",
     },
     {
-      name: "Engr. Bari Ahmed",
-      location: "Co-Chair Registration Committee",
-      image: "/organizing_committee/bari.jpeg",
+      name: "Engr. Hassan Zaki",
+      location: "Hospitality & Protocol Coordinator",
+      image: "/organizing_committee/zaki.webp",
     },
+
     {
       name: "Mr. Shahnawaz",
-      location: "Co-Chair Hospitality & Protocol Committee",
+      location: "Co-Hospitality & Protocol Coordinator",
       image: "/organizing_committee/shahnawaz.jpg",
     },
     {
-      name: "Dr. Asim",
-      location: "Chair Sponsorship Committee",
-      image: "/organizing_committee/asim.jpeg",
+      name: "Engr. Tauseef Mubeen",
+      location: "Website & IT Coordinator",
+      image: "/organizing_committee/tauseef.webp",
     },
     {
-      name: "Mr. Fayyaz Ali",
-      location: "Media & Marketing Coordinator",
+      name: "Engr. Osama Ahmed Siddiqui",
+      location: "Logistics Coordinator",
+      image: "/organizing_committee/osama.jpeg",
+    },
+    {
+      name: "Engr. Bari Ahmed Khan",
+      location: "Co-Logistics Coordinator",
+      image: "/organizing_committee/bari.jpeg",
+    },
+    {
+      name: "Mr. Zaeem Tariq",
+      location: "Co-Logistics Coordinator",
+      image: "/organizing_committee/zaeem.jpeg",
+    },
+    {
+      name: "Engr. Noman Ali Khan",
+      location: "Sponsorship Coordinator",
+      image: "/organizing_committee/noman.webp",
+    },
+    {
+      name: "Engr. Ayesha Urooj",
+      location: "Co-Sponsorship Coordinator ",
+      image: "/organizing_committee/Engr. Ayesha Urooj.jpg",
+    },
+    {
+      name: "Engr. Fayyaz Ali",
+      location: "Marketing & PR Coordinator",
       image: "/organizing_committee/fayyaz.jpeg",
     },
     {
       name: "Engr. Sonish Aslam",
-      location: "Volunteer Coordinator",
+      location: "Volunteers Coordinator",
       image: "/organizing_committee/sonish.webp",
     },
-  ];
 
-  const reviewCommittee = [
     {
-      name: "Dr. Bhagwan Das",
-      location: "Review Committee Member",
-      image: "/international_invited_speakers/bhagwan2.jpeg",
+      name: "Dr. Muzammil Ahmed Khan",
+      location: "Member",
+      image: "/organizing_committee/muzammil.webp",
     },
     {
-      name: "Dr. Engr. Farheen Qazi",
-      location: "Review Committee Member",
-      image: "/organizing_committee/farheen.webp",
+      name: "Dr. Waleej Haider",
+      location: "Member",
+      image: "/organizing_committee/waleej.jpeg",
     },
     {
-      name: "Engr. Dur-e-Shawar Agha",
-      location: "Review Committee Member",
-      image: "/organizing_committee/shawar.webp",
+      name: "Dr. Nadeem Mahmood",
+      location: "Member",
+      image: "/organizing_committee/nadeem.png",
+    },
+    {
+      name: "Mr. Badar Sami",
+      location: "Member",
+      image: "/organizing_committee/badar.jpeg",
+    },
+    {
+      name: "Mr. Syed Jamal Hussain",
+      location: "Member",
+      image: "/organizing_committee/jamal.jpg",
+    },
+    {
+      name: "Dr. Muhammad Saeed",
+      location: "Member",
+      image: "/organizing_committee/saeed.jpeg",
+    },
+    {
+      name: "Mr. Hussain Saleem",
+      location: "Member",
+      image: "/organizing_committee/hussain.jpeg",
+    },
+    {
+      name: "Dr. S. M. Khalid Jamal",
+      location: "Member",
+      image: "/organizing_committee/khalid.jpg",
+    },
+    {
+      name: "Dr. Syed Asim Ali",
+      location: "Member",
+      image: "/organizing_committee/asim.jpeg",
+    },
+    {
+      name: "Dr. Farhan Ahmed Siddiqui",
+      location: "Member",
+      image: "/organizing_committee/farhaan.jpeg",
+    },
+    {
+      name: "Dr. Humera Tariq",
+      location: "Member",
+      image: "/organizing_committee/humera.jpg",
+    },
+    {
+      name: "Mr. Mukesh Kumar Rathi Maheshwari",
+      location: "Member",
+      image: "/organizing_committee/",
+    },
+    {
+      name: "Dr. Shaista Rais",
+      location: "Member",
+      image: "/organizing_committee/shaista.jpeg",
+    },
+    {
+      name: "Ms. Madiha Khurram",
+      location: "Member",
+      image: "/organizing_committee/madiha.jpeg",
+    },
+    {
+      name: "Ms. Maryam Feroz",
+      location: "Member",
+      image: "/organizing_committee/maryam.jpeg",
+    },
+    {
+      name: "Dr. Fozia Hanif Khan",
+      location: "Member",
+      image: "/organizing_committee/Dr. Fozia Hanif Khan.jpg",
+    },
+    {
+      name: "Dr. Muhammad Ayaz",
+      location: "Member",
+      image: "/organizing_committee/Dr. Muhammad Ayaz.jpg",
+    },
+    {
+      name: "Prof. Dr. Najeeb Alam Khan",
+      location: "Member",
+      image: "/organizing_committee/Prof. Dr. Najeeb Alam Khan.jpg",
     },
   ];
-
   const technicalSupportCommittee = [
     {
       name: "Mr. Hafiz M. Mutashim Mohsin",
@@ -515,6 +646,9 @@ export const Speakers = ({ id }) => {
                     src={speaker.image}
                     alt={speaker.name}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(speaker.name)}&background=521028&color=fff`;
+                    }}
                   />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-1">
@@ -561,6 +695,9 @@ export const Speakers = ({ id }) => {
                     src={speaker.image}
                     alt={speaker.name}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(speaker.name)}&background=521028&color=fff`;
+                    }}
                   />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-1">
@@ -589,7 +726,7 @@ export const Speakers = ({ id }) => {
           id="organizingCommittee"
           className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans mb-16"
         >
-          Organizing Committee
+          Organizing committee
         </h2>
         <div className="grid grid-cols-1 mb-16 sm:grid-cols-2 md:grid-cols-3 gap-10">
           {organizingCommittee.map((speaker, index) => (
@@ -609,42 +746,7 @@ export const Speakers = ({ id }) => {
                   }}
                 />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1 text-center">
-                {speaker.name}
-              </h3>
-              <p className="text-sm text-gray-600 mb-5 text-center">
-                ({speaker.location})
-              </p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* REVIEW COMMITTEE */}
-        <h2
-          id="reviewCommittee"
-          className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans mb-16"
-        >
-          Review Committee
-        </h2>
-        <div className="grid grid-cols-1 mb-16 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {reviewCommittee.map((speaker, index) => (
-            <motion.div
-              key={index}
-              className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 p-6 flex flex-col items-center"
-              whileHover={{ scale: 1.03, y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <div className="w-40 h-40 rounded-full border-4 border-[#447E36] overflow-hidden mb-4 shadow-inner">
-                <img
-                  src={speaker.image}
-                  alt={speaker.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(speaker.name)}&background=521028&color=fff`;
-                  }}
-                />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1 text-center">
+              <h3 className="text-xl font-semibold text-gray-900 mb-1">
                 {speaker.name}
               </h3>
               <p className="text-sm text-gray-600 mb-5 text-center">
@@ -774,4 +876,4 @@ export const Speakers = ({ id }) => {
   );
 };
 
-export default Speakers;
+export default Speakers2026;

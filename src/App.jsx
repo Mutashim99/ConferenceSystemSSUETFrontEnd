@@ -13,6 +13,8 @@ import PaperDetails from "./pages/author/PaperDetails";
 import AdminSubmittedPapers from "./pages/admin/AdminSubmittedPapers";
 import RegisterReviewer from "./pages/admin/RegisterReviewer";
 import { Home } from "./pages/Home";
+import Home2026 from "./pages/archive/2026/Home2026";
+import RegistrationInfo2026 from "./pages/archive/2026/RegistrationInfo2026";
 import ReviewerSubmittedPapers from "./pages/reviewer/ReviewerSubmittedPapers";
 import useAuthStore from "./store/authStore";
 import { useEffect } from "react";
@@ -41,6 +43,10 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/registration-info" element={<RegistrationInfo />} />
+            
+            {/* Archived Edition Routes */}
+            <Route path="/archive/2026" element={<Home2026 />} />
+            <Route path="/archive/2026/registration-info" element={<RegistrationInfo2026 />} />
             {/* AUTHOR DASHBOARD (Protected) */}
             <Route
               path="/author/dashboard/submit"

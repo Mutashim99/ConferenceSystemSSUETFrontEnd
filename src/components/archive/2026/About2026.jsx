@@ -1,17 +1,16 @@
-export const About = () => {
+export const About2026 = () => {
   return (
     <section
       id="about"
-      // Increased padding for more white space
       className="py-20 md:py-24 px-6 md:px-16 bg-white text-gray-800 font-poppins"
     >
       <div className="max-w-4xl mx-auto text-center">
-        {/* Heading (Updated to primary purple) */}
+        {/* Heading */}
         <h2 className="text-3xl mb-6 md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans">
           About Us
         </h2>
 
-        {/* Content (Updated text size and line height for elegance) */}
+        {/* Content */}
         <div className="text-justify mb-12 text-base md:text-lg text-gray-700 leading-relaxed space-y-5">
           <p>
             University of Karachi holds a unique position in the country’s
@@ -39,12 +38,12 @@ export const About = () => {
           </p>
         </div>
 
-        {/* Heading (Updated to primary purple) */}
+        {/* Heading */}
         <h2 className="text-3xl mb-6 md:text-4xl font-extrabold tracking-wide uppercase text-[#521028] font-sans">
           Conference Aims and Objectives
         </h2>
 
-        {/* Content (Updated text size and line height) */}
+        {/* Content */}
         <div className="text-justify text-base md:text-lg text-gray-700 leading-relaxed space-y-5">
           <p>
             The International Research Conference is a federated organization
@@ -54,7 +53,7 @@ export const About = () => {
             on the number and length of the presentations.
           </p>
           <p>
-            The ICISCT 2027 event aims to bring together leading academic
+            The ICISCT 2026 event aims to bring together leading academic
             scientists, researchers and research scholars to exchange and share
             their experiences and research results on all aspects of INFORMATION
             SCIENCE and COMMUNICATION TECHNOLOGY. It also provides a premier
@@ -70,4 +69,4 @@ export const About = () => {
   );
 };
 
-export default About;
+export default About2026;

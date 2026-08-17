@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowLeft } from "lucide-react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import useAuthStore from "../store/authStore";
+import useAuthStore from "../../../store/authStore";
 import { motion, AnimatePresence } from "framer-motion";
 
-const Navbar = () => {
+const Navbar2026 = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
@@ -16,7 +16,6 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  // Dashboard redirect based on roles
   let dashboardPath = "/";
   if (user) {
     switch (user.role) {
@@ -34,44 +33,34 @@ const Navbar = () => {
     }
   }
 
-  // --- NAVIGATION LOGIC ---
+  const isHome2026 = location.pathname === "/archive/2026";
 
-  const homeLink = { label: "HOME", to: "/" };
+  const homeLink = { label: "HOME (2026)", to: "/archive/2026" };
 
   const homeSectionLinks = [
-    { label: "ABOUT", href: "#about" },
-    { label: "SPEAKERS", href: "#speakers" },
-    { label: "CONTACT", href: "#contact" },
+    { label: "ABOUT", href: isHome2026 ? "#about" : "/archive/2026#about" },
+    { label: "SPEAKERS", href: isHome2026 ? "#speakers" : "/archive/2026#speakers" },
+    { label: "CONTACT", href: isHome2026 ? "#contact" : "/archive/2026#contact" },
   ];
 
-  const isHomePage = location.pathname === "/";
+  const visibleLinks = [homeLink, ...homeSectionLinks];
 
-  const visibleLinks = isHomePage
-    ? [homeLink, ...homeSectionLinks]
-    : [homeLink];
-
-  // Guest navigation items
   const publicNavItems = [
     ...visibleLinks,
-    { label: "REGISTRATION INFO", to: "/registration-info" },
-    { label: "ARCHIVE (2026)", to: "/archive/2026" },
-    { label: "SUBMIT A PAPER", to: "/author/dashboard/submit", cta: true },
+    { label: "REGISTRATION INFO", to: "/archive/2026/registration-info" },
+    { label: "CURRENT 2027 EDITION", to: "/", cta: true },
     { label: "LOGIN", to: "/login" },
-    { label: "REGISTER", to: "/register" },
   ];
 
-  // Logged-in user items
   const userNavItems = [
     ...visibleLinks,
-    { label: "REGISTRATION INFO", to: "/registration-info" },
-    { label: "ARCHIVE (2026)", to: "/archive/2026" },
+    { label: "REGISTRATION INFO", to: "/archive/2026/registration-info" },
+    { label: "CURRENT 2027 EDITION", to: "/", cta: true },
     { label: "DASHBOARD", to: dashboardPath },
     { label: "LOGOUT", onClick: handleLogout },
   ];
 
   const navItems = !user ? publicNavItems : userNavItems;
-
-  // --- RENDER FUNCTIONS ---
 
   const renderNavItem = (item) => {
     if (item.href) {
@@ -104,8 +93,9 @@ const Navbar = () => {
           <Link
             key={item.label}
             to={item.to}
-            className="text-sm font-semibold text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-all"
+            className="text-sm font-semibold text-white bg-[#447E36] px-4 py-2 rounded-md hover:bg-opacity-90 transition-all flex items-center gap-1.5"
           >
+            <ArrowLeft size={16} />
             {item.label}
           </Link>
         );
@@ -194,16 +184,27 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Archive Notice Banner */}
+      <div className="bg-amber-700 text-white text-xs sm:text-sm font-medium py-2 px-4 text-center flex items-center justify-center gap-2">
+        <span>📁 You are viewing the archived <strong>ICISCT 2026</strong> conference edition.</span>
+        <Link to="/" className="underline font-bold hover:text-amber-200 ml-1 inline-flex items-center">
+          Go to Current 2027 Edition →
+        </Link>
+      </div>
+
       <nav className="bg-[#521028] text-white w-full sticky top-0 z-50 shadow-lg">
         <div className="max-w-7xl h-20 mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-2 shrink-0">
+          <Link to="/archive/2026" className="flex items-center space-x-2 shrink-0">
             <img
               src="/logo.png"
-              alt="ICISCT Logo"
+              alt="ICISCT 2026 Logo"
               className="h-12 w-auto object-contain"
               draggable="false"
               onError={(e) => (e.target.style.display = "none")}
             />
+            <span className="text-xs bg-white/20 px-2 py-0.5 rounded text-amber-200 font-semibold tracking-wider">
+              2026 ARCHIVE
+            </span>
           </Link>
 
           <div className="hidden md:flex space-x-6 items-center">
@@ -253,4 +254,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navbar2026;

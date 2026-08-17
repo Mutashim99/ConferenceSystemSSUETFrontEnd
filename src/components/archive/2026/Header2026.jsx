@@ -37,7 +37,7 @@ const bottomRowLogos = [
   "/logos/csit.jpg",
 ];
 
-export const Header = () => {
+export const Header2026 = () => {
   return (
     <header className="relative w-full min-h-[calc(100vh-5rem)] flex items-center justify-center text-center text-white font-poppins py-8 lg:py-0">
       {/* Background Image */}
@@ -61,7 +61,7 @@ export const Header = () => {
           variants={itemVariants}
           className="bg-white/50 backdrop-blur-md border border-white/30 rounded-[1.5rem] md:rounded-[2rem] px-3 py-4 md:px-8 md:py-6 mb-5 md:mb-8 shadow-2xl w-full max-w-5xl"
         >
-          {/* Unified Logo Container - This fixes the awkward wrapping */}
+          {/* Unified Logo Container */}
           <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 md:gap-5 lg:gap-6">
             {/* Top Array */}
             {topRowLogos.map((logo, index) => (
@@ -111,15 +111,15 @@ export const Header = () => {
           className="text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight mb-3 md:mb-4 drop-shadow-lg"
           variants={itemVariants}
         >
-          5th International Conference On Information Science & Communication
-          Technology 2027
+          4th International Conference On Information Science & Communication
+          Technology 2026
         </motion.h1>
 
         <motion.p
           className="text-base sm:text-lg md:text-2xl font-semibold mb-2 drop-shadow-md"
           variants={itemVariants}
         >
-          21 April - 22 April 2027
+          15 April - 16 April 2026
         </motion.p>
 
         <motion.h3
@@ -139,11 +139,11 @@ export const Header = () => {
           variants={itemVariants}
         >
           <motion.a
-            href="/author/dashboard/submit"
+            href="/archive/2026/registration-info"
             className="bg-[#447E36] text-white font-semibold px-6 py-3 rounded-lg text-base md:text-lg hover:bg-[#3b6e2f] transition-colors shadow-lg"
             whileHover={{ scale: 1.05 }}
           >
-            Submit a Paper
+            Registration Details
           </motion.a>
           <motion.a
             href="#about"
@@ -158,4 +158,4 @@ export const Header = () => {
   );
 };
 
-export default Header;
+export default Header2026;

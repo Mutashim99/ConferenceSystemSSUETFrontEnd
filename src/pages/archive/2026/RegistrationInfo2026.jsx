@@ -1,19 +1,18 @@
 import { motion } from "framer-motion";
-import { CreditCard, CheckCircle2 } from "lucide-react";
+import { CreditCard } from "lucide-react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar2026 from "../../../components/archive/2026/Navbar2026";
 
-const RegistrationInfo = () => {
+const RegistrationInfo2026 = () => {
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
   };
 
-  // 🔥 UPDATED: Professional Colors & Black Text
   const timelineEvents = [
     {
-      date: "25 AUG 2026",
+      date: "1 DEC 2025",
       label: "Call for Papers",
       dotColor: "bg-slate-600",
       ringColor: "ring-slate-600",
@@ -21,7 +20,7 @@ const RegistrationInfo = () => {
       position: "top",
     },
     {
-      date: "1 NOV 2026",
+      date: "15 JAN 2026",
       label: "Abstract Submission Deadline",
       dotColor: "bg-[#521028]",
       ringColor: "ring-[#521028]",
@@ -29,7 +28,7 @@ const RegistrationInfo = () => {
       position: "bottom",
     },
     {
-      date: "20 NOV 2026",
+      date: "20 JAN 2026",
       label: "Approval of Abstract",
       dotColor: "bg-slate-600",
       ringColor: "ring-slate-600",
@@ -37,23 +36,23 @@ const RegistrationInfo = () => {
       position: "top",
     },
     {
-      date: "1 DEC 2026",
-      label: "Full Paper Submission Deadline",
+      date: "15 FEB 2026",
+      label: "Paper Submission Deadline",
       dotColor: "bg-[#521028]",
       ringColor: "ring-[#521028]",
       textColor: "text-gray-700",
       position: "bottom",
     },
     {
-      date: "26 DEC 2026",
-      label: "Acceptance Notification",
+      date: "1 MAR 2026",
+      label: "Notification of Acceptance / Revision",
       dotColor: "bg-[#447E36]",
       ringColor: "ring-[#447E36]",
       textColor: "text-gray-700",
       position: "top",
     },
     {
-      date: "10 JAN 2027",
+      date: "15 MAR 2026",
       label: "Camera Ready Submission & Copyright",
       dotColor: "bg-slate-600",
       ringColor: "ring-slate-600",
@@ -61,36 +60,27 @@ const RegistrationInfo = () => {
       position: "bottom",
     },
     {
-      date: "10 MAR 2027",
+      date: "20 MAR 2026",
       label: "Registration Deadline",
       dotColor: "bg-[#447E36]",
       ringColor: "ring-[#447E36]",
       textColor: "text-gray-700",
       position: "top",
     },
-    {
-      date: "21-22 APR 2027",
-      label: "Conference Dates",
-      dotColor: "bg-[#521028]",
-      ringColor: "ring-[#521028]",
-      textColor: "text-gray-700",
-      position: "bottom",
-    },
   ];
 
   return (
     <>
-      <Navbar />
+      <Navbar2026 />
       <div className="bg-gray-50 min-h-screen font-poppins pt-10 pb-20">
         {/* Page Header */}
         <div className="text-center mb-16 px-4">
           <h1 className="text-3xl md:text-5xl font-extrabold text-[#521028] mb-4 uppercase tracking-wide">
-            Registration Details (2027)
+            Registration Details (2026)
           </h1>
           <div className="w-24 h-1 bg-[#447E36] mx-auto rounded-full"></div>
           <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-lg">
-            Everything you need to know about important dates, fees, and
-            submission guidelines for ICISCT 2027.
+            Archived timeline dates, fees, and submission details for ICISCT 2026.
           </p>
         </div>
 
@@ -106,7 +96,7 @@ const RegistrationInfo = () => {
             {/* ================= MOBILE VIEW ================= */}
             <div className="md:hidden relative w-full max-w-md">
               <h2 className="text-2xl font-bold text-[#521028] mb-10 text-center">
-                Important Dates
+                Important Dates (2026)
               </h2>
               <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-200 top-0 rounded-full"></div>
               <div className="space-y-8 relative z-10">
@@ -159,7 +149,7 @@ const RegistrationInfo = () => {
                       initial={{ opacity: 0, y: isTopText ? -30 : 30 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.15, duration: 0.5 }}
-                      className="relative flex flex-col items-center group w-28"
+                      className="relative flex flex-col items-center group w-32"
                     >
                       <div
                         className={`w-10 h-10 rounded-full ${event.dotColor} border-[6px] border-white ring-4 ${event.ringColor} z-10 relative transition-transform duration-300 group-hover:scale-110 shadow-lg`}
@@ -169,7 +159,7 @@ const RegistrationInfo = () => {
                         ></div>
                       </div>
                       <div
-                        className={`absolute w-44 text-center flex flex-col items-center ${
+                        className={`absolute w-56 text-center flex flex-col items-center ${
                           isTopText ? "bottom-14" : "top-14"
                         }`}
                       >
@@ -185,13 +175,13 @@ const RegistrationInfo = () => {
                             >
                               {event.label}
                             </span>
-                            <span className="text-base font-extrabold text-gray-900">
+                            <span className="text-xl font-extrabold text-gray-900">
                               {event.date}
                             </span>
                           </>
                         ) : (
                           <>
-                            <span className="text-base font-extrabold text-gray-900 mb-2">
+                            <span className="text-xl font-extrabold text-gray-900 mb-2">
                               {event.date}
                             </span>
                             <span
@@ -219,7 +209,7 @@ const RegistrationInfo = () => {
             <div className="flex items-center gap-3 mb-8">
               <CreditCard className="text-[#447E36]" size={32} />
               <h2 className="text-2xl font-bold text-[#521028]">
-                Registration Fees
+                Registration Fees (2026)
               </h2>
             </div>
 
@@ -227,37 +217,55 @@ const RegistrationInfo = () => {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#521028] text-white">
-                    <th className="p-4 font-semibold w-1/2">Participant Category</th>
-                    <th className="p-4 font-semibold">IEEE Member</th>
-                    <th className="p-4 font-semibold">Non-IEEE Member</th>
+                    <th className="p-4 font-semibold w-1/2">Category</th>
+                    <th className="p-4 font-semibold">Early Bird</th>
+                    <th className="p-4 font-semibold">Regular Fee</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {[
                     {
-                      cat: "Overseas Participant",
-                      ieee: "$300",
-                      nonIeee: "$350",
+                      cat: "Author (IEEE Member)",
+                      early: "-",
+                      reg: "PKR 5000",
                     },
                     {
-                      cat: "Local Participant",
-                      ieee: "Rs. 20,000",
-                      nonIeee: "Rs. 25,000",
+                      cat: "Author (Student)",
+                      early: "PKR 6000",
+                      reg: "PKR 8000",
+                    },
+                    {
+                      cat: "Author (Professional)",
+                      early: "PKR 8000",
+                      reg: "PKR 10000",
+                    },
+                    {
+                      cat: "Attendee (Non-Author)",
+                      early: "-",
+                      reg: "PKR 2000",
+                    },
+                    {
+                      cat: "International Author",
+                      early: "-",
+                      reg: "$200",
+                    },
+                    {
+                      cat: "International IEEE Member",
+                      early: "-",
+                      reg: "$150",
                     },
                   ].map((row, idx) => (
                     <tr
                       key={idx}
                       className="hover:bg-gray-50 transition-colors"
                     >
-                      <td className="p-4 font-medium text-gray-800 text-base">
+                      <td className="p-4 font-medium text-gray-800">
                         {row.cat}
                       </td>
-                      <td className="p-4 text-[#447E36] font-bold text-base">
-                        {row.ieee}
+                      <td className="p-4 text-[#447E36] font-bold">
+                        {row.early}
                       </td>
-                      <td className="p-4 text-gray-700 font-bold text-base">
-                        {row.nonIeee}
-                      </td>
+                      <td className="p-4 text-gray-600 font-bold">{row.reg}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -316,11 +324,11 @@ const RegistrationInfo = () => {
                   Bank Transfer Details For International Authors
                 </h3>
                 <div className="space-y-3 font-mono text-sm opacity-90">
-                  <p>
-                    Contact details
+                  <div>
+                    Contact details:
                     <p>faqazi@ssuet.edu.pk</p>
                     <p>dsa@ssuet.edu.pk</p>
-                  </p>
+                  </div>
                 </div>
               </div>
               <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-[#447E36] rounded-full blur-2xl opacity-50"></div>
@@ -331,13 +339,13 @@ const RegistrationInfo = () => {
           <div className="flex justify-center pt-8">
             <div className="text-center">
               <h3 className="text-xl font-semibold text-gray-700 mb-4">
-                Ready to join us?
+                Interested in the current conference edition?
               </h3>
               <Link
-                to="/register"
+                to="/registration-info"
                 className="inline-block bg-[#447E36] text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-[#36662b] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
-                Create Account & Register
+                View ICISCT 2027 Registration Details →
               </Link>
             </div>
           </div>
@@ -347,4 +355,4 @@ const RegistrationInfo = () => {
   );
 };
 
-export default RegistrationInfo;
+export default RegistrationInfo2026;
