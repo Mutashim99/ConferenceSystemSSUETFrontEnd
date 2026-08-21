@@ -24,7 +24,6 @@ const itemVariants = {
 
 const topRowLogos = [
   "/logos/ku.jpg",
-  "/logos/ssuet.png",
   "/logos/hec_sindh.jpeg",
   "https://www.iccs.edu/esims/images/iccbs_logo.png",
   "/logos/ieekarachi.jpg",
@@ -33,8 +32,6 @@ const topRowLogos = [
 
 const bottomRowLogos = [
   "/logos/ubit.jpeg",
-  "/logos/sed.jpg",
-  "/logos/csit.jpg",
 ];
 
 export const Header = () => {
