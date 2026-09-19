@@ -30,9 +30,7 @@ const topRowLogos = [
   "/logos/ieeeadvance.jpg",
 ];
 
-const bottomRowLogos = [
-  "/logos/ubit.jpeg",
-];
+const bottomRowLogos = ["/logos/ubit.jpeg", "/logos/uit.jpg"];
 
 export const Header = () => {
   return (
@@ -85,7 +83,11 @@ export const Header = () => {
               >
                 <img
                   src={logo}
-                  alt={`Sponsor bottom ${index + 1}`}
+                  alt={
+                    logo === "/logos/uit.png"
+                      ? "UIT logo"
+                      : `Sponsor bottom ${index + 1}`
+                  }
                   className="max-w-full max-h-full object-contain"
                   onError={(e) => {
                     e.target.src = "https://placehold.co/128x64?text=LOGO";

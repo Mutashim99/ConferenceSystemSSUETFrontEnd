@@ -313,7 +313,12 @@ export const Speakers = ({ id }) => {
     {
       name: "Prof. Dr. Muhammad Tufail Jokhio",
       location: "Patron-in-Chief",
-      image: "/organizing_committee/tufail.jpeg",
+      image: "/organizing_committee/tufail.jpg",
+    },
+    {
+      name: "Prof. Dr. Vali Uddin",
+      location: "Patron",
+      image: "/organizing_committee/vali.jpg",
     },
     {
       name: "Dr. M. Sadiq Ali Khan",
@@ -331,6 +336,11 @@ export const Speakers = ({ id }) => {
       image: "/international_invited_speakers/bhagwan2.jpeg",
     },
     {
+      name: "Prof. Dr. Kashif Mehmood",
+      location: "Co-Chair",
+      image: "/organizing_committee/kashif.jpg",
+    },
+    {
       name: "Dr. Engr. Farheen Qazi",
       location: "Conference Secretary",
       image: "/organizing_committee/farheen.webp",
@@ -344,6 +354,11 @@ export const Speakers = ({ id }) => {
       name: "Dr. Muhammad Aamir",
       location: "Chair Program Committee",
       image: "/organizing_committee/aamir.jpeg",
+    },
+    {
+      name: "Engr. Muhammad Ali Kemal",
+      location: "Chair Program Committee",
+      image: "/organizing_committee/ali.jpg",
     },
     {
       name: "Dr. Humaira Azam",
@@ -361,6 +376,11 @@ export const Speakers = ({ id }) => {
       image: "/organizing_committee/shawar.webp",
     },
     {
+      name: "Prof. Dr. Ghazanfar Ullah Khan",
+      location: "Co-Chair Technical Program Committee",
+      image: "/organizing_committee/ghazanfar.jpg",
+    },
+    {
       name: "Dr. Urooj Waheed",
       location: "Chair Registration Committee",
       image: "/organizing_committee/Dr. Urooj Waheed.jpg",
@@ -371,9 +391,24 @@ export const Speakers = ({ id }) => {
       image: "/organizing_committee/bari.jpeg",
     },
     {
+      name: "Dr. Muhammad Faisal Khan",
+      location: "Chair Registration Committee",
+      image: "/organizing_committee/faisal.jpg",
+    },
+    {
+      name: "Dr. Muhammad Waseem",
+      location: "Co-Chair Registration Committee",
+      image: "/organizing_committee/waseem.jpg",
+    },
+    {
       name: "Mr. Shahnawaz",
       location: "Co-Chair Hospitality & Protocol Committee",
       image: "/organizing_committee/shahnawaz.jpg",
+    },
+    {
+      name: "Mr. Rehan Adil",
+      location: "Chair Hospitality and Protocol Committee",
+      image: "/organizing_committee/rehan.jpg",
     },
     {
       name: "Dr. Asim",
@@ -381,14 +416,84 @@ export const Speakers = ({ id }) => {
       image: "/organizing_committee/asim.jpeg",
     },
     {
+      name: "Ms. Hiba Khan",
+      location: "Co-Chair Sponsorship Committee",
+      image: "/organizing_committee/hiba.jpg",
+    },
+    {
       name: "Mr. Fayyaz Ali",
       location: "Media & Marketing Coordinator",
       image: "/organizing_committee/fayyaz.jpeg",
     },
     {
+      name: "Ms. Sonia Shahzad",
+      location: "Media and Marketing Coordinator",
+      image: "/organizing_committee/sonia.jpg",
+    },
+    {
       name: "Engr. Sonish Aslam",
       location: "Volunteer Coordinator",
       image: "/organizing_committee/sonish.webp",
+    },
+    {
+      name: "Mr. Usman Waheed",
+      location: "Volunteer Coordinator",
+      image: "/organizing_committee/usman.jpg",
+    },
+    {
+      name: "Mr. Kamran Jamil",
+      location: "Co-Chair Logistics Committee",
+      image: "/organizing_committee/kamran.webp",
+    },
+    {
+      name: "Dr. Adnan Ahmed Siddiqui",
+      location: "Member",
+      image: "/organizing_committee/adnan.webp",
+    },
+    {
+      name: "Dr. Lubaid Ahmed",
+      location: "Member",
+      image: "/organizing_committee/lubaid.webp",
+    },
+    {
+      name: "Dr. Mirza Farrukh Waheed Baig",
+      location: "Member",
+      image: "/organizing_committee/mirza.webp",
+    },
+    {
+      name: "Dr. Farhan Ahmed Karim",
+      location: "Member",
+      image: "/organizing_committee/farhan.webp",
+    },
+    {
+      name: "Mr. Usman Waheed",
+      location: "Member",
+      image: "/organizing_committee/usman.jpg",
+    },
+    {
+      name: "Mr. Zeeshan Saleem Khan",
+      location: "Member",
+      image: "/organizing_committee/zeeshan.webp",
+    },
+    {
+      name: "Mr. Jawwad Bhutta",
+      location: "Member",
+      image: "/organizing_committee/jawwad.webp",
+    },
+    {
+      name: "Mr. Naveed Ul Haq",
+      location: "Member",
+      image: "/organizing_committee/naveed.jpg",
+    },
+    {
+      name: "Mr. Waqas Pasha",
+      location: "Member",
+      image: "/organizing_committee/waqas.jpg",
+    },
+    {
+      name: "Mr. Syed Adeel Ali",
+      location: "Member",
+      image: "/organizing_committee/adeel.jpg",
     },
   ];
 
@@ -408,6 +513,16 @@ export const Speakers = ({ id }) => {
       location: "Review Committee Member",
       image: "/organizing_committee/shawar.webp",
     },
+    {
+      name: "Prof. Dr. Jawwad Ahmad",
+      location: "Review Committee Member",
+      image: "/organizing_committee/jawwadah.jpg",
+    },
+    {
+      name: "Dr. Talha Ahsan",
+      location: "Review Committee Member",
+      image: "/organizing_committee/talha.webp",
+    },
   ];
 
   const technicalSupportCommittee = [
@@ -425,69 +540,6 @@ export const Speakers = ({ id }) => {
       name: "Mr. Wasif Waheed",
       location: "SSUET",
       image: "/technical_support_committee/wasif.png",
-    },
-    {
-      name: "Ms. Romana Tahir",
-      location: "SSUET",
-      image: "/technical_support_committee/romana.jpeg",
-    },
-    {
-      name: "Ms. Sarah Siddiqui",
-      location: "SSUET",
-      image: "/technical_support_committee/sarah.jpeg",
-    },
-    {
-      name: "Mr. M. Abdul Rafay",
-      location: "SSUET",
-      image: "/technical_support_committee/rafay.jpeg",
-    },
-    {
-      name: "Ms. Malaika Sadiq",
-      location: "SSUET",
-      image: "/technical_support_committee/malaika.jpeg",
-    },
-    {
-      name: "Mr. Jazib Noor",
-      location: "SSUET",
-      image: "/technical_support_committee/jazib.png",
-    },
-    {
-      name: "Mr. Maaz Ur Rehman",
-      location: "SSUET",
-      image: "/technical_support_committee/maaz.jpg",
-    },
-    {
-      name: "Mr. Syed Azfar Abbas",
-      location: "UBIT",
-      image: "/technical_support_committee/azfar.jpeg",
-    },
-    {
-      name: "Ms. Arisha Arshad",
-      location: "UBIT",
-      image: "/technical_support_committee/arisha.jpeg",
-    },
-    {
-      name: "Mr. M. Shaham Siddiqui",
-      location: "UBIT",
-      image: "/technical_support_committee/shaham.jpeg",
-    },
-    {
-      name: "Mr. Safwan Ahmed",
-      location: "DSU",
-      image: "/technical_support_committee/safwan.jpeg",
-    },
-    {
-      name: "Mr. M. Hasan Ashraf",
-      location: "DSU",
-      image: "/technical_support_committee/hasan.jpeg",
-    },
-    {
-      name: "Mr. Khizer yousaf",
-      image: "/technical_support_committee/khizer.jpeg",
-    },
-    {
-      name: "Mr. Muneeb Mustafa",
-      image: "/technical_support_committee/muneeb.jpeg",
     },
   ];
 
