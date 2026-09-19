@@ -2,8 +2,8 @@ import AdminLayout from "../../components/AdminLayout";
 import React, {
   useState,
   useEffect,
-  useRef,
   useCallback,
+  useMemo,
   createContext,
   useContext,
 } from "react";
@@ -11,6 +11,7 @@ import {
   Menu,
   X,
   ChevronDown,
+  ChevronUp,
   Loader2,
   AlertTriangle,
   FileText,
@@ -33,12 +34,24 @@ import {
   Download,
   List,
   DollarSign, // <-- ADDED: For Fees icon
+  Search,
+  ArrowUpDown,
 } from "lucide-react";
 import api from "../../api/axios";
 import { Link } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 
 // --- Helper Functions ---
+
+const PAPER_STATUSES = [
+  "PENDING_APPROVAL",
+  "PENDING_REVIEW",
+  "UNDER_REVIEW",
+  "REVISION_REQUIRED",
+  "RESUBMITTED",
+  "ACCEPTED",
+  "REJECTED",
+];
 
 const formatDate = (dateString) => {
   if (!dateString) return "N/A";
@@ -88,7 +101,7 @@ const getPaymentClass = (status) => {
 const StatusBadge = ({ status, className = "" }) => (
   <span
     className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${getStatusClass(
-      status
+      status,
     )} ${className}`}
   >
     {status ? status.replace(/_/g, " ") : "N/A"}
@@ -137,6 +150,95 @@ const AdminSubmittedPapersInternal = () => {
   const modalContext = useContext(ModalContext);
   const [newFinalStatus, setNewFinalStatus] = useState("");
   const finalStatuses = ["ACCEPTED", "REJECTED", "REVISION_REQUIRED"];
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [paymentFilter, setPaymentFilter] = useState("");
+  const [sortConfig, setSortConfig] = useState({
+    key: "submittedAt",
+    direction: "desc",
+  });
+
+  const statusOptions = useMemo(
+    () =>
+      [
+        ...new Set([
+          ...PAPER_STATUSES,
+          ...papers.map((paper) => paper.status).filter(Boolean),
+        ]),
+      ].sort(),
+    [papers],
+  );
+
+  const paymentOptions = useMemo(
+    () =>
+      [
+        ...new Set(papers.map((paper) => paper.paymentStatus || "UNPAID")),
+      ].sort(),
+    [papers],
+  );
+
+  const displayedPapers = useMemo(() => {
+    const normalizedSearch = searchTerm.trim().toLowerCase();
+    const filteredPapers = papers.filter((paper) => {
+      const authorName = `${paper.author.firstName} ${paper.author.lastName}`;
+      const paymentStatus = paper.paymentStatus || "UNPAID";
+      const searchableText = [
+        paper.title,
+        authorName,
+        paper.author.email,
+        paper.status,
+        paper.status?.replace(/_/g, " "),
+        paymentStatus,
+        paymentStatus.replace(/_/g, " "),
+        paper.id,
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return (
+        (!normalizedSearch || searchableText.includes(normalizedSearch)) &&
+        (!statusFilter || paper.status === statusFilter) &&
+        (!paymentFilter || paymentStatus === paymentFilter)
+      );
+    });
+
+    return [...filteredPapers].sort((firstPaper, secondPaper) => {
+      const getSortValue = (paper) => {
+        switch (sortConfig.key) {
+          case "id":
+            return Number(paper.id);
+          case "title":
+            return paper.title || "";
+          case "submittedBy":
+            return `${paper.author.firstName} ${paper.author.lastName}`;
+          case "status":
+            return paper.status || "";
+          case "paymentStatus":
+            return paper.paymentStatus || "UNPAID";
+          case "reviews":
+            return paper._count.reviews || 0;
+          case "submittedAt":
+            return paper.submittedAt
+              ? new Date(paper.submittedAt).getTime()
+              : 0;
+          default:
+            return "";
+        }
+      };
+
+      const firstValue = getSortValue(firstPaper);
+      const secondValue = getSortValue(secondPaper);
+      const comparison =
+        typeof firstValue === "number" && typeof secondValue === "number"
+          ? firstValue - secondValue
+          : String(firstValue).localeCompare(String(secondValue), undefined, {
+              numeric: true,
+              sensitivity: "base",
+            });
+
+      return sortConfig.direction === "asc" ? comparison : -comparison;
+    });
+  }, [papers, paymentFilter, searchTerm, sortConfig, statusFilter]);
 
   // --- API Functions ---
   const fetchPapers = useCallback(async () => {
@@ -149,7 +251,7 @@ const AdminSubmittedPapersInternal = () => {
       console.error("Error fetching papers:", err);
       setError(
         err.response?.data?.message ||
-          "Failed to fetch papers. Please try again."
+          "Failed to fetch papers. Please try again.",
       );
     } finally {
       setListLoading(false);
@@ -183,7 +285,7 @@ const AdminSubmittedPapersInternal = () => {
       console.error("Error fetching paper details:", err);
       setError(
         err.response?.data?.message ||
-          "Failed to fetch paper details. Please try again."
+          "Failed to fetch paper details. Please try again.",
       );
     } finally {
       setDetailLoading(false);
@@ -203,9 +305,17 @@ const AdminSubmittedPapersInternal = () => {
     fetchPapers();
   };
 
+  const availableReviewers = useMemo(() => {
+    if (!selectedPaper || !reviewers.length) return [];
+    const assignedIds = new Set(
+      selectedPaper.assignments?.map((a) => a.reviewer.id) || [],
+    );
+    return reviewers.filter((r) => !assignedIds.has(r.id));
+  }, [reviewers, selectedPaper]);
+
   if (!modalContext) {
     console.error(
-      "AdminSubmittedPapersInternal must be wrapped in ModalProvider."
+      "AdminSubmittedPapersInternal must be wrapped in ModalProvider.",
     );
     return (
       <>
@@ -227,15 +337,15 @@ const AdminSubmittedPapersInternal = () => {
       await api.patch(`/admin/papers/${paperId}/payment-status`, {
         paymentStatus: newStatus,
       });
-      
+
       // Update local state directly to reflect change without full reload
       if (selectedPaper && selectedPaper.id === paperId) {
         setSelectedPaper((prev) => ({ ...prev, paymentStatus: newStatus }));
       }
       setPapers((prevPapers) =>
         prevPapers.map((p) =>
-          p.id === paperId ? { ...p, paymentStatus: newStatus } : p
-        )
+          p.id === paperId ? { ...p, paymentStatus: newStatus } : p,
+        ),
       );
     } catch (err) {
       console.error("Error updating payment status:", err);
@@ -261,7 +371,7 @@ const AdminSubmittedPapersInternal = () => {
           >
             Close
           </button>
-        </div>
+        </div>,
       );
       if (selectedPaper) {
         fetchPaperDetails(selectedPaper.id);
@@ -300,7 +410,7 @@ const AdminSubmittedPapersInternal = () => {
               handleAdminAction(
                 "approve",
                 () => api.patch(`/admin/papers/${paperId}/approve`),
-                "Paper approved successfully. It is now pending review."
+                "Paper approved successfully. It is now pending review.",
               );
             }}
             className="px-4 py-2 rounded-md bg-green-600 text-white text-sm font-medium"
@@ -312,7 +422,7 @@ const AdminSubmittedPapersInternal = () => {
             )}
           </button>
         </div>
-      </div>
+      </div>,
     );
   };
 
@@ -327,7 +437,7 @@ const AdminSubmittedPapersInternal = () => {
         api.post(`/admin/papers/${selectedPaper.id}/assign`, {
           reviewerIds: selectedReviewerIds.map(Number),
         }),
-      "Reviewer(s) assigned successfully."
+      "Reviewer(s) assigned successfully.",
     );
   };
 
@@ -372,7 +482,7 @@ const AdminSubmittedPapersInternal = () => {
                   api.patch(`/admin/papers/${selectedPaper.id}/status`, {
                     status: newFinalStatus,
                   }),
-                `Paper status successfully updated to "${newFinalStatus}".`
+                `Paper status successfully updated to "${newFinalStatus}".`,
               );
             }}
             className="px-4 py-2 rounded-md bg-[#521028] text-white text-sm font-medium"
@@ -384,7 +494,7 @@ const AdminSubmittedPapersInternal = () => {
             )}
           </button>
         </div>
-      </div>
+      </div>,
     );
   };
 
@@ -413,7 +523,7 @@ const AdminSubmittedPapersInternal = () => {
               handleAdminAction(
                 "delete",
                 () => api.delete(`/admin/papers/${paperId}`),
-                "Paper deleted successfully."
+                "Paper deleted successfully.",
               );
             }}
             className="px-4 py-2 rounded-md bg-red-600 text-white text-sm font-medium"
@@ -425,18 +535,34 @@ const AdminSubmittedPapersInternal = () => {
             )}
           </button>
         </div>
-      </div>
+      </div>,
     );
   };
 
   // --- Memoized Components ---
-  const availableReviewers = React.useMemo(() => {
-    if (!selectedPaper || !reviewers.length) return [];
-    const assignedIds = new Set(
-      selectedPaper.assignments?.map((a) => a.reviewer.id) || []
-    );
-    return reviewers.filter((r) => !assignedIds.has(r.id));
-  }, [reviewers, selectedPaper]);
+  const sortableColumns = [
+    ["id", "ID"],
+    ["title", "Title"],
+    ["submittedBy", "Submitted By"],
+    ["status", "Status"],
+    ["paymentStatus", "Fees Status"],
+    ["reviews", "Reviews"],
+    ["submittedAt", "Submitted On"],
+  ];
+
+  const handleSort = (key) => {
+    setSortConfig((current) => ({
+      key,
+      direction:
+        current.key === key && current.direction === "asc" ? "desc" : "asc",
+    }));
+  };
+
+  const clearListControls = () => {
+    setSearchTerm("");
+    setStatusFilter("");
+    setPaymentFilter("");
+  };
 
   // --- Render ---
 
@@ -472,12 +598,14 @@ const AdminSubmittedPapersInternal = () => {
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <StatusBadge
-                        status={selectedPaper.status}
-                        className="text-base"
+                      status={selectedPaper.status}
+                      className="text-base"
                     />
                     {/* Payment Badge in Header */}
-                    <span className={`px-2 py-0.5 text-xs font-bold border rounded ${getPaymentClass(selectedPaper.paymentStatus)}`}>
-                       Fees: {selectedPaper.paymentStatus || "UNPAID"}
+                    <span
+                      className={`px-2 py-0.5 text-xs font-bold border rounded ${getPaymentClass(selectedPaper.paymentStatus)}`}
+                    >
+                      Fees: {selectedPaper.paymentStatus || "UNPAID"}
                     </span>
                   </div>
                 </div>
@@ -494,12 +622,12 @@ const AdminSubmittedPapersInternal = () => {
                     <strong>Topic Area:</strong>{" "}
                     {selectedPaper.topicArea || "N/A"}
                   </p>
-                  
+
                   {/* Camera Ready Download Link */}
                   {selectedPaper.cameraReadyUrl && (
                     <div className="mt-3 bg-green-50 p-3 rounded border border-green-200">
                       <p className="text-green-800 font-bold flex items-center gap-2 mb-1">
-                         <CheckCircle size={14}/> Camera Ready Version Available
+                        <CheckCircle size={14} /> Camera Ready Version Available
                       </p>
                       <a
                         href={selectedPaper.cameraReadyUrl}
@@ -670,25 +798,27 @@ const AdminSubmittedPapersInternal = () => {
                     {error}
                   </div>
                 )}
-                
+
                 {/* --- NEW: Payment Status Control --- */}
                 <div className="mb-6 p-3 bg-gray-50 rounded border border-gray-200">
-                   <h4 className="flex items-center text-sm font-bold text-gray-700 mb-2">
-                     <DollarSign size={16} className="mr-1"/> Registration Fees
-                   </h4>
-                   <select
-                      value={selectedPaper.paymentStatus || "UNPAID"}
-                      onChange={(e) => handlePaymentChange(selectedPaper.id, e.target.value)}
-                      disabled={actionLoading === `payment-${selectedPaper.id}`}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#521028] focus:outline-none"
-                   >
-                     <option value="UNPAID">Unpaid</option>
-                     <option value="PAID">Paid</option>
-                     <option value="WAIVED">Waived</option>
-                   </select>
-                   <p className="text-xs text-gray-500 mt-2">
-                     Set to 'Paid' to confirm registration.
-                   </p>
+                  <h4 className="flex items-center text-sm font-bold text-gray-700 mb-2">
+                    <DollarSign size={16} className="mr-1" /> Registration Fees
+                  </h4>
+                  <select
+                    value={selectedPaper.paymentStatus || "UNPAID"}
+                    onChange={(e) =>
+                      handlePaymentChange(selectedPaper.id, e.target.value)
+                    }
+                    disabled={actionLoading === `payment-${selectedPaper.id}`}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                  >
+                    <option value="UNPAID">Unpaid</option>
+                    <option value="PAID">Paid</option>
+                    <option value="WAIVED">Waived</option>
+                  </select>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Set to 'Paid' to confirm registration.
+                  </p>
                 </div>
                 {/* ----------------------------------- */}
 
@@ -825,8 +955,8 @@ const AdminSubmittedPapersInternal = () => {
                           setSelectedReviewerIds(
                             Array.from(
                               e.target.selectedOptions,
-                              (option) => option.value
-                            )
+                              (option) => option.value,
+                            ),
                           )
                         }
                         className="w-full border border-gray-300 rounded-md p-2 h-32 text-sm focus:ring-2 focus:ring-[#521028] focus:outline-none"
@@ -894,156 +1024,280 @@ const AdminSubmittedPapersInternal = () => {
           </div>
         ) : (
           <>
-            {/* --- Mobile Card View (Visible < lg) --- */}
-            <div className="lg:hidden space-y-4">
-              {papers.map((paper) => (
-                <div
-                  key={paper.id}
-                  className="bg-white shadow-md rounded-lg p-4"
-                >
-                  {/* Top: Title and Status */}
-                  <div className="flex justify-between items-start mb-2">
-                    <div className="pr-2">
-                      <span className="text-xs text-gray-500 font-mono font-semibold block mb-1">
-                        ID: {paper.id}
-                      </span>
-                      <h3 className="text-lg font-bold text-black">
-                        {paper.title}
-                      </h3>
-                    </div>
-                    <div className="flex flex-col gap-1 items-end">
-                      <StatusBadge status={paper.status} />
-                      {/* Fees Badge for Mobile */}
-                      <span className={`px-2 py-0.5 text-xs font-bold border rounded ${getPaymentClass(paper.paymentStatus)}`}>
-                        {paper.paymentStatus || "UNPAID"}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Author Info */}
-                  <div className="text-sm text-gray-700 mb-3">
-                    <p>
-                      {paper.author.firstName} {paper.author.lastName}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {paper.author.email}
-                    </p>
-                  </div>
-
-                  {/* Details Grid */}
-                  <div className="border-t pt-3 grid grid-cols-2 gap-2 text-sm">
-                    <p>
-                      <strong>Reviews:</strong> {paper._count.reviews || 0}
-                    </p>
-                    <p className="truncate">
-                      <strong>Submitted:</strong>{" "}
-                      {formatDate(paper.submittedAt)}
-                    </p>
-                  </div>
-
-                  {/* Action Button */}
-                  <button
-                    onClick={() => handleViewPaper(paper.id)}
-                    className="w-full mt-4 btn-green text-white font-semibold py-2 rounded-md flex items-center justify-center gap-2 disabled:opacity-50"
-                    disabled={detailLoading}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-5">
+              <div className="flex flex-col xl:flex-row gap-3 xl:items-end">
+                <div className="flex-1">
+                  <label
+                    htmlFor="paper-search"
+                    className="block text-sm font-semibold text-gray-700 mb-1"
                   >
-                    {detailLoading && viewingPaperId === paper.id ? (
-                      <Loader2 size={16} className="animate-spin" />
-                    ) : (
-                      <Eye size={16} />
-                    )}
-                    {detailLoading && viewingPaperId === paper.id
-                      ? "Loading..."
-                      : "View Details"}
-                  </button>
+                    Search papers
+                  </label>
+                  <div className="relative">
+                    <Search
+                      size={18}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    />
+                    <input
+                      id="paper-search"
+                      type="search"
+                      value={searchTerm}
+                      onChange={(event) => setSearchTerm(event.target.value)}
+                      placeholder="Search by title, author, email, status, fees, or ID"
+                      className="w-full border border-gray-300 rounded-md pl-10 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                    />
+                  </div>
                 </div>
-              ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xl:w-[28rem]">
+                  <div>
+                    <label
+                      htmlFor="status-filter"
+                      className="block text-sm font-semibold text-gray-700 mb-1"
+                    >
+                      Status
+                    </label>
+                    <select
+                      id="status-filter"
+                      value={statusFilter}
+                      onChange={(event) => setStatusFilter(event.target.value)}
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                    >
+                      <option value="">All statuses</option>
+                      {statusOptions.map((status) => (
+                        <option key={status} value={status}>
+                          {status.replace(/_/g, " ")}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="payment-filter"
+                      className="block text-sm font-semibold text-gray-700 mb-1"
+                    >
+                      Fees Status
+                    </label>
+                    <select
+                      id="payment-filter"
+                      value={paymentFilter}
+                      onChange={(event) => setPaymentFilter(event.target.value)}
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-[#521028] focus:outline-none"
+                    >
+                      <option value="">All fees statuses</option>
+                      {paymentOptions.map((status) => (
+                        <option key={status} value={status}>
+                          {status.replace(/_/g, " ")}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={clearListControls}
+                  disabled={!searchTerm && !statusFilter && !paymentFilter}
+                  className="px-4 py-2 border border-gray-300 rounded-md text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Clear filters
+                </button>
+              </div>
             </div>
 
-            {/* --- Desktop Table View (Hidden < lg) --- */}
-            <div className="hidden lg:block bg-white shadow-md rounded-lg overflow-x-auto">
-              <table className="w-full text-sm text-left border-collapse">
-                <thead className="bg-[#521028] text-white">
-                  <tr>
-                    <th className="p-3">ID</th>
-                    <th className="p-3">Title</th>
-                    <th className="p-3">Submitted By</th>
-                    <th className="p-3">Status</th>
-                    <th className="p-3">Fees Status</th>
-                    <th className="p-3">Reviews</th>
-                    <th className="p-3">Submitted On</th>
-                    <th className="p-3">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {papers.map((paper) => (
-                    <tr
+            {displayedPapers.length === 0 ? (
+              <div className="text-center text-gray-500 py-12">
+                <FileText size={40} className="mx-auto mb-2" />
+                <p className="font-semibold">
+                  No papers match your search/filters.
+                </p>
+                <button
+                  type="button"
+                  onClick={clearListControls}
+                  className="mt-3 text-sm font-semibold text-[#447E36] hover:underline"
+                >
+                  Clear filters
+                </button>
+              </div>
+            ) : (
+              <>
+                {/* --- Mobile Card View (Visible < lg) --- */}
+                <div className="lg:hidden space-y-4">
+                  {displayedPapers.map((paper) => (
+                    <div
                       key={paper.id}
-                      className="border-b hover:bg-gray-50 transition"
+                      className="bg-white shadow-md rounded-lg p-4"
                     >
-                      <td className="p-3 text-sm text-gray-900 font-medium">
-                        {paper.id}
-                      </td>
-                      <td className="p-3 font-medium text-gray-900">
-                        {paper.title}
-                      </td>
-                      <td className="p-3 text-gray-700">
-                        {paper.author.firstName} {paper.author.lastName}
-                        <br />
-                        <span className="text-xs text-gray-500">
+                      {/* Top: Title and Status */}
+                      <div className="flex justify-between items-start mb-2">
+                        <div className="pr-2">
+                          <span className="text-xs text-gray-500 font-mono font-semibold block mb-1">
+                            ID: {paper.id}
+                          </span>
+                          <h3 className="text-lg font-bold text-black">
+                            {paper.title}
+                          </h3>
+                        </div>
+                        <div className="flex flex-col gap-1 items-end">
+                          <StatusBadge status={paper.status} />
+                          {/* Fees Badge for Mobile */}
+                          <span
+                            className={`px-2 py-0.5 text-xs font-bold border rounded ${getPaymentClass(paper.paymentStatus)}`}
+                          >
+                            {paper.paymentStatus || "UNPAID"}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Author Info */}
+                      <div className="text-sm text-gray-700 mb-3">
+                        <p>
+                          {paper.author.firstName} {paper.author.lastName}
+                        </p>
+                        <p className="text-xs text-gray-500">
                           {paper.author.email}
-                        </span>
-                      </td>
-                      <td className="p-3">
-                        <StatusBadge status={paper.status} />
-                      </td>
-                      
-                      {/* --- NEW: Fees Dropdown Cell --- */}
-                      <td className="p-3">
-                         <div className="relative">
-                            {actionLoading === `payment-${paper.id}` && (
-                                <Loader2 className="absolute left-2 top-2 h-4 w-4 animate-spin text-gray-500" />
-                            )}
-                            <select 
-                                value={paper.paymentStatus || "UNPAID"}
-                                onChange={(e) => handlePaymentChange(paper.id, e.target.value)}
-                                disabled={actionLoading === `payment-${paper.id}`}
-                                className={`block w-28 pl-2 pr-6 py-1 text-xs font-bold border rounded appearance-none focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer ${getPaymentClass(paper.paymentStatus)} ${actionLoading === `payment-${paper.id}` ? 'opacity-50 pl-8' : ''}`}
+                        </p>
+                      </div>
+
+                      {/* Details Grid */}
+                      <div className="border-t pt-3 grid grid-cols-2 gap-2 text-sm">
+                        <p>
+                          <strong>Reviews:</strong> {paper._count.reviews || 0}
+                        </p>
+                        <p className="truncate">
+                          <strong>Submitted:</strong>{" "}
+                          {formatDate(paper.submittedAt)}
+                        </p>
+                      </div>
+
+                      {/* Action Button */}
+                      <button
+                        onClick={() => handleViewPaper(paper.id)}
+                        className="w-full mt-4 btn-green text-white font-semibold py-2 rounded-md flex items-center justify-center gap-2 disabled:opacity-50"
+                        disabled={detailLoading}
+                      >
+                        {detailLoading && viewingPaperId === paper.id ? (
+                          <Loader2 size={16} className="animate-spin" />
+                        ) : (
+                          <Eye size={16} />
+                        )}
+                        {detailLoading && viewingPaperId === paper.id
+                          ? "Loading..."
+                          : "View Details"}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
+                {/* --- Desktop Table View (Hidden < lg) --- */}
+                <div className="hidden lg:block bg-white shadow-md rounded-lg overflow-x-auto">
+                  <table className="w-full text-sm text-left border-collapse">
+                    <thead className="bg-[#521028] text-white">
+                      <tr>
+                        {sortableColumns.map(([key, label]) => (
+                          <th key={key} className="p-3">
+                            <button
+                              type="button"
+                              onClick={() => handleSort(key)}
+                              className="flex items-center gap-1 font-semibold hover:text-gray-200"
+                              aria-label={`Sort by ${label}`}
+                              aria-sort={
+                                sortConfig.key === key
+                                  ? sortConfig.direction === "asc"
+                                    ? "ascending"
+                                    : "descending"
+                                  : "none"
+                              }
                             >
+                              {label}
+                              {sortConfig.key === key ? (
+                                sortConfig.direction === "asc" ? (
+                                  <ChevronUp size={14} aria-hidden="true" />
+                                ) : (
+                                  <ChevronDown size={14} aria-hidden="true" />
+                                )
+                              ) : (
+                                <ArrowUpDown size={14} aria-hidden="true" />
+                              )}
+                            </button>
+                          </th>
+                        ))}
+                        <th className="p-3">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {displayedPapers.map((paper) => (
+                        <tr
+                          key={paper.id}
+                          className="border-b hover:bg-gray-50 transition"
+                        >
+                          <td className="p-3 text-sm text-gray-900 font-medium">
+                            {paper.id}
+                          </td>
+                          <td className="p-3 font-medium text-gray-900">
+                            {paper.title}
+                          </td>
+                          <td className="p-3 text-gray-700">
+                            {paper.author.firstName} {paper.author.lastName}
+                            <br />
+                            <span className="text-xs text-gray-500">
+                              {paper.author.email}
+                            </span>
+                          </td>
+                          <td className="p-3">
+                            <StatusBadge status={paper.status} />
+                          </td>
+
+                          {/* --- NEW: Fees Dropdown Cell --- */}
+                          <td className="p-3">
+                            <div className="relative">
+                              {actionLoading === `payment-${paper.id}` && (
+                                <Loader2 className="absolute left-2 top-2 h-4 w-4 animate-spin text-gray-500" />
+                              )}
+                              <select
+                                value={paper.paymentStatus || "UNPAID"}
+                                onChange={(e) =>
+                                  handlePaymentChange(paper.id, e.target.value)
+                                }
+                                disabled={
+                                  actionLoading === `payment-${paper.id}`
+                                }
+                                className={`block w-28 pl-2 pr-6 py-1 text-xs font-bold border rounded appearance-none focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer ${getPaymentClass(paper.paymentStatus)} ${actionLoading === `payment-${paper.id}` ? "opacity-50 pl-8" : ""}`}
+                              >
                                 <option value="UNPAID">Unpaid</option>
                                 <option value="PAID">Paid</option>
                                 <option value="WAIVED">Waived</option>
-                            </select>
-                         </div>
-                      </td>
+                              </select>
+                            </div>
+                          </td>
 
-                      <td className="p-3 text-center text-gray-700">
-                        {paper._count.reviews || 0}
-                      </td>
-                      <td className="p-3 text-gray-700">
-                        {formatDate(paper.submittedAt)}
-                      </td>
-                      <td className="p-3">
-                        <button
-                          onClick={() => handleViewPaper(paper.id)}
-                          className="text-[#447E36] font-semibold hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-50"
-                          disabled={detailLoading}
-                        >
-                          {detailLoading && viewingPaperId === paper.id ? (
-                            <Loader2 size={16} className="animate-spin" />
-                          ) : (
-                            <Eye size={16} />
-                          )}
-                          {detailLoading && viewingPaperId === paper.id
-                            ? "Loading..."
-                            : "View"}
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                          <td className="p-3 text-center text-gray-700">
+                            {paper._count.reviews || 0}
+                          </td>
+                          <td className="p-3 text-gray-700">
+                            {formatDate(paper.submittedAt)}
+                          </td>
+                          <td className="p-3">
+                            <button
+                              onClick={() => handleViewPaper(paper.id)}
+                              className="text-[#447E36] font-semibold hover:underline flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                              disabled={detailLoading}
+                            >
+                              {detailLoading && viewingPaperId === paper.id ? (
+                                <Loader2 size={16} className="animate-spin" />
+                              ) : (
+                                <Eye size={16} />
+                              )}
+                              {detailLoading && viewingPaperId === paper.id
+                                ? "Loading..."
+                                : "View"}
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
           </>
         )}
       </div>

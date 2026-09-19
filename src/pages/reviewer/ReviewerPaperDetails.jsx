@@ -86,7 +86,7 @@ const ReviewerPaperDetails = () => {
       // --- START: UPDATED LOGIC ---
       // Find this user's review in the reviews array
       const myReview = res.data.reviews.find(
-        (review) => review.reviewerId === user?.id
+        (review) => review.reviewerId === user?.id,
       );
 
       // Check if this reviewer has already submitted a review
@@ -111,7 +111,7 @@ const ReviewerPaperDetails = () => {
       console.error("Error fetching paper details:", err);
       setError(
         err.response?.data?.message ||
-          "Failed to fetch paper details. You may not have access to this paper."
+          "Failed to fetch paper details. You may not have access to this paper.",
       );
     } finally {
       setLoading(false);
@@ -158,7 +158,7 @@ const ReviewerPaperDetails = () => {
       setSuccessMessage(
         wasAlreadySubmitted
           ? "Review updated successfully!"
-          : "Review submitted successfully!"
+          : "Review submitted successfully!",
       );
       setShowSuccessPopup(true);
       setTimeout(() => setShowSuccessPopup(false), 3000); // Hide after 3s
@@ -166,7 +166,7 @@ const ReviewerPaperDetails = () => {
       console.error("Error submitting review:", err);
       setError(
         err.response?.data?.message ||
-          "Failed to submit review. Please try again."
+          "Failed to submit review. Please try again.",
       );
     } finally {
       setReviewLoading(false);
@@ -193,7 +193,7 @@ const ReviewerPaperDetails = () => {
       console.error("Error sending feedback:", err);
       setError(
         err.response?.data?.message ||
-          "Failed to send message. Please try again."
+          "Failed to send message. Please try again.",
       );
     } finally {
       setChatLoading(false);
@@ -433,6 +433,17 @@ const ReviewerPaperDetails = () => {
               <button
                 type="button"
                 onClick={() => setIsCollapsed(!isCollapsed)}
+                aria-expanded={!isCollapsed}
+                aria-label={
+                  isCollapsed
+                    ? "Expand author feedback chat"
+                    : "Collapse author feedback chat"
+                }
+                title={
+                  isCollapsed
+                    ? "Expand author feedback chat"
+                    : "Collapse author feedback chat"
+                }
                 className="text-white hover:text-gray-200 transition"
               >
                 {isCollapsed ? "▲" : "▼"}

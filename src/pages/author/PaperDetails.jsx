@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
-import useAuthStore from "../../store/authStore"; 
+import useAuthStore from "../../store/authStore";
 import {
   Loader2,
   AlertTriangle,
@@ -14,10 +14,10 @@ import {
   X,
   Download,
   CheckCircle, // <-- NEW
-  DollarSign // <-- NEW
+  DollarSign, // <-- NEW
 } from "lucide-react";
-import api from "../../api/axios"; 
-import Breadcrumbs from "../../components/Breadcrumbs"; 
+import api from "../../api/axios";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 const formatDate = (dateString) => {
   if (!dateString) return "N/A";
@@ -53,16 +53,16 @@ const getStatusClass = (status) => {
 
 // --- NEW: Payment Status Helper ---
 const getPaymentClass = (status) => {
-    switch (status) {
-      case "PAID":
-        return "bg-green-100 text-green-800 border-green-200";
-      case "WAIVED":
-        return "bg-blue-100 text-blue-800 border-blue-200";
-      case "UNPAID":
-      default:
-        return "bg-red-50 text-red-800 border-red-200";
-    }
-  };
+  switch (status) {
+    case "PAID":
+      return "bg-green-100 text-green-800 border-green-200";
+    case "WAIVED":
+      return "bg-blue-100 text-blue-800 border-blue-200";
+    case "UNPAID":
+    default:
+      return "bg-red-50 text-red-800 border-red-200";
+  }
+};
 
 const PaperDetails = () => {
   const { id } = useParams();
@@ -102,7 +102,7 @@ const PaperDetails = () => {
     } finally {
       if (loading) setLoading(false);
     }
-  }, [id, paperData, loading]); 
+  }, [id, paperData, loading]);
 
   useEffect(() => {
     fetchPaper();
@@ -176,7 +176,7 @@ const PaperDetails = () => {
       try {
         await api.post(`/author/papers/${id}/resubmit`, formData);
         setUploadSuccess(
-          "Revision submitted successfully! Status will update shortly."
+          "Revision submitted successfully! Status will update shortly.",
         );
         setFile(null);
         if (fileInputRef.current) fileInputRef.current.value = null;
@@ -266,101 +266,114 @@ const PaperDetails = () => {
     const fileInputRef = useRef(null);
 
     const handleFileChange = (e) => {
-        const f = e.target.files?.[0];
-        // Allow DOC/DOCX/PDF for final versions usually
-        if (f) {
-          setFile(f);
-          setUploadError(null);
-        }
+      const f = e.target.files?.[0];
+      // Allow DOC/DOCX/PDF for final versions usually
+      if (f) {
+        setFile(f);
+        setUploadError(null);
+      }
     };
 
     const handleUpload = async () => {
-        if (!file) return;
+      if (!file) return;
 
-        setIsUploading(true);
-        setUploadError(null);
-        setUploadSuccess(null);
+      setIsUploading(true);
+      setUploadError(null);
+      setUploadSuccess(null);
 
-        const formData = new FormData();
-        // IMPORTANT: Must match backend key 'cameraReady'
-        formData.append("cameraReady", file); 
+      const formData = new FormData();
+      // IMPORTANT: Must match backend key 'cameraReady'
+      formData.append("cameraReady", file);
 
-        try {
-            await api.post(`/author/papers/${id}/camera-ready`, formData);
-            setUploadSuccess("Camera ready version uploaded successfully!");
-            setFile(null);
-            setTimeout(fetchPaper, 1000); // Refresh data to show new link
-        } catch (err) {
-            console.error(err);
-            setUploadError(err.response?.data?.message || "Upload failed");
-        } finally {
-            setIsUploading(false);
-        }
+      try {
+        await api.post(`/author/papers/${id}/camera-ready`, formData);
+        setUploadSuccess("Camera ready version uploaded successfully!");
+        setFile(null);
+        setTimeout(fetchPaper, 1000); // Refresh data to show new link
+      } catch (err) {
+        console.error(err);
+        setUploadError(err.response?.data?.message || "Upload failed");
+      } finally {
+        setIsUploading(false);
+      }
     };
 
     return (
-        <div className="bg-green-50 border-l-4 border-green-500 p-5 rounded-md space-y-4 shadow-sm">
-            <div className="flex items-start justify-between">
-                <div>
-                    <h3 className="text-lg font-bold text-green-800 flex items-center gap-2">
-                        <CheckCircle className="h-5 w-5"/> Paper Accepted!
-                    </h3>
-                    <p className="text-sm text-green-700 mt-1">
-                        Congratulations! Your paper has been accepted. Please upload the <strong>Camera Ready</strong> version for the final proceedings.
-                    </p>
-                </div>
-            </div>
+      <div className="bg-green-50 border-l-4 border-green-500 p-5 rounded-md space-y-4 shadow-sm">
+        <div className="flex items-start justify-between">
+          <div>
+            <h3 className="text-lg font-bold text-green-800 flex items-center gap-2">
+              <CheckCircle className="h-5 w-5" /> Paper Accepted!
+            </h3>
+            <p className="text-sm text-green-700 mt-1">
+              Congratulations! Your paper has been accepted. Please upload the{" "}
+              <strong>Camera Ready</strong> version for the final proceedings.
+            </p>
+          </div>
+        </div>
 
-            {/* If a file already exists, show it */}
-            {paperData.cameraReadyUrl && (
-                 <div className="bg-white p-3 rounded border border-green-200 flex items-center justify-between">
-                    <span className="text-sm text-gray-600 font-medium flex items-center gap-2">
-                        <CheckCircle size={16} className="text-green-600"/>
-                        Current Version Uploaded
-                    </span>
-                    <a
-                        href={paperData.cameraReadyUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-sm text-green-700 font-bold hover:underline flex items-center gap-1"
-                    >
-                        <Download size={14} /> Download
-                    </a>
-                 </div>
-            )}
+        {/* If a file already exists, show it */}
+        {paperData.cameraReadyUrl && (
+          <div className="bg-white p-3 rounded border border-green-200 flex items-center justify-between">
+            <span className="text-sm text-gray-600 font-medium flex items-center gap-2">
+              <CheckCircle size={16} className="text-green-600" />
+              Current Version Uploaded
+            </span>
+            <a
+              href={paperData.cameraReadyUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm text-green-700 font-bold hover:underline flex items-center gap-1"
+            >
+              <Download size={14} /> Download
+            </a>
+          </div>
+        )}
 
-            <div className="pt-2 border-t border-green-200">
-                <p className="text-xs font-semibold text-green-800 uppercase mb-2">
-                    {paperData.cameraReadyUrl ? "Upload New Version (Overwrites old one)" : "Upload Final File"}
-                </p>
-                
-                <div className="flex gap-2 items-center">
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        onChange={handleFileChange}
-                        className="block w-full text-sm text-gray-500
+        <div className="pt-2 border-t border-green-200">
+          <p className="text-xs font-semibold text-green-800 uppercase mb-2">
+            {paperData.cameraReadyUrl
+              ? "Upload New Version (Overwrites old one)"
+              : "Upload Final File"}
+          </p>
+
+          <div className="flex gap-2 items-center">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              className="block w-full text-sm text-gray-500
                             file:mr-4 file:py-2 file:px-4
                             file:rounded-md file:border-0
                             file:text-sm file:font-semibold
                             file:bg-green-100 file:text-green-700
                             hover:file:bg-green-200
                         "
-                    />
-                    {file && (
-                        <button 
-                            onClick={handleUpload}
-                            disabled={isUploading}
-                            className="bg-green-700 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-green-800 disabled:opacity-50"
-                        >
-                            {isUploading ? <Loader2 className="animate-spin h-4 w-4"/> : "Upload"}
-                        </button>
-                    )}
-                </div>
-                {uploadError && <p className="text-sm text-red-600 mt-2">{uploadError}</p>}
-                {uploadSuccess && <p className="text-sm text-green-700 font-bold mt-2">{uploadSuccess}</p>}
-            </div>
+            />
+            {file && (
+              <button
+                onClick={handleUpload}
+                disabled={isUploading}
+                className="bg-green-700 text-white px-4 py-2 rounded-md text-sm font-semibold hover:bg-green-800 disabled:opacity-50"
+              >
+                {isUploading ? (
+                  <Loader2 className="animate-spin h-4 w-4" />
+                ) : (
+                  "Upload"
+                )}
+              </button>
+            )}
+          </div>
+          {uploadError && (
+            <p className="text-sm text-red-600 mt-2">{uploadError}</p>
+          )}
+          {uploadSuccess && (
+            <p className="text-sm text-green-700 font-bold mt-2">
+              {uploadSuccess}
+            </p>
+          )}
         </div>
+      </div>
     );
   };
 
@@ -403,7 +416,7 @@ const PaperDetails = () => {
     status,
     paymentStatus, // <-- NEW
     submittedAt,
-    authors, 
+    authors,
     reviews,
     feedbacks,
   } = paperData;
@@ -419,15 +432,17 @@ const PaperDetails = () => {
             <div className="flex flex-wrap gap-4 items-center">
               <span
                 className={`px-3 py-1 rounded-full text-sm font-bold ${getStatusClass(
-                  status
+                  status,
                 )}`}
               >
                 {status.replace(/_/g, " ")}
               </span>
-              
+
               {/* Payment Status Badge */}
-              <span className={`px-3 py-1 text-sm font-bold border rounded flex items-center gap-1 ${getPaymentClass(paymentStatus)}`}>
-                  <DollarSign size={14}/> Fees: {paymentStatus || "UNPAID"}
+              <span
+                className={`px-3 py-1 text-sm font-bold border rounded flex items-center gap-1 ${getPaymentClass(paymentStatus)}`}
+              >
+                <DollarSign size={14} /> Fees: {paymentStatus || "UNPAID"}
               </span>
 
               <span className="text-sm text-gray-600">
@@ -448,9 +463,9 @@ const PaperDetails = () => {
 
           {/* Conditional Rendering: Resubmit OR Camera Ready */}
           {showResubmit && <ResubmissionSection />}
-          
+
           {/* --- NEW: Show Camera Ready Section only if Accepted --- */}
-          {status === 'ACCEPTED' && <CameraReadySection />}
+          {status === "ACCEPTED" && <CameraReadySection />}
 
           <div className="bg-white shadow-lg rounded-lg p-6">
             <h2 className="text-xl font-semibold text-[#521028] mb-3 flex items-center gap-2">
@@ -519,7 +534,7 @@ const PaperDetails = () => {
                         <strong>Recommendation:</strong>
                         <span
                           className={`ml-1 px-2 py-0.5 rounded-full text-xs font-medium ${getStatusClass(
-                            review.recommendation
+                            review.recommendation,
                           )}`}
                         >
                           {review.recommendation.replace(/_/g, " ")}
@@ -555,6 +570,17 @@ const PaperDetails = () => {
               <button
                 type="button"
                 onClick={() => setIsCollapsed(!isCollapsed)}
+                aria-expanded={!isCollapsed}
+                aria-label={
+                  isCollapsed
+                    ? "Expand feedback and chat"
+                    : "Collapse feedback and chat"
+                }
+                title={
+                  isCollapsed
+                    ? "Expand feedback and chat"
+                    : "Collapse feedback and chat"
+                }
                 className="text-white hover:text-gray-200 transition"
               >
                 {isCollapsed ? "▲" : "▼"}

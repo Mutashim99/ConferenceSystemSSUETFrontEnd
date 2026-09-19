@@ -60,6 +60,9 @@ const AdminLayout = ({ children }) => {
           {/* Mobile-only close button ('X') */}
           <button
             onClick={toggleSidebar}
+            type="button"
+            aria-label="Close navigation"
+            title="Close navigation"
             className="text-white md:hidden focus:outline-none"
           >
             <svg
@@ -112,6 +115,9 @@ const AdminLayout = ({ children }) => {
           {/* Hamburger button */}
           <button
             onClick={toggleSidebar}
+            type="button"
+            aria-label="Open navigation"
+            title="Open navigation"
             className="text-[#521028] focus:outline-none"
           >
             <svg

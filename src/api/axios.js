@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://icisct26.azurewebsites.net/api",
+  baseURL: "https://seahorse-app-tek3s.ondigitalocean.app/api",
   withCredentials: true,
 });
 
