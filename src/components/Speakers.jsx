@@ -341,6 +341,11 @@ export const Speakers = ({ id }) => {
       image: "/organizing_committee/kashif.jpg",
     },
     {
+      name: "Prof. Dr. Muhammad Shahab Siddiqui",
+      location: "Co-Chair",
+      image: "/organizing_committee/shahab.jpg",
+    },
+    {
       name: "Dr. Engr. Farheen Qazi",
       location: "Conference Secretary",
       image: "/organizing_committee/farheen.webp",
@@ -354,6 +359,11 @@ export const Speakers = ({ id }) => {
       name: "Dr. Muhammad Aamir",
       location: "Chair Program Committee",
       image: "/organizing_committee/aamir.jpeg",
+    },
+    {
+      name: "Engr. Dr. Kashif Shaikh",
+      location: "Chair Program Committee",
+      image: "/organizing_committee/kashif.webp",
     },
     {
       name: "Engr. Muhammad Ali Kemal",
@@ -386,14 +396,14 @@ export const Speakers = ({ id }) => {
       image: "/organizing_committee/Dr. Urooj Waheed.jpg",
     },
     {
-      name: "Engr. Bari Ahmed",
-      location: "Co-Chair Registration Committee",
-      image: "/organizing_committee/bari.jpeg",
-    },
-    {
       name: "Dr. Muhammad Faisal Khan",
       location: "Chair Registration Committee",
       image: "/organizing_committee/faisal.jpg",
+    },
+    {
+      name: "Engr. Bari Ahmed",
+      location: "Co-Chair Registration Committee",
+      image: "/organizing_committee/bari.jpeg",
     },
     {
       name: "Dr. Muhammad Waseem",
@@ -401,14 +411,19 @@ export const Speakers = ({ id }) => {
       image: "/organizing_committee/waseem.jpg",
     },
     {
-      name: "Mr. Shahnawaz",
-      location: "Co-Chair Hospitality & Protocol Committee",
-      image: "/organizing_committee/shahnawaz.jpg",
+      name: "Dr. Fozia Hanif Khan",
+      location: "Member Registration Committee",
+      image: "/organizing_committee/Dr. Fozia Hanif Khan.jpg",
     },
     {
       name: "Mr. Rehan Adil",
       location: "Chair Hospitality and Protocol Committee",
       image: "/organizing_committee/rehan.jpg",
+    },
+    {
+      name: "Mr. Shahnawaz",
+      location: "Co-Chair Hospitality & Protocol Committee",
+      image: "/organizing_committee/shahnawaz.jpg",
     },
     {
       name: "Dr. Asim",
@@ -419,6 +434,11 @@ export const Speakers = ({ id }) => {
       name: "Ms. Hiba Khan",
       location: "Co-Chair Sponsorship Committee",
       image: "/organizing_committee/hiba.jpg",
+    },
+    {
+      name: "Engr. Ayesha Urooj",
+      location: "Co-Sponsorship Coordinator",
+      image: "/organizing_committee/Engr. Ayesha Urooj.jpg",
     },
     {
       name: "Mr. Fayyaz Ali",
@@ -444,6 +464,11 @@ export const Speakers = ({ id }) => {
       name: "Mr. Kamran Jamil",
       location: "Co-Chair Logistics Committee",
       image: "/organizing_committee/kamran.webp",
+    },
+    {
+      name: "Mr. Zaeem Tariq",
+      location: "Co-Logistics Coordinator",
+      image: "/organizing_committee/zaeem.jpeg",
     },
     {
       name: "Dr. Adnan Ahmed Siddiqui",
@@ -495,6 +520,91 @@ export const Speakers = ({ id }) => {
       location: "Member",
       image: "/organizing_committee/adeel.jpg",
     },
+    {
+      name: "Dr. Muzammil Ahmed Khan",
+      location: "Member",
+      image: "/organizing_committee/muzammil.webp",
+    },
+    {
+      name: "Dr. Waleej Haider",
+      location: "Member",
+      image: "/organizing_committee/waleej.jpeg",
+    },
+    {
+      name: "Dr. Nadeem Mahmood",
+      location: "Member",
+      image: "/organizing_committee/nadeem.png",
+    },
+    {
+      name: "Mr. Badar Sami",
+      location: "Member",
+      image: "/organizing_committee/badar.jpeg",
+    },
+    {
+      name: "Mr. Syed Jamal Hussain",
+      location: "Member",
+      image: "/organizing_committee/jamal.jpg",
+    },
+    {
+      name: "Dr. Muhammad Saeed",
+      location: "Member",
+      image: "/organizing_committee/saeed.jpeg",
+    },
+    {
+      name: "Mr. Hussain Saleem",
+      location: "Member",
+      image: "/organizing_committee/hussain.jpeg",
+    },
+    {
+      name: "Dr. S. M. Khalid Jamal",
+      location: "Member",
+      image: "/organizing_committee/khalid.jpg",
+    },
+    {
+      name: "Dr. Syed Asim Ali",
+      location: "Member",
+      image: "/organizing_committee/asim.jpeg",
+    },
+    {
+      name: "Dr. Farhan Ahmed Siddiqui",
+      location: "Member",
+      image: "/organizing_committee/farhaan.jpeg",
+    },
+    {
+      name: "Dr. Humera Tariq",
+      location: "Member",
+      image: "/organizing_committee/humera.jpg",
+    },
+    {
+      name: "Mr. Mukesh Kumar Rathi Maheshwari",
+      location: "Member",
+      image: "/organizing_committee/",
+    },
+    {
+      name: "Dr. Shaista Rais",
+      location: "Member",
+      image: "/organizing_committee/shaista.jpeg",
+    },
+    {
+      name: "Ms. Madiha Khurram",
+      location: "Member",
+      image: "/organizing_committee/madiha.jpeg",
+    },
+    {
+      name: "Ms. Maryam Feroz",
+      location: "Member",
+      image: "/organizing_committee/maryam.jpeg",
+    },
+    {
+      name: "Dr. Muhammad Ayaz",
+      location: "Member",
+      image: "/organizing_committee/Dr. Muhammad Ayaz.jpg",
+    },
+    {
+      name: "Prof. Dr. Najeeb Alam Khan",
+      location: "Member",
+      image: "/organizing_committee/Prof. Dr. Najeeb Alam Khan.jpg",
+    },
   ];
 
   const reviewCommittee = [
@@ -522,6 +632,11 @@ export const Speakers = ({ id }) => {
       name: "Dr. Talha Ahsan",
       location: "Review Committee Member",
       image: "/organizing_committee/talha.webp",
+    },
+    {
+      name: "Dr. Fozia Hanif Khan",
+      location: "Review Committee Member",
+      image: "/organizing_committee/Dr. Fozia Hanif Khan.jpg",
     },
   ];
 
