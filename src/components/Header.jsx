@@ -30,7 +30,12 @@ const topRowLogos = [
   "/logos/ieeeadvance.jpg",
 ];
 
-const bottomRowLogos = ["/logos/ubit.jpeg", "/logos/uit.jpg"];
+const bottomRowLogos = [
+  "/logos/ubit.jpeg",
+  "/logos/uit.jpg",
+  "/logos/buildbetter.webp",
+  "/logos/engsvcs.png",
+];
 
 export const Header = () => {
   return (
@@ -88,7 +93,9 @@ export const Header = () => {
                       ? "UIT logo"
                       : `Sponsor bottom ${index + 1}`
                   }
-                  className="max-w-full max-h-full object-contain"
+                  className={`max-w-full max-h-full object-contain ${
+                    logo === "/logos/buildbetter.webp" ? "scale-160" : ""
+                  }`}
                   onError={(e) => {
                     e.target.src = "https://placehold.co/128x64?text=LOGO";
                   }}
