@@ -650,6 +650,39 @@ const AdminSubmittedPapersInternal = () => {
                       <Download size={16} /> View/Download Original Paper
                     </a>
                   )}
+
+                  {selectedPaper.versions?.length > 0 && (
+                    <div className="mt-3 border border-gray-200 rounded-md p-3">
+                      <p className="font-semibold text-gray-800 mb-2">
+                        Submission Versions
+                      </p>
+                      <div className="space-y-2">
+                        {selectedPaper.versions.map((version) => (
+                          <div
+                            key={version.id}
+                            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-t first:border-t-0 pt-2 first:pt-0"
+                          >
+                            <div>
+                              <p className="font-semibold text-gray-800">
+                                Version {version.versionNumber}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                Submitted on: {formatDate(version.submittedAt)}
+                              </p>
+                            </div>
+                            <a
+                              href={version.fileUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-2 text-[#447E36] font-semibold hover:underline"
+                            >
+                              <Download size={16} /> View PDF
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* --- Author & Co-Authors --- */}

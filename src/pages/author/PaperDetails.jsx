@@ -416,6 +416,7 @@ const PaperDetails = () => {
     status,
     paymentStatus, // <-- NEW
     submittedAt,
+    versions,
     authors,
     reviews,
     feedbacks,
@@ -460,6 +461,39 @@ const PaperDetails = () => {
               )}
             </div>
           </div>
+
+          {versions?.length > 0 && (
+            <div className="bg-white shadow-lg rounded-lg p-6">
+              <h2 className="text-xl font-semibold text-[#521028] mb-3 flex items-center gap-2">
+                <FileText size={20} /> Submission Versions
+              </h2>
+              <div className="space-y-3">
+                {versions.map((version) => (
+                  <div
+                    key={version.id}
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border border-gray-200 rounded-md p-3"
+                  >
+                    <div>
+                      <p className="font-semibold text-gray-800">
+                        Version {version.versionNumber}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Submitted on: {formatDate(version.submittedAt)}
+                      </p>
+                    </div>
+                    <a
+                      href={version.fileUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 text-[#447E36] font-semibold hover:underline"
+                    >
+                      <Download size={18} /> View PDF
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Conditional Rendering: Resubmit OR Camera Ready */}
           {showResubmit && <ResubmissionSection />}
