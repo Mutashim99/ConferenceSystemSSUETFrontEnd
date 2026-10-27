@@ -502,6 +502,32 @@ const SubmitPaper = () => {
             </button>
           </div>
 
+          <div className="rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-gray-800">
+            <h2 className="mb-2 font-semibold text-[#521028]">
+              Important Instructions
+            </h2>
+            <p className="mb-2">Dear Authors,</p>
+            <ul className="list-disc space-y-1 pl-5">
+              <li>
+                The page limit is <strong>6 pages</strong>, and this limit is
+                strict.
+              </li>
+              <li>
+                All <strong>AI-generated content is properly cited</strong>.
+              </li>
+              <li>
+                The paper contains <strong>no more than 15% AI-generated
+                content</strong>.
+              </li>
+              <li>
+                The overall <strong>similarity index is below 12%</strong>.
+              </li>
+              <li>
+                No <strong>single source exceeds 6% similarity</strong>.
+              </li>
+            </ul>
+          </div>
+
           {/* File Upload */}
           <div>
             <label className="block text-sm font-semibold text-gray-700">
