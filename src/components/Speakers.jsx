@@ -361,11 +361,6 @@ export const Speakers = ({ id }) => {
       image: "/organizing_committee/aamir.jpeg",
     },
     {
-      name: "Engr. Dr. Kashif Shaikh",
-      location: "Chair Program Committee",
-      image: "/organizing_committee/kashif.webp",
-    },
-    {
       name: "Engr. Muhammad Ali Kemal",
       location: "Chair Program Committee",
       image: "/organizing_committee/ali.jpg",
@@ -434,11 +429,6 @@ export const Speakers = ({ id }) => {
       name: "Ms. Hiba Khan",
       location: "Co-Chair Sponsorship Committee",
       image: "/organizing_committee/hiba.jpg",
-    },
-    {
-      name: "Engr. Ayesha Urooj",
-      location: "Co-Sponsorship Coordinator",
-      image: "/organizing_committee/Engr. Ayesha Urooj.jpg",
     },
     {
       name: "Mr. Fayyaz Ali",
@@ -519,16 +509,6 @@ export const Speakers = ({ id }) => {
       name: "Mr. Syed Adeel Ali",
       location: "Member",
       image: "/organizing_committee/adeel.jpg",
-    },
-    {
-      name: "Dr. Muzammil Ahmed Khan",
-      location: "Member",
-      image: "/organizing_committee/muzammil.webp",
-    },
-    {
-      name: "Dr. Waleej Haider",
-      location: "Member",
-      image: "/organizing_committee/waleej.jpeg",
     },
     {
       name: "Dr. Nadeem Mahmood",
@@ -649,7 +629,7 @@ export const Speakers = ({ id }) => {
     {
       name: "Mr. Riyan Jamil",
       location: "SSUET",
-      image: "/technical_support_committee/riyan.jpg",
+      image: "/technical_support_committee/riyan.png",
     },
     {
       name: "Mr. Wasif Waheed",
