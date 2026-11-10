@@ -55,7 +55,8 @@ const SubmittedPapers = () => {
       const paymentStatus = paper.paymentStatus || "UNPAID";
       const searchableText = [
         paper.title,
-        paper.id,
+        paper.paperNumber,
+        paper.conferenceYear,
         paper.status,
         paper.status?.replace(/_/g, " "),
         paymentStatus,
@@ -291,7 +292,8 @@ const SubmittedPapers = () => {
                   {/* Details */}
                   <div className="text-sm text-gray-700 mb-4 space-y-1 border-t pt-3">
                     <p>
-                      <strong>ID:</strong> #{paper.id}
+                      <strong>ID:</strong> #{paper.paperNumber}
+                      <strong className="ml-2">Year:</strong> {paper.conferenceYear}
                     </p>
                     <p>
                       <strong>Submitted:</strong>{" "}
@@ -318,7 +320,7 @@ const SubmittedPapers = () => {
               <table className="w-full text-sm text-left border-collapse">
                 <thead className="bg-[#521028] text-white">
                   <tr>
-                    <th className="p-3">ID</th>
+                    <th className="p-3">ID / Year</th>
                     <th className="p-3">Title</th>
                     <th className="p-3">Status</th>
                     <th className="p-3">Fees Status</th> {/* <-- NEW COLUMN */}
@@ -333,7 +335,10 @@ const SubmittedPapers = () => {
                       className="border-b hover:bg-gray-50 transition"
                     >
                       <td className="p-3 font-medium text-gray-600">
-                        #{paper.id}
+                        #{paper.paperNumber}
+                        <span className="block text-xs text-gray-500">
+                          {paper.conferenceYear}
+                        </span>
                       </td>
                       <td className="p-3 font-semibold text-gray-900">
                         {paper.title}

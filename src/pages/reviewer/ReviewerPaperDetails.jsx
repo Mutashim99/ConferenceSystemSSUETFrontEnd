@@ -258,6 +258,10 @@ const ReviewerPaperDetails = () => {
             </button>
             <h1 className="text-2xl font-bold text-black">{paper.title}</h1>
             <p className="text-sm text-gray-500 mt-2">
+              <strong>Paper ID:</strong> #{paper.paperNumber}{" "}
+              <strong>Year:</strong> {paper.conferenceYear}
+            </p>
+            <p className="text-sm text-gray-500 mt-2">
               <strong>Submitted On:</strong> {formatDate(paper.submittedAt)}
             </p>
             <p className="text-sm text-gray-500">

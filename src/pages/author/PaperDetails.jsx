@@ -415,6 +415,8 @@ const PaperDetails = () => {
     keywords,
     status,
     paymentStatus, // <-- NEW
+    paperNumber,
+    conferenceYear,
     submittedAt,
     versions,
     authors,
@@ -431,6 +433,10 @@ const PaperDetails = () => {
           <div className="bg-white shadow-lg rounded-lg p-6">
             <h1 className="text-3xl font-bold text-black mb-4">{title}</h1>
             <div className="flex flex-wrap gap-4 items-center">
+              <span className="text-sm text-gray-600">
+                <strong>Paper ID:</strong> #{paperNumber}{" "}
+                <strong>Year:</strong> {conferenceYear}
+              </span>
               <span
                 className={`px-3 py-1 rounded-full text-sm font-bold ${getStatusClass(
                   status,

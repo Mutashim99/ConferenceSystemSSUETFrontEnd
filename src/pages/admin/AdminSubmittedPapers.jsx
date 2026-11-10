@@ -153,6 +153,8 @@ const AdminSubmittedPapersInternal = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [paymentFilter, setPaymentFilter] = useState("");
+  const [conferenceYear, setConferenceYear] = useState("");
+  const [yearLoading, setYearLoading] = useState(false);
   const [sortConfig, setSortConfig] = useState({
     key: "submittedAt",
     direction: "desc",
@@ -190,7 +192,8 @@ const AdminSubmittedPapersInternal = () => {
         paper.status?.replace(/_/g, " "),
         paymentStatus,
         paymentStatus.replace(/_/g, " "),
-        paper.id,
+        paper.paperNumber,
+        paper.conferenceYear,
       ]
         .join(" ")
         .toLowerCase();
@@ -206,7 +209,7 @@ const AdminSubmittedPapersInternal = () => {
       const getSortValue = (paper) => {
         switch (sortConfig.key) {
           case "id":
-            return Number(paper.id);
+            return Number(paper.paperNumber);
           case "title":
             return paper.title || "";
           case "submittedBy":
@@ -263,6 +266,34 @@ const AdminSubmittedPapersInternal = () => {
       fetchPapers();
     }
   }, [fetchPapers, selectedPaper]);
+
+  useEffect(() => {
+    api
+      .get("/admin/conference-year")
+      .then((response) => setConferenceYear(response.data?.year || ""))
+      .catch((err) => console.error("Error fetching conference year:", err));
+  }, []);
+
+  const activateYear = async (event) => {
+    event.preventDefault();
+    const year = Number(conferenceYear);
+    if (!Number.isInteger(year) || year < 2000 || year > 2100) {
+      setError("Enter a valid conference year.");
+      return;
+    }
+
+    setYearLoading(true);
+    setError(null);
+    try {
+      await api.post("/admin/conference-year", { year });
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Failed to activate conference year.",
+      );
+    } finally {
+      setYearLoading(false);
+    }
+  };
 
   const fetchPaperDetails = useCallback(async (paperId) => {
     setDetailLoading(true);
@@ -541,7 +572,7 @@ const AdminSubmittedPapersInternal = () => {
 
   // --- Memoized Components ---
   const sortableColumns = [
-    ["id", "ID"],
+    ["id", "ID / Year"],
     ["title", "Title"],
     ["submittedBy", "Submitted By"],
     ["status", "Status"],
@@ -584,7 +615,8 @@ const AdminSubmittedPapersInternal = () => {
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <span className="text-sm text-gray-500 font-mono font-semibold block mb-1">
-                      Paper ID: {selectedPaper.id}
+                      Paper ID: {selectedPaper.paperNumber} · Year:{" "}
+                      {selectedPaper.conferenceYear}
                     </span>
                     <h1 className="text-2xl font-bold text-black">
                       {selectedPaper.title}
@@ -1038,6 +1070,27 @@ const AdminSubmittedPapersInternal = () => {
           <h1 className="text-3xl font-bold text-[#521028]">
             Submitted Papers
           </h1>
+          <form onSubmit={activateYear} className="flex items-center gap-2">
+            <label htmlFor="conference-year" className="text-sm font-semibold">
+              Conference Year
+            </label>
+            <input
+              id="conference-year"
+              type="number"
+              min="2000"
+              max="2100"
+              value={conferenceYear}
+              onChange={(event) => setConferenceYear(event.target.value)}
+              className="w-24 border rounded-md px-2 py-1"
+            />
+            <button
+              type="submit"
+              disabled={yearLoading}
+              className="bg-[#521028] text-white rounded-md px-3 py-1.5 text-sm disabled:opacity-50"
+            >
+              {yearLoading ? "Saving..." : "Activate"}
+            </button>
+          </form>
         </div>
 
         {error && (
@@ -1163,7 +1216,7 @@ const AdminSubmittedPapersInternal = () => {
                       <div className="flex justify-between items-start mb-2">
                         <div className="pr-2">
                           <span className="text-xs text-gray-500 font-mono font-semibold block mb-1">
-                            ID: {paper.id}
+                            ID: {paper.paperNumber} · Year: {paper.conferenceYear}
                           </span>
                           <h3 className="text-lg font-bold text-black">
                             {paper.title}
@@ -1263,7 +1316,10 @@ const AdminSubmittedPapersInternal = () => {
                           className="border-b hover:bg-gray-50 transition"
                         >
                           <td className="p-3 text-sm text-gray-900 font-medium">
-                            {paper.id}
+                            {paper.paperNumber}
+                            <span className="block text-xs text-gray-500">
+                              {paper.conferenceYear}
+                            </span>
                           </td>
                           <td className="p-3 font-medium text-gray-900">
                             {paper.title}

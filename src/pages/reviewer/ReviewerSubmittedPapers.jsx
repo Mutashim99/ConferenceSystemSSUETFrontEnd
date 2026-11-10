@@ -308,6 +308,14 @@ const ReviewerSubmittedPapers = () => {
                       <div className="border-t pt-3 grid grid-cols-2 gap-3 text-sm">
                         <div>
                           <strong className="block text-xs text-gray-500">
+                            Paper ID / Year
+                          </strong>
+                          <p className="font-medium">
+                            #{paper.paperNumber} / {paper.conferenceYear}
+                          </p>
+                        </div>
+                        <div>
+                          <strong className="block text-xs text-gray-500">
                             My Status
                           </strong>
                           <MyStatusBadge hasReviewed={paper.hasReviewed} />
@@ -347,6 +355,7 @@ const ReviewerSubmittedPapers = () => {
                     <thead className="bg-[#521028] text-white">
                       <tr>
                         <th className="p-3">Title</th>
+                        <th className="p-3">ID / Year</th>
                         <th className="p-3">Paper Status</th>
                         <th className="p-3">My Review Status</th>
                         <th className="p-3">Submitted On</th>
@@ -361,6 +370,12 @@ const ReviewerSubmittedPapers = () => {
                         >
                           <td className="p-3 font-medium text-gray-900">
                             {paper.title}
+                          </td>
+                          <td className="p-3 text-gray-700">
+                            #{paper.paperNumber}
+                            <span className="block text-xs text-gray-500">
+                              {paper.conferenceYear}
+                            </span>
                           </td>
                           <td className="p-3">
                             <StatusBadge status={paper.status} />
