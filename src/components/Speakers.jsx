@@ -311,13 +311,13 @@ export const Speakers = ({ id }) => {
   ];
   const organizingCommittee = [
     {
-      name: "Prof. Dr. Muhammad Tufail Jokhio",
-      location: "Patron-in-Chief",
-      image: "/organizing_committee/tufail.jpg",
+      name: "Prof. Dr. Wasim Qazi",
+      location: "Patron in Chief",
+      image: "/organizing_committee/wasim.jpeg",
     },
     {
       name: "Prof. Dr. Vali Uddin",
-      location: "Patron",
+      location: "Co Patron in Chief",
       image: "/organizing_committee/vali.jpg",
     },
     {
@@ -356,9 +356,9 @@ export const Speakers = ({ id }) => {
       image: "/organizing_committee/zakir.jpeg",
     },
     {
-      name: "Dr. Muhammad Aamir",
+      name: "Dr. Urooj Waheed",
       location: "Chair Program Committee",
-      image: "/organizing_committee/aamir.jpeg",
+      image: "/organizing_committee/Dr. Urooj Waheed.jpg",
     },
     {
       name: "Engr. Muhammad Ali Kemal",
